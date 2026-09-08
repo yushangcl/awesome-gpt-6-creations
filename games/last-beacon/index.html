@@ -1,0 +1,1034 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#192f2e">
+  <meta name="description" data-i18n-content="page.description" content="最后的灯塔 — 一款围绕供电网络布局的海岛塔防。建造、连接、升级，守住最后一束光。免费，无需登录。">
+  <title data-i18n="page.title">最后的灯塔 · Last Beacon</title>
+
+  <style>@charset "UTF-8";
+:root{--ink:#263e37;--muted:#7d8d7e;--paper:#e8e5d6;--gold:#e7c991;--border:#b7b9a747;--dark:#192f2e;--serif:Georgia,'Songti SC','STSong',serif;--sans:'Avenir Next','PingFang SC','Microsoft YaHei',sans-serif;--mono:'SFMono-Regular',Consolas,monospace}
+*{box-sizing:border-box}body{margin:0;background:#192f2e;color:var(--ink);font-family:var(--sans);font-size:13px;-webkit-font-smoothing:antialiased}button{font:inherit;cursor:pointer;border:0;touch-action:manipulation}button:disabled{cursor:not-allowed;opacity:.43}button:focus-visible{outline:2px solid #d1a556;outline-offset:4px}button{transition:background .18s,color .18s,border-color .18s,transform .18s}h1,h2,h3,p{margin:0}button:active:not(:disabled){transform:translateY(1px)}[hidden]{display:none!important}.game-shell{height:100dvh;min-height:760px;max-width:2000px;margin:auto;display:flex;flex-direction:column}.topbar{height:92px;flex-shrink:0;display:flex;align-items:center;padding:0 36px;gap:30px;background:#192f2e;color:#e7e5d2;border-bottom:1px solid #adc0a521;z-index:3}.brand{display:flex;gap:16px;align-items:center;flex:1}.brand-mark{color:#d8c18d;width:37px;height:50px}.brand h1{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:2.6px;white-space:nowrap}.brand h1 span{font-family:var(--sans);font-weight:400;font-size:10px;letter-spacing:3px;margin-left:17px;vertical-align:middle;color:#a5b1a1}.brand p{font-family:var(--mono);font-size:9px;letter-spacing:2.5px;color:#9aac9f;margin-top:7px}.resources{display:flex;gap:38px;padding:0 30px}.resource{display:flex;align-items:center;gap:12px;min-width:102px}.resource-icon{font-size:29px;color:#b8bc96;font-family:var(--serif)}.health-icon{font-size:31px}.power-icon{font-size:37px}.resource-label{font-size:10px;letter-spacing:1px;color:#a1b2a2;display:block;margin-bottom:4px}.resource strong{font:22px var(--mono);letter-spacing:-1px}.resource strong span{font-size:13px;letter-spacing:0;color:#8fa899}.header-actions{display:flex;gap:8px}.icon-button{position:relative;border:1px solid #94a58e3b;color:#bdc8b5;background:transparent;font:20px var(--serif);width:34px;height:34px;border-radius:50%}.icon-button:hover{background:#344b41}.mute-slash{position:absolute;left:8px;top:17px;width:18px;height:1px;background:#bdc8b5;transform:rotate(-50deg)}.battle-layout{display:grid;grid-template-columns:minmax(0,1fr) 294px;flex:1;min-height:0}.field{position:relative;overflow:hidden;background:#315b5d;min-width:0}.field-top{position:absolute;left:34px;right:25px;top:27px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;z-index:2}.eyebrow{font:9px var(--mono);letter-spacing:1.8px;color:#7b897a}.field-top .eyebrow{color:#c7d8c38c;font-size:8px}.field-top h2{color:#e1e8d6;font:32px var(--serif);letter-spacing:4px;margin-top:11px;display:flex;gap:18px;align-items:center}.map-number{font:10px var(--mono);border:1px solid #c0d0b666;border-radius:50%;width:24px;height:24px;letter-spacing:0;display:grid;place-items:center;opacity:.7}.location-note{color:#bfd0bd99;font-size:10px;letter-spacing:1px;margin-top:10px}.field-tools{display:flex;gap:6px;pointer-events:auto}.field-button{background:#1c383958;border:1px solid #b5ccb02e;color:#bacbb6;height:32px;min-width:32px;padding:0 9px;font-size:11px;border-radius:3px}.field-button.active{color:#e0d6a7;border-color:#d6d19b55}.field-button .tool-icon{margin-right:3px}.field-button:hover{background:#223d3b}#battlefield{width:100%;height:100%;display:block;min-height:420px}#pad-controls{position:absolute;inset:0;pointer-events:none}.pad-control{position:absolute;background:transparent;color:transparent;transform:translate(-50%,-50%);padding:0;pointer-events:auto;border-radius:50%;width:34px;height:30px;z-index:1}.pad-control:active:not(:disabled){transform:translate(-50%,-50%)}.pad-control:focus-visible{outline:2px solid #f0d395;outline-offset:0;background:#eed19b22}.field-bottom{pointer-events:none;position:absolute;bottom:20px;left:26px;right:24px;display:flex;align-items:center;gap:13px;color:#b8cbb382;z-index:2}.compass{width:40px;position:relative}.compass span{position:absolute;top:-9px;left:17px;font:8px var(--mono)}.compass svg{width:40px}.map-caption{font-size:9px;letter-spacing:1px}.map-caption span{display:block;font:7px var(--mono);letter-spacing:1.2px;margin-top:6px;opacity:.7}.phase-tag{margin-left:auto;border:1px solid #b8cbb333;padding:7px 10px;border-radius:20px;font-size:10px;color:#c7d4be;letter-spacing:1px;display:flex;align-items:center;gap:7px}.phase-tag i,.statusbar i{width:5px;height:5px;display:inline-block;background:#a8ba89;border-radius:50%}.phase-tag.fighting{color:#edcc9d}.phase-tag.fighting i{background:#e1b878;animation:pulse 1.5s infinite}.command-panel{background:var(--paper);padding:24px 24px 17px;display:flex;flex-direction:column;min-height:0;border-left:1px solid #cbd0b1}.panel-heading{display:flex;justify-content:space-between;align-items:center;font-size:11px;letter-spacing:2px;padding-bottom:25px;color:#4c6050}.tiny-star{font-size:20px;color:#8a947d}.wave-overview .eyebrow{font-size:8px;letter-spacing:2px}.wave-count{display:flex;align-items:center;gap:13px;margin-top:8px}.wave-count>strong{font:58px var(--serif);letter-spacing:-2px;line-height:1.03;color:#284333}.wave-count>span{font:13px var(--mono);color:#909b87}.wave-count small{display:block;font:10px var(--sans);margin-top:6px;letter-spacing:2px}.wave-progress{display:flex;gap:4px;margin-top:13px;margin-bottom:12px}.wave-progress span{height:3px;flex:1;background:#cdd0be}.wave-progress span.complete{background:#6b8762}.wave-progress span.current{background:#9c9a69}.next-wave{display:flex;justify-content:space-between;align-items:center;font-size:11px}.next-wave span:last-child{font-size:9px;color:#8c9683}.enemy-preview{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;font-size:9px;color:#788472}.enemy-preview span{display:flex;align-items:center;gap:4px}.enemy-preview i{height:5px;width:5px;border-radius:50%;background:var(--enemy)}.panel-rule{height:1px;background:var(--border);margin:22px 0;flex-shrink:0}.selection{flex:1;min-height:0}.selection .eyebrow{font-size:8px;letter-spacing:1.4px}.selection h3{font:21px var(--serif);margin:12px 0;color:#304a38;letter-spacing:1px}.description{color:#788470;font-size:11px;line-height:1.95}.steps{display:flex;flex-direction:column;gap:13px;margin-top:21px}.steps>div{display:flex;gap:10px;align-items:center}.steps span{font:9px var(--mono);color:#9ca68a}.steps p{font-size:10px;color:#687a61}.field-note{display:flex;gap:10px;margin-top:23px;background:#dce0ce;padding:12px}.field-note>span{font-size:19px;color:#7c8d6d}.field-note p{font-size:9px;color:#75846c;line-height:1.9}.panel-bottom{margin-top:20px;flex-shrink:0}.grid-upgrade{display:flex;align-items:center;justify-content:space-between;background:transparent;border:1px solid #bfc5af;color:#61785a;width:100%;padding:11px 10px;font-size:10px;margin-bottom:9px}.grid-upgrade small{font-size:9px;opacity:.6;margin-left:3px}.grid-upgrade:hover{background:#d9dfca}.primary-button{width:100%;background:#324e3b;color:#e4e6d1;padding:15px 17px;display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:1px;gap:12px;min-height:46px}.primary-button:hover{background:#406048}.primary-button b{font-weight:400;font-size:18px}.wave-hint{font-size:9px;color:#909b84;text-align:center;margin-top:9px}.overdrive{width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;padding:12px 10px;border:1px solid #aea174;color:#74663f;background:#e8ddba;font-size:11px}.overdrive small{font-size:8px;max-width:110px;line-height:1.6}.grid-warning{font-size:10px;color:#ad6a49;margin-bottom:9px;line-height:1.6}.tower-status{display:inline-flex;gap:5px;align-items:center;color:#687f55;font-size:9px;margin-top:10px}.tower-status.offline{color:#b47852}.tower-stats{display:grid;grid-template-columns:repeat(3,1fr);margin-top:18px;padding:12px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}.tower-stats span{font-size:8px;color:#8d9780}.tower-stats strong{display:block;font:18px var(--serif);color:#4c654c;margin-top:5px}.selection-actions{display:flex;gap:7px;margin-top:14px}.selection-actions button{flex:1;padding:11px 6px;font-size:10px;border:1px solid #b5bea3;background:#dbe0cb;color:#4b6447}.selection-actions .sell{background:transparent;color:#8a7e65}.selection-actions small{display:block;margin-top:4px;font-size:8px;opacity:.7}.build-cancel{font-size:10px;color:#7d816b;background:transparent;border-bottom:1px solid #b9bea7;margin-top:18px;padding:4px 0}.selected-id{font:10px var(--mono);color:#9d9f87;float:right;letter-spacing:1px}
+.build-dock{height:145px;flex-shrink:0;background:#1b322f;display:flex;gap:24px;padding:18px 30px;color:#d0d6be;border-top:1px solid #97ae9024}.dock-heading{width:165px;flex-shrink:0;align-self:center}.dock-heading .eyebrow{color:#82977e;font-size:7px;letter-spacing:1.5px}.dock-heading h2{font:21px var(--serif);letter-spacing:3px;margin:9px 0}.dock-heading p{font-size:9px;color:#8c9f87;letter-spacing:.6px}.build-cards{display:grid;grid-template-columns:repeat(4,minmax(130px,1fr));gap:10px;flex:1;max-width:860px}.build-card{position:relative;min-width:0;border:1px solid #a5b2943b;background:#273e36;color:#d3d9c1;border-radius:3px;padding:13px 12px 10px 69px;text-align:left;overflow:hidden}.build-card:hover{background:#334b3b;border-color:#b5c19080}.build-card.selected{background:#3a513c;border-color:#dece8f;box-shadow:inset 0 0 0 1px #dece8f33}.build-card.unaffordable{opacity:.57}.build-card kbd{position:absolute;top:6px;left:7px;font:8px var(--mono);color:#93a585;border:1px solid #9aac812f;width:14px;height:14px;text-align:center;line-height:12px;border-radius:2px}.tower-icon{width:73px;height:66px;position:absolute;left:-1px;top:22px}.card-name{font-size:12px;white-space:nowrap;letter-spacing:1px}.card-name small{display:block;font:6px var(--mono);letter-spacing:1px;color:#8ea181;margin-top:4px}.card-role{font-size:8px;color:#8fa282;display:block;margin-top:8px}.card-cost{display:flex;align-items:center;gap:15px;margin-top:7px}.card-cost strong{font:11px var(--mono);color:#d4c790;white-space:nowrap}.card-cost span{font:9px var(--mono);color:#8ea382}.dock-note{width:204px;flex-shrink:0;align-self:center;padding-left:12px}.dock-note>span{font:13px var(--serif);letter-spacing:1px;color:#a5b398}.dock-note p{font-size:9px;color:#728e79;line-height:1.9;margin-top:7px}.text-button{padding:4px 0;color:#8aa080;background:transparent;font-size:9px}.dock-note .text-button{margin-top:5px}.statusbar{display:flex;align-items:center;justify-content:space-between;gap:20px;color:#627e6d;height:28px;flex-shrink:0;font:8px var(--sans);padding:0 32px;border-top:1px solid #9cb29113;background:#192f2e;letter-spacing:.4px}.statusbar i{width:4px;height:4px;margin-right:5px;background:#809c73}.statusbar em{margin:0 7px;font-style:normal;opacity:.5}.statusbar>span:last-child{font:7px var(--mono);letter-spacing:1.2px}.toast{position:absolute;left:50%;bottom:79px;transform:translate(-50%,8px);max-width:88%;background:#192f2eeb;border:1px solid #c5c8945c;padding:12px 19px;color:#e3ddbb;font-size:11px;z-index:8;opacity:0;pointer-events:none;transition:.2s;line-height:1.7;text-align:center;box-shadow:0 5px 25px #10232130}.toast.visible{opacity:1;transform:translate(-50%,0)}.wave-banner{position:absolute;top:27%;left:50%;transform:translate(-50%,-8px);opacity:0;pointer-events:none;z-index:4;text-align:center;color:#f0e3bf;text-shadow:0 2px 25px #122f2b;background:#203f39ca;padding:18px 40px;border-top:1px solid #d5d2a644;border-bottom:1px solid #d5d2a644;min-width:250px;transition:.6s}.wave-banner.show{opacity:1;transform:translate(-50%,0)}.wave-banner small{font:8px var(--mono);letter-spacing:3px;display:block;margin-bottom:8px}.wave-banner strong{font:23px var(--serif);letter-spacing:4px}.paused-label{position:absolute;inset:0;z-index:5;background:#172e316b;backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;color:#e8e4c9;font:23px var(--serif);letter-spacing:4px}.paused-label>span{font:28px var(--sans);color:#daca9a}.paused-label button{margin-top:5px;font:11px var(--sans);letter-spacing:1px;color:#e7e4c7;background:transparent;border-bottom:1px solid #cfc89566;padding:9px}.game-dialog{border:1px solid #bbc0a4;background:#e9e6d7;color:#334d38;max-width:min(760px,calc(100% - 32px));padding:32px;box-shadow:0 25px 100px #112b3388}.game-dialog::backdrop{background:#122d33b3;backdrop-filter:blur(6px)}.dialog-top{display:flex;justify-content:space-between;align-items:center}.close-dialog{background:transparent;color:#687c60;font-size:24px}.game-dialog h2{font:32px var(--serif);margin:15px 0;letter-spacing:2px}.dialog-intro{font-size:12px;color:#7d8974;line-height:1.9;max-width:570px}.help-grid{display:grid;grid-template-columns:1fr 1fr;gap:26px 30px;margin:30px 0}.help-grid section>span{font:9px var(--mono);color:#9c9e7b}.help-grid h3{font-size:12px;font-weight:500;letter-spacing:.5px;margin:10px 0}.help-grid p{font-size:11px;line-height:1.9;color:#7b8872}.help-keys{border-top:1px solid var(--border);padding:18px 0;font-size:9px;color:#7c8d70}.close-help{max-width:220px;margin-left:auto}.small-dialog{max-width:430px}.dialog-actions{display:flex;gap:12px;margin-top:25px}.secondary-button{background:#d8deca;color:#627855;border:1px solid #b7c0a3;padding:12px 15px;white-space:nowrap}.result-dialog{text-align:center;min-width:min(430px,90%);padding:35px 45px}.result-art{font:62px var(--serif);color:#a6a575;margin:12px}.result-dialog .primary-button{margin:28px auto 10px}.result-stats{display:flex;justify-content:center;gap:30px;margin-top:25px}.result-stats strong{font:30px var(--serif);display:block;margin-bottom:5px}.result-stats span{font-size:9px;color:#909b81}.game-shell{animation:arrive .65s both}@keyframes arrive{from{opacity:0}to{opacity:1}}@keyframes pulse{50%{opacity:.3}}
+@media(min-height:950px){.command-panel{padding-top:33px;padding-bottom:25px}.panel-heading{padding-bottom:35px}.panel-rule{margin:28px 0}.selection h3{font-size:25px;margin-top:20px}.description{font-size:12px}.steps{gap:18px;margin-top:25px}.field-note{margin-top:28px}.topbar{height:100px}.build-dock{height:161px;padding-top:22px;padding-bottom:22px}}
+@media(max-width:1200px){.topbar{padding:0 24px;gap:12px}.brand h1 span{display:none}.resources{gap:20px;padding:0 15px}.resource{min-width:90px}.battle-layout{grid-template-columns:minmax(0,1fr) 265px}.command-panel{padding-left:20px;padding-right:20px}.dock-note{display:none}.build-dock{gap:18px;padding:18px 24px}.dock-heading{width:156px}.field-top{left:26px}.field-top h2{font-size:28px}.field-top .location-note{font-size:9px}}
+@media(max-width:900px){.topbar{height:80px;padding:0 18px}.brand{gap:9px}.brand-mark{width:30px}.brand h1{font-size:20px;letter-spacing:1.6px}.brand p{font-size:7px;letter-spacing:1.5px}.resource-icon{display:none}.resources{gap:16px;padding:0 8px}.resource{min-width:69px}.resource strong{font-size:18px}.resource-label{font-size:8px}.resource strong span{font-size:10px}.battle-layout{grid-template-columns:minmax(0,1fr) 238px}.command-panel{padding:20px 18px 15px}.panel-heading{padding-bottom:20px}.field-top{top:20px;left:20px;right:14px}.field-top .eyebrow{font-size:6px;letter-spacing:1px}.field-top .location-note{max-width:150px;line-height:1.7}.field-top h2{font-size:26px;gap:10px}.field-tools{gap:4px}.field-button{padding:0 7px;font-size:9px;height:29px;min-width:29px}.field-button .tool-icon{display:none}.map-caption{display:none}.field-bottom{bottom:15px;left:20px;right:18px}.dock-heading{display:none}.build-dock{padding:15px 18px;height:131px}.build-cards{max-width:none}.statusbar{padding:0 18px}.keyboard-hints{display:none}.selection h3{font-size:19px}.steps{gap:11px;margin-top:18px}.field-note{margin-top:16px;padding:10px}.panel-rule{margin:17px 0}}
+@media(max-width:640px){.game-shell{height:auto;min-height:100dvh}.topbar{height:75px;padding:0 14px;gap:8px;flex-wrap:wrap}.brand{flex:1}.brand h1{font-size:18px;letter-spacing:1.6px}.brand-mark{width:26px}.brand p{font-size:6px;letter-spacing:1px}.resources{gap:14px;padding:0}.resource{min-width:0}.resource-label{font-size:7px;letter-spacing:0}.resource strong{font-size:15px}.resource strong span{font-size:8px}.header-actions{position:absolute;right:16px;top:95px;z-index:4;gap:5px}.icon-button{background:#294845;color:#bdcab2;border-color:#b9c9a52a;width:29px;height:29px;font-size:16px}.mute-slash{top:14px;left:6px}.battle-layout{display:flex;flex-direction:column}.field{height:440px;flex-shrink:0}#battlefield{min-height:440px}.field-top{top:18px;left:18px}.field-top h2{font-size:25px;margin-top:9px}.field-top .location-note{font-size:8px;max-width:none;margin-top:7px}.field-tools{position:absolute;right:0;top:50px}.map-number{width:21px;height:21px;font-size:8px}.field-bottom{bottom:12px}.phase-tag{font-size:9px}.command-panel{padding:16px 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(140px,1fr);column-gap:20px;row-gap:13px;border-left:0;min-height:238px}.panel-heading{display:none}.wave-overview{grid-column:1;grid-row:1}.wave-count>strong{font-size:38px}.wave-count>span{font-size:10px}.wave-count small{font-size:8px;letter-spacing:1px}.wave-count{margin-top:5px}.wave-progress{margin-top:8px;margin-bottom:8px}.next-wave{font-size:9px}.next-wave span:last-child{font-size:8px}.enemy-preview{font-size:8px;gap:8px}.panel-rule{display:none}.selection{grid-column:1 / -1;grid-row:2;padding-top:12px;border-top:1px solid #b7b9a766}.selection .steps,.selection .field-note{display:none}.selection h3{font-size:18px;margin:7px 0}.selection>.description{font-size:10px}.selection>.description br{display:none}.selection .eyebrow{font-size:7px}.panel-bottom{margin:0;grid-column:2;grid-row:1;align-self:center}.grid-upgrade{font-size:9px;padding:9px 8px}.grid-upgrade small{font-size:7px}.primary-button{padding:11px 12px;font-size:10px;min-height:41px}.wave-hint{font-size:8px}.grid-warning{font-size:9px}.tower-stats{margin-top:12px;padding:10px 0}.tower-stats strong{font-size:16px}.selection-actions{margin-top:10px}.selection-actions button{padding:8px}.selection-actions small{display:inline;margin-left:5px}.tower-status{margin-top:7px}.build-cancel{margin-top:10px}.build-dock{height:126px;padding:12px 9px;gap:0;order:0}.build-cards{gap:6px;grid-template-columns:repeat(4,1fr)}.build-card{padding:11px 7px 8px;text-align:center;display:flex;flex-direction:column;align-items:center;overflow:visible}.tower-icon{width:52px;height:47px;top:5px;left:50%;transform:translateX(-50%);opacity:.92}.card-name{font-size:10px;letter-spacing:.5px;margin-top:37px}.card-name small,.card-role{display:none}.card-cost{gap:7px;margin-top:6px;justify-content:center}.card-cost strong{font-size:9px}.card-cost span{font-size:8px}.build-card kbd{display:none}.statusbar{font-size:7px;padding:0 12px}.statusbar>span:last-child{font-size:6px;letter-spacing:.6px}.overdrive{padding:10px 8px;font-size:9px}.overdrive small{font-size:7px;max-width:75px}.game-dialog{padding:24px;max-height:90dvh}.game-dialog h2{font-size:27px}.help-grid{grid-template-columns:1fr;gap:18px;margin:23px 0}.help-grid p{font-size:11px}.help-keys{display:none}.close-help{margin-top:20px}.result-dialog{padding:25px;min-width:0;width:calc(100% - 32px)}.wave-banner{padding:13px 22px;top:32%}.wave-banner strong{font-size:19px}.toast{bottom:60px;font-size:10px;padding:9px 13px;width:max-content}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+/* Keep the tactical controls reachable at every supported viewport height. */
+.command-panel{padding-top:22px}.panel-heading{padding-bottom:16px}.panel-rule{margin:16px 0}.selection{overflow-y:auto;scrollbar-width:thin;scrollbar-color:#b8c3a4 transparent;padding-right:3px}.selection h3{font-size:20px;margin:10px 0}.selection .field-note{margin-top:14px}.selection[data-mode="tower"] .field-note{display:none}.tower-stats{margin-top:14px;padding:10px 0}.selection-actions{margin-top:12px}.selection[data-mode="brief"] .steps{margin-top:17px;gap:12px}
+@media(max-height:850px) and (min-width:641px){.panel-heading{padding-bottom:13px}.wave-count>strong{font-size:46px}.wave-count{margin-top:6px}.wave-progress{margin-top:10px}.panel-rule{margin:13px 0}.selection .field-note{display:none}.selection h3{font-size:18px}.description{font-size:10px}.tower-stats{margin-top:10px;padding:9px 0}.selection-actions{margin-top:9px}.command-panel{padding-top:18px}.panel-bottom{margin-top:14px}}
+@media(max-width:640px){.game-shell{display:grid;grid-template-columns:minmax(0,1fr);align-content:start}.topbar{grid-row:1}.battle-layout{display:contents}.field{grid-row:2}.build-dock{grid-row:3}.command-panel{grid-row:4;padding-top:16px}.statusbar{grid-row:5}.selection{overflow:visible;padding-right:0}.selection h3{font-size:18px;margin:7px 0}.selection .field-note{display:none}.tower-stats{margin-top:12px}.header-actions{right:14px}.pad-control{width:36px;height:32px}}
+/* Mobile header actions stay above the pause overlay. */
+.topbar{z-index:10}
+/* The language control shares the existing utility bar and remains available on phones. */
+.language-button{height:34px;display:flex;align-items:center;gap:5px;padding:0 10px;background:transparent;border:1px solid #94a58e3b;border-radius:18px;color:#718f7e;font:10px var(--sans);flex-shrink:0}
+.language-button:hover{background:#344b41}.language-button[data-language="zh"] [lang="zh-CN"],.language-button[data-language="en"] [lang="en"]{color:#e5d3a6}.language-button [aria-hidden]{color:#718575}.header-actions{flex-shrink:0}
+:lang(en) .resource-label{letter-spacing:.6px}:lang(en) .field-top h2{letter-spacing:.7px;font-size:29px}:lang(en) .selection h3{letter-spacing:0;font-size:22px;line-height:1.22}:lang(en) .primary-button{letter-spacing:.1px}:lang(en) .card-name{font-size:11px;letter-spacing:0}:lang(en) .card-role{font-size:8px}:lang(en) .panel-heading{letter-spacing:1px}:lang(en) .tower-stats span{font-size:8px}:lang(en) .overdrive small{max-width:100px;line-height:1.45}:lang(en) .wave-hint{line-height:1.5}:lang(en) .dock-note>span{font-size:12px;letter-spacing:0}
+@media(min-width:641px) and (max-width:760px){.brand h1{font-size:18px}.topbar{gap:10px}.resources{gap:12px;padding:0}.resource{min-width:55px}.header-actions{gap:5px}.icon-button{width:30px;height:30px}.language-button{height:30px;padding:0 8px}.mute-slash{top:14px;left:6px}}
+@media(max-width:640px){.language-button{height:29px;padding:0 8px;gap:4px;font-size:9px;background:#294845}:lang(en) .field-top h2{font-size:24px}:lang(en) .location-note{max-width:220px;line-height:1.6}:lang(en) .selection h3{font-size:21px}:lang(en) .grid-upgrade{gap:6px;line-height:1.5}:lang(en) .grid-upgrade small{display:block;margin:2px 0 0}:lang(en) .card-name{font-size:10px}:lang(en) .resource-label{font-size:6px;letter-spacing:.2px}:lang(en) .overdrive small{max-width:75px}}
+</style>
+
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 44 54" fill="none" aria-hidden="true"><path d="M15 46h14l-3-28H18l-3 28Z" stroke="currentColor" stroke-width="1.5"/><path d="M13 18h18M15 14h14M22 3l10 9H12l10-9ZM11 46h22M17 29h10M16 35h12M22 18v-6M6 14H1M43 14h-5" stroke="currentColor" stroke-width="1.5"/><circle cx="22" cy="15" r="2" fill="currentColor"/></svg>
+        <div><h1>LAST BEACON<span data-i18n="brand.subtitle">最后的灯塔</span></h1><p>KEEP THE LIGHT ALIVE</p></div>
+      </div>
+      <div class="resources" aria-label="资源状态" data-i18n-aria="region.resources">
+        <div class="resource"><span class="resource-icon health-icon">♡</span><div><span class="resource-label" data-i18n="resource.health">灯塔完整度</span><strong id="health">100<span> / 100</span></strong></div></div>
+        <div class="resource"><span class="resource-icon">◇</span><div><span class="resource-label" data-i18n="resource.credits">可用零件</span><strong id="credits">180</strong></div></div>
+        <div class="resource"><span class="resource-icon power-icon">ϟ</span><div><span class="resource-label" data-i18n="resource.power">电网负载</span><strong id="power">3<span> / 12</span></strong></div></div>
+      </div>
+      <div class="header-actions"><button id="language-toggle" class="language-button" type="button" aria-label="切换为英文" title="切换为英文"><span lang="zh-CN">中</span><span aria-hidden="true">/</span><span lang="en">EN</span></button><button id="restart" class="icon-button" aria-label="重新出发" data-i18n-aria="control.restart" title="重新出发" data-i18n-title="control.restart">↻</button><button id="sound" class="icon-button" aria-label="开启声音" title="开启声音 [M]">♪<span class="mute-slash"></span></button><button id="help" class="icon-button" aria-label="打开玩法说明" data-i18n-aria="control.help" title="玩法说明" data-i18n-title="control.help">?</button></div>
+    </header>
+
+    <section class="battle-layout" aria-label="游戏区域" data-i18n-aria="region.game">
+      <div class="field">
+        <div class="field-top"><div><p class="eyebrow">THE OUTER ISLES · SECTOR 01</p><h2><span data-i18n="map.name">暮潮礁</span><span class="map-number">01</span></h2><p class="location-note" data-i18n="map.note">海雾正在靠近。让灯塔继续亮着。</p></div><div class="field-tools"><button id="grid-toggle" class="field-button active" aria-pressed="true" title="显示电网 [G]" data-i18n-title="control.gridTitle"><span class="tool-icon">⌘</span> <span data-i18n="control.grid">电网</span></button><button id="speed" class="field-button" title="切换速度" data-i18n-title="control.speed">1×</button><button id="pause" class="field-button" aria-label="暂停游戏" title="暂停 [空格]" data-i18n-title="control.pauseTitle">Ⅱ</button></div></div>
+        <canvas id="battlefield" aria-label="等距海岛战场。选择下方设施，再点击地图上的圆形基座建造。" data-i18n-aria="map.description"></canvas>
+        <div id="pad-controls" aria-label="可建造基座" data-i18n-aria="region.pads"></div>
+        <div id="wave-banner" class="wave-banner" aria-live="polite"></div>
+        <div id="paused-label" class="paused-label" hidden><span>Ⅱ</span><div data-i18n="paused.title">战场已暂停</div><button id="resume" data-i18n="action.resumeArrow">继续守望 →</button></div>
+        <div class="field-bottom"><div class="compass" aria-hidden="true"><span>N</span><svg viewBox="0 0 40 40"><path d="m20 4 5 16-5 16-5-16Z" fill="none" stroke="currentColor"/><path d="m4 20 16-5 16 5-16 5Z" fill="none" stroke="currentColor"/><circle cx="20" cy="20" r="2" fill="currentColor"/></svg></div><div class="map-caption"><div data-i18n="map.caption">北纬 42° · 最后一座有人驻守的岛屿</div><span>LAST BEACON / COASTAL DEFENSE</span></div><span id="phase-tag" class="phase-tag"><i></i> 部署阶段</span></div>
+        <div id="toast" role="status" class="toast"></div>
+      </div>
+
+      <aside class="command-panel" aria-label="指挥面板" data-i18n-aria="region.command">
+        <div class="panel-heading"><span data-i18n="panel.heading">守望者日志</span><span class="tiny-star">✳</span></div>
+        <div class="wave-overview"><p class="eyebrow">INCOMING TIDE</p><div class="wave-count"><strong id="wave-number">01</strong><span>/ 10<small data-i18n="wave.label">来袭波次</small></span></div><div id="wave-progress" class="wave-progress" aria-label="波次进度" data-i18n-aria="wave.progress"></div><div class="next-wave"><span id="wave-name">潮水初动</span><span id="enemy-count">8 个目标</span></div><div id="enemy-preview" class="enemy-preview"></div></div>
+        <div class="panel-rule"></div>
+        <div id="selection" class="selection" aria-live="polite"></div>
+        <div class="panel-bottom"><div id="grid-warning" class="grid-warning" hidden></div><button id="grid-upgrade" class="grid-upgrade"><span>ϟ <span data-i18n="grid.expand">电网扩容</span> <small data-i18n="grid.extra">+6 电力</small></span><span id="grid-price">◇ 100</span></button><button id="overdrive" class="overdrive" hidden><span>ϟ 灯塔超频</span><small>火力提升 80% · 持续 6 秒</small></button><button id="next-wave" class="primary-button"><span>迎接第一波</span><b>→</b></button><p id="wave-hint" class="wave-hint">准备好后出发，不会自动开始</p></div>
+      </aside>
+    </section>
+
+    <section class="build-dock" aria-label="建造设施" data-i18n-aria="region.build">
+      <div class="dock-heading"><span class="eyebrow">BUILD YOUR DEFENSE</span><h2 data-i18n="build.title">构筑防线</h2><p id="build-hint">选择设施，再点击空基座</p></div>
+      <div class="build-cards">
+        <button class="build-card" data-type="gun" aria-pressed="false"><kbd>1</kbd><canvas class="tower-icon" data-icon="gun" width="160" height="144" aria-hidden="true"></canvas><div class="card-name"><span data-i18n="tower.gun.name">哨戒炮</span><small>SENTINEL</small></div><span class="card-role" data-i18n="tower.gun.role">精准单体</span><div class="card-cost"><strong>◇ 65</strong><span>ϟ 3</span></div></button>
+        <button class="build-card" data-type="mortar" aria-pressed="false"><kbd>2</kbd><canvas class="tower-icon" data-icon="mortar" width="160" height="144" aria-hidden="true"></canvas><div class="card-name"><span data-i18n="tower.mortar.name">迫击炮</span><small>MORTAR</small></div><span class="card-role" data-i18n="tower.mortar.role">范围爆破</span><div class="card-cost"><strong>◇ 100</strong><span>ϟ 5</span></div></button>
+        <button class="build-card" data-type="frost" aria-pressed="false"><kbd>3</kbd><canvas class="tower-icon" data-icon="frost" width="160" height="144" aria-hidden="true"></canvas><div class="card-name"><span data-i18n="tower.frost.name">寒潮塔</span><small>FROST</small></div><span class="card-role" data-i18n="tower.frost.role">减速控制</span><div class="card-cost"><strong>◇ 75</strong><span>ϟ 3</span></div></button>
+        <button class="build-card" data-type="relay" aria-pressed="false"><kbd>4</kbd><canvas class="tower-icon" data-icon="relay" width="160" height="144" aria-hidden="true"></canvas><div class="card-name"><span data-i18n="tower.relay.name">中继站</span><small>RELAY</small></div><span class="card-role" data-i18n="tower.relay.role">延伸电网</span><div class="card-cost"><strong>◇ 30</strong><span>ϟ 0</span></div></button>
+      </div>
+      <div class="dock-note"><span data-i18n="build.noteTitle">连接，才有力量。</span><p data-i18n="build.note">所有设施都能传导电力。<br>中继站可以连接更远的基座。</p></div>
+    </section>
+    <footer class="statusbar"><span><i></i> <span data-i18n="status.local">本地运行 · 无需登录</span></span><span class="keyboard-hints" data-i18n="status.shortcuts">1–4 选择设施 <em>·</em> ESC 取消 <em>·</em> 空格 开始 / 暂停</span><span id="best-record">A GAME BY STACKLOOMDEV</span></footer>
+  </main>
+
+  <dialog id="help-dialog" class="game-dialog"><div class="dialog-top"><span class="eyebrow">THE KEEPER’S HANDBOOK</span><button class="close-dialog" aria-label="关闭玩法说明" data-i18n-aria="control.closeHelp">×</button></div><h2 data-i18n="help.title">这一夜，由你守望。</h2><p class="dialog-intro" data-i18n="help.intro">守住十波来袭的机械生物，击败深渊巨像。灯塔完整度归零即失败。</p><div class="help-grid"><section><span data-i18n="help.buildLabel">01 / 建造</span><h3 data-i18n="help.buildTitle">把火力放在必经之路。</h3><p data-i18n="help.buildText">选择设施，再点击圆形基座。悬停基座可预览射程。点击已有设施可升级或出售；最高三级，出售返还投入的 70%。起始免费炮塔没有基础退款。</p></section><section><span data-i18n="help.powerLabel">02 / 供电</span><h3 data-i18n="help.powerTitle">让整条防线保持连接。</h3><p data-i18n="help.powerText">电力来自灯塔。设施之间在 3 格内自动连线，中继站可连接 4.8 格。电力不足时，较晚建造的设施停机；升级电网可增加 6 点容量。出售中继可能让下游断电。</p></section><section><span data-i18n="help.battleLabel">03 / 应战</span><h3 data-i18n="help.battleTitle">不同的敌人，不同的答案。</h3><p data-i18n="help.battleText">哨戒炮提供稳定火力，迫击炮对付密集敌群，寒潮塔拖慢敌人。每波结束获得零件、1 点容量并修复 5 点完整度。建造阶段由你决定何时继续。</p></section><section><span data-i18n="help.overdriveLabel">04 / 超频</span><h3 data-i18n="help.overdriveTitle">在危急时刻点亮灯塔。</h3><p data-i18n="help.overdriveText">战斗时可开启超频，让已供电炮塔的射击频率提升 80%，持续 6 秒，冷却 35 秒。时间随游戏倍速变化，暂停时不会流逝。</p></section></div><div class="help-keys" data-i18n="help.shortcuts">1–4 选择设施　·　G 电网　·　M 声音　·　空格 开始 / 暂停　·　ESC 取消</div><button class="primary-button close-help"><span data-i18n="help.back">回到灯塔</span><b>→</b></button></dialog>
+  <dialog id="restart-dialog" class="game-dialog small-dialog"><span class="eyebrow">A NEW WATCH</span><h2 data-i18n="restart.title">重新出发？</h2><p class="dialog-intro" data-i18n="restart.description">本局的防线和进度会重置，最高纪录和语言选择会保留。</p><div class="dialog-actions"><button data-i18n="restart.cancel" id="cancel-restart" class="secondary-button">继续本局</button><button data-i18n="restart.confirm" id="confirm-restart" class="primary-button">重新出发 →</button></div></dialog>
+  <dialog id="result-dialog" class="game-dialog result-dialog"><span id="result-kicker" class="eyebrow">THE LIGHT REMAINS</span><div class="result-art" aria-hidden="true">✦</div><h2 id="result-title">黎明终于抵达。</h2><p id="result-copy" class="dialog-intro"></p><div id="result-stats" class="result-stats"></div><button id="play-again" class="primary-button"><span data-i18n="result.again">再守望一次</span><b>→</b></button><button data-i18n="result.view" id="view-island" class="text-button">查看战场</button></dialog>
+  <noscript>请启用 JavaScript 运行游戏。Please enable JavaScript to play. 无需登录 / No account or API key required.</noscript>
+<script>(()=>{
+// Each message has a Chinese and an English version. Game rules use stable IDs;
+// language changes only affect presentation, never the running simulation.
+const LANGUAGE_KEY = 'last-beacon-language';
+const LANGUAGES = ['zh', 'en'];
+const messages = {
+  'page.title': ['最后的灯塔 · Last Beacon', 'Last Beacon · Coastal Tower Defense'],
+  'page.description': ['最后的灯塔 — 一款围绕供电网络布局的海岛塔防。建造、连接、升级，守住最后一束光。免费，无需登录。', 'Connect a power grid, build your defenses, and protect the last lighthouse through ten waves. Free to play, no account required.'],
+  'brand.subtitle': ['最后的灯塔', 'COASTAL DEFENSE'],
+  'region.resources': ['资源状态', 'Resources'],
+  'region.game': ['游戏区域', 'Battlefield'],
+  'region.pads': ['可建造基座', 'Building pads'],
+  'region.command': ['指挥面板', 'Command panel'],
+  'region.build': ['建造设施', 'Build defenses'],
+  'resource.health': ['灯塔完整度', 'BEACON HEALTH'],
+  'resource.credits': ['可用零件', 'PARTS'],
+  'resource.power': ['电网负载', 'GRID LOAD'],
+  'language.label': ['语言', 'Language'],
+  'language.switch': ['切换为英文', 'Switch to Chinese'],
+  'control.restart': ['重新出发', 'New watch'],
+  'control.soundOn': ['开启声音', 'Enable sound'],
+  'control.soundOff': ['关闭声音', 'Mute sound'],
+  'control.help': ['打开玩法说明', 'Open handbook'],
+  'control.closeHelp': ['关闭玩法说明', 'Close handbook'],
+  'control.grid': ['电网', 'Grid'],
+  'control.gridTitle': ['显示电网 [G]', 'Toggle power grid [G]'],
+  'control.speed': ['切换速度', 'Change game speed'],
+  'control.pause': ['暂停游戏', 'Pause game'],
+  'control.resume': ['继续游戏', 'Resume game'],
+  'control.pauseTitle': ['暂停 / 继续 [空格]', 'Pause / resume [Space]'],
+  'map.name': ['暮潮礁', 'Duskfall Reef'],
+  'map.note': ['海雾正在靠近。让灯塔继续亮着。', 'The fog draws near. Keep the beacon burning.'],
+  'map.description': ['等距海岛战场。选择下方设施，再点击地图上的圆形基座建造。', 'Isometric island battlefield. Choose a defense below, then select a circular pad to build.'],
+  'map.caption': ['北纬 42° · 最后一座有人驻守的岛屿', '42° NORTH · THE LAST INHABITED ISLAND'],
+  'map.entrance': ['来袭方向', 'INCOMING'],
+  'paused.title': ['战场已暂停', 'The watch is paused'],
+  'action.resumeArrow': ['继续守望 →', 'Resume watch →'],
+  'panel.heading': ['守望者日志', 'KEEPER’S LOG'],
+  'wave.label': ['来袭波次', 'INCOMING WAVE'],
+  'wave.progress': ['波次进度', 'Wave progress'],
+  'wave.targets': ['{count} 个目标', 'Targets: {count}'],
+  'wave.remaining': ['{count} 个剩余', 'Remaining: {count}'],
+  'wave.1': ['潮水初动', 'The First Tide'],
+  'wave.2': ['岸边的足迹', 'Tracks on the Shore'],
+  'wave.3': ['疾风过境', 'Riders of the Wind'],
+  'wave.4': ['铁甲来客', 'Armored Arrivals'],
+  'wave.5': ['涨潮时分', 'Rising Water'],
+  'wave.6': ['破浪重装', 'Breaking the Surf'],
+  'wave.7': ['漫长的夜', 'The Long Night'],
+  'wave.8': ['风暴前线', 'Storm Front'],
+  'wave.9': ['最后的防线', 'The Last Stand'],
+  'wave.10': ['深渊巨像', 'Abyssal Colossus'],
+  'tower.gun.name': ['哨戒炮', 'Sentinel'],
+  'tower.gun.role': ['精准单体', 'Single target'],
+  'tower.gun.description': ['快速锁定前方敌人。稳定的单体火力，是防线的骨架。', 'Locks onto the leading enemy. Reliable, rapid single-target fire for the backbone of your defense.'],
+  'tower.mortar.name': ['迫击炮', 'Mortar'],
+  'tower.mortar.role': ['范围爆破', 'Area damage'],
+  'tower.mortar.description': ['抛射炮弹，在落点造成范围伤害。适合拦截密集虫群。', 'Lobs shells that damage enemies around the impact point. Best against tightly packed swarms.'],
+  'tower.frost.name': ['寒潮塔', 'Frost'],
+  'tower.frost.role': ['减速控制', 'Slows enemies'],
+  'tower.frost.description': ['减速范围内的目标，为附近的炮塔争取更多输出时间。', 'Slows its target, giving nearby towers more time to deal damage.'],
+  'tower.relay.name': ['中继站', 'Relay'],
+  'tower.relay.role': ['延伸电网', 'Grid extension'],
+  'tower.relay.description': ['把电网延伸到更远的基座。连接距离 4.8 格，不占用电力。', 'Extends the grid to distant pads. Connects across 4.8 tiles and uses no power.'],
+  'enemy.crawler': ['潜行者', 'Crawler'],
+  'enemy.runner': ['疾行者', 'Runner'],
+  'enemy.tank': ['重甲蟹', 'Armored Crab'],
+  'enemy.boss': ['深渊巨像', 'Abyssal Colossus'],
+  'brief.title': ['守住最后一束光。', 'Keep the last light alive.'],
+  'brief.description': ['一座灯塔，一张电网。<br>在潮水抵达之前，布置你的防线。', 'One lighthouse. One power grid.<br>Build your defenses before the tide arrives.'],
+  'brief.step1': ['选择下方的防御设施', 'Choose a defense below'],
+  'brief.step2': ['点击岛上的圆形基座建造', 'Select a circular pad to build'],
+  'brief.step3': ['连接电网，迎接第一波敌人', 'Connect power and begin the wave'],
+  'brief.note': ['已为你部署一座哨戒炮。<br>浅色连线表示设施已连接电网。', 'A free Sentinel is already in place.<br>Pale lines show connections to the grid.'],
+  'grid.expand': ['电网扩容', 'Expand grid'],
+  'grid.extra': ['+6 电力', '+6 power'],
+  'grid.max': ['已满级', 'Maxed out'],
+  'grid.warning': ['{count} 座设施停机 · 检查连接或扩容电网', 'Offline: {count}. Check connections or expand the grid.'],
+  'overdrive.name': ['灯塔超频', 'Overdrive'],
+  'overdrive.active': ['超频中', 'Overdrive active'],
+  'overdrive.cooling': ['正在冷却', 'Cooling down'],
+  'overdrive.hint': ['火力提升 80% · 持续 6 秒', '+80% fire rate · 6 seconds'],
+  'overdrive.left': ['剩余 {seconds} 秒', '{seconds}s remaining'],
+  'overdrive.ready': ['{seconds} 秒后就绪', 'Ready in {seconds}s'],
+  'action.firstWave': ['迎接第一波', 'Begin the first wave'],
+  'action.nextWave': ['迎接下一波', 'Begin next wave'],
+  'action.resume': ['继续守望', 'Resume watch'],
+  'action.pause': ['暂停战斗', 'Pause battle'],
+  'action.record': ['查看守望记录', 'View watch report'],
+  'hint.build': ['准备好后出发，不会自动开始', 'Start when ready. Waves never begin automatically.'],
+  'hint.wave': ['战斗中可建造、升级与出售', 'You can build, upgrade, and sell during battle.'],
+  'hint.end': ['每一次守望，都是新的开始', 'Every watch is a new beginning.'],
+  'phase.paused': ['暂停', 'Paused'],
+  'phase.build': ['部署阶段', 'Preparing'],
+  'phase.wave': ['防守进行中', 'Defending'],
+  'phase.won': ['黎明已至', 'Dawn has arrived'],
+  'phase.lost': ['守望结束', 'Watch ended'],
+  'build.title': ['构筑防线', 'Build your defense'],
+  'build.hint': ['选择设施，再点击空基座', 'Choose a defense, then an empty pad'],
+  'build.selected': ['{name} · 点击空基座', '{name} · Select an empty pad'],
+  'build.noteTitle': ['连接，才有力量。', 'Power comes from connection.'],
+  'build.note': ['所有设施都能传导电力。<br>中继站可以连接更远的基座。', 'Every structure carries power.<br>Relays reach the more distant pads.'],
+  'build.preview': ['点击岛上的空基座完成建造。<br>悬停可预览射程和供电连线。', 'Select an empty pad to build.<br>Hover to preview range and power connections.'],
+  'build.cancel': ['取消建造 · ESC', 'Cancel build · ESC'],
+  'status.local': ['本地运行 · 无需登录', 'Runs locally · No account required'],
+  'status.shortcuts': ['1–4 选择设施　·　ESC 取消　·　空格 开始 / 暂停', '1–4 Select　·　ESC Cancel　·　Space Start / pause'],
+  'status.bestWon': ['个人最佳 · 已守住全部十波', 'PERSONAL BEST · ALL TEN WAVES DEFENDED'],
+  'status.bestWave': ['个人最佳 · 抵达第 {wave} 波', 'PERSONAL BEST · WAVE {wave}'],
+  'status.author': ['A GAME BY STACKLOOMDEV', 'A GAME BY STACKLOOMDEV'],
+  'tower.powered': ['电力已接通', 'Connected and powered'],
+  'tower.overload': ['容量不足 · 停机', 'Insufficient capacity · Offline'],
+  'tower.disconnected': ['未连接灯塔 · 停机', 'No beacon connection · Offline'],
+  'stat.link': ['连接距离', 'Link range'],
+  'stat.damage': ['攻击伤害', 'Damage'],
+  'stat.power': ['占用电力', 'Power use'],
+  'stat.cost': ['消耗零件', 'Parts cost'],
+  'stat.range': ['攻击范围', 'Range'],
+  'stat.buildCost': ['建造零件', 'Build cost'],
+  'stat.kills': ['累计击退', 'Enemies defeated'],
+  'stat.towers': ['已建设施', 'Structures'],
+  'stat.time': ['战斗时长', 'Battle time'],
+  'stat.wave': ['抵达波次', 'Wave reached'],
+  'stat.health': ['剩余完整度', 'Beacon health'],
+  'tower.upgrade': ['升级设施', 'Upgrade'],
+  'tower.max': ['已达满级', 'Max level'],
+  'tower.upgradeCost': ['◇ {cost} · +1 电力', '◇ {cost} · +1 power'],
+  'tower.sell': ['出售设施', 'Sell'],
+  'tower.refund': ['返还 ◇ {amount}', 'Refund ◇ {amount}'],
+  'tower.relayNote': ['出售中继会重新计算整个电网。请留意下游设施是否断电。', 'Selling a relay recalculates the grid. Downstream structures may lose their connection.'],
+  'tower.note': ['点击其他基座上的设施，查看火力与供电。相邻设施会自动传导电力。', 'Select another structure to inspect its firepower and supply. Nearby structures automatically carry power.'],
+  'battle.title': ['潮水已至，守住防线。', 'The tide is here. Hold the line.'],
+  'battle.description': ['战斗中也能建造和升级。观察电网负载，在关键时刻开启灯塔超频。', 'Build and upgrade during battle. Watch the grid load and trigger Overdrive when it matters.'],
+  'calm.title': ['潮水退去，稍作整备。', 'The tide recedes. Prepare again.'],
+  'calm.description': ['本波补给 +{reward} 零件。<br>灯塔修复 5 点，电力容量增加 1 点。', 'Wave supplies: +{reward} parts.<br>Beacon repair: +5 health. Grid capacity: +1.'],
+  'end.description': ['这片海岸会记住你的守望。重新出发，再试一种防线。', 'This coast will remember your watch. Begin again and try a different defense.'],
+  'tip.heavy': ['重甲敌人正在集结。升级关键炮塔，并用寒潮塔延长它们在火力区的停留时间。', 'Heavy enemies are gathering. Upgrade key towers and use Frost to keep targets in range longer.'],
+  'tip.corners': ['道路转弯处有更长的射击窗口。让迫击炮与寒潮塔相互照应。', 'Bends in the road offer longer firing windows. Pair Mortars with Frost for better coverage.'],
+  'pad.title': ['基座 {number}', 'Pad {number}'],
+  'pad.empty': ['空基座', 'Empty pad'],
+  'pad.occupied': ['{name} {level} 级 {power}', '{name} level {level} · {power}'],
+  'pad.powered': ['已供电', 'Powered'],
+  'pad.offline': ['未供电', 'Offline'],
+  'help.title': ['这一夜，由你守望。', 'Tonight, the watch is yours.'],
+  'help.intro': ['守住十波来袭的机械生物，击败深渊巨像。灯塔完整度归零即失败。', 'Defend ten waves of mechanical creatures and defeat the Abyssal Colossus. If beacon health reaches zero, the watch is lost.'],
+  'help.buildLabel': ['01 / 建造', '01 / BUILD'],
+  'help.buildTitle': ['把火力放在必经之路。', 'Put firepower along their route.'],
+  'help.buildText': ['选择设施，再点击圆形基座。悬停基座可预览射程。点击已有设施可升级或出售；最高三级，出售返还投入的 70%。起始免费炮塔没有基础退款。', 'Choose a defense, then select a circular pad. Hover to preview range. Select an existing structure to upgrade or sell it. Towers have three levels. Selling refunds 70% of parts spent; the free starter tower has no base refund.'],
+  'help.powerLabel': ['02 / 供电', '02 / POWER'],
+  'help.powerTitle': ['让整条防线保持连接。', 'Keep the whole defense connected.'],
+  'help.powerText': ['电力来自灯塔。设施之间在 3 格内自动连线，中继站可连接 4.8 格。电力不足时，较晚建造的设施停机；升级电网可增加 6 点容量。出售中继可能让下游断电。', 'Power comes from the beacon. Structures connect within 3 tiles, or 4.8 tiles through a relay. If capacity runs out, later-built structures go offline. Expand the grid for 6 more capacity. Selling a relay may disconnect downstream structures.'],
+  'help.battleLabel': ['03 / 应战', '03 / DEFEND'],
+  'help.battleTitle': ['不同的敌人，不同的答案。', 'Different enemies need different answers.'],
+  'help.battleText': ['哨戒炮提供稳定火力，迫击炮对付密集敌群，寒潮塔拖慢敌人。每波结束获得零件、1 点容量并修复 5 点完整度。建造阶段由你决定何时继续。', 'Sentinels deliver steady fire, Mortars hit groups, and Frost slows enemies. Between waves you receive parts, 1 grid capacity, and 5 health repair. You decide when to begin the next wave.'],
+  'help.overdriveLabel': ['04 / 超频', '04 / OVERDRIVE'],
+  'help.overdriveTitle': ['在危急时刻点亮灯塔。', 'Call on the beacon when it matters.'],
+  'help.overdriveText': ['战斗时可开启超频，让已供电炮塔的射击频率提升 80%，持续 6 秒，冷却 35 秒。时间随游戏倍速变化，暂停时不会流逝。', 'During battle, Overdrive increases powered towers’ fire rate by 80% for 6 seconds, with a 35-second cooldown. Timers follow game speed and stop while paused.'],
+  'help.shortcuts': ['1–4 选择设施　·　G 电网　·　M 声音　·　空格 开始 / 暂停　·　ESC 取消', '1–4 Select　·　G Grid　·　M Sound　·　Space Start / pause　·　ESC Cancel'],
+  'help.back': ['回到灯塔', 'Back to the beacon'],
+  'restart.title': ['重新出发？', 'Begin a new watch?'],
+  'restart.description': ['本局的防线和进度会重置，最高纪录和语言选择会保留。', 'Your current defenses and progress will reset. Your personal best and language choice will be kept.'],
+  'restart.cancel': ['继续本局', 'Keep playing'],
+  'restart.confirm': ['重新出发 →', 'Begin again →'],
+  'result.wonTitle': ['黎明终于抵达。', 'Dawn has finally arrived.'],
+  'result.lostTitle': ['灯光暂时熄灭。', 'The light fades for now.'],
+  'result.wonCopy': ['十次潮汐之后，灯塔依然明亮。这片海岸，因你而安全。', 'After ten tides, the beacon still shines. Because of you, this coast is safe.'],
+  'result.lostCopy': ['潮水越过了防线。调整供电与火力的位置，下一次守望会有所不同。', 'The tide broke through. Rethink your power connections and firing positions. The next watch can end differently.'],
+  'result.again': ['再守望一次', 'Stand watch again'],
+  'result.view': ['查看战场', 'View the battlefield'],
+  'toast.reset': ['新的守望开始了。免费哨戒炮已就位。', 'A new watch begins. Your free Sentinel is ready.'],
+  'toast.ended': ['本局已结束。点击「重新出发」开启新的守望。', 'This watch has ended. Choose New watch to begin again.'],
+  'toast.choose': ['先选择下方设施，再点击这个基座。', 'Choose a defense below, then select this pad.'],
+  'toast.disconnected': ['已建造，但尚未连到灯塔。建造中继站接通电网。', 'Built, but not connected to the beacon. Add a relay to reach the grid.'],
+  'toast.overload': ['已连接，但电力不足。点击「电网扩容」增加容量。', 'Connected, but there is not enough power. Expand the grid to add capacity.'],
+  'toast.connected': ['{name}已接入电网。', '{name} is connected and powered.'],
+  'toast.speed': ['战场速度已切换为 {speed} 倍。', 'Battle speed set to {speed}×.'],
+  'toast.grid': ['电网已扩容，新增 6 点电力。', 'Grid expanded. Power capacity increased by 6.'],
+  'toast.soundOn': ['声音已开启。', 'Sound enabled.'],
+  'toast.soundOff': ['声音已关闭。', 'Sound muted.'],
+  'toast.soundError': ['当前浏览器暂时无法播放声音。', 'Audio is unavailable in this browser.'],
+  'toast.upgraded': ['{name}升级至 {level} 级。', '{name} upgraded to level {level}.'],
+  'toast.upgradedOffline': ['{name}升级至 {level} 级，请留意电力容量。', '{name} upgraded to level {level}. Check your power capacity.'],
+  'toast.sold': ['设施已出售。电网连接已重新计算。', 'Structure sold. Power connections recalculated.'],
+  'toast.clear': ['第 {wave} 波已守住 · +{reward} 零件 · +1 电力 · 修复 5 点', 'Wave {wave} defended · +{reward} parts · +1 power · +5 health'],
+  'error.ended': ['本局已经结束，请重新出发。', 'This watch has ended. Begin a new watch to continue.'],
+  'error.invalidBuild': ['请选择有效的防御设施和基座。', 'Choose a valid defense and building pad.'],
+  'error.occupied': ['这个基座已经有设施了。', 'This pad is already occupied.'],
+  'error.parts': ['零件不足，击退敌人可以获得更多。', 'Not enough parts. Defeat enemies to earn more.'],
+  'error.maxUpgrade': ['这座设施无法继续升级。', 'This structure cannot be upgraded further.'],
+  'error.upgradeParts': ['升级需要更多零件。', 'You need more parts for this upgrade.'],
+  'banner.wave': ['第 {wave} 波 / 10', 'WAVE {wave} / 10'],
+  'banner.overdrive': ['灯塔超频', 'Beacon Overdrive'],
+  'banner.overdriveKicker': ['火力提升 · 持续 6 秒', 'POWER SURGE · 6 SECONDS'],
+  'banner.boss': ['深渊巨像抵达', 'The Colossus has arrived'],
+  'banner.bossKicker': ['警告 / 深渊巨像', 'WARNING / ABYSSAL COLOSSUS']
+};
+
+let language = 'zh';
+const getLanguage = () => language;
+function setLanguage(next) {
+  if (!LANGUAGES.includes(next)) return false;
+  language = next;
+  return true;
+}
+function resolveLanguage(saved, preferences = []) {
+  if (LANGUAGES.includes(saved)) return saved;
+  for (const preference of preferences) {
+    const base = String(preference).toLowerCase().split(/[-_]/)[0];
+    if (LANGUAGES.includes(base)) return base;
+  }
+  return 'zh';
+}
+function preferredLanguage(storage, preferences) {
+  let saved;
+  try { saved = storage?.getItem(LANGUAGE_KEY); } catch {}
+  return resolveLanguage(saved, preferences);
+}
+function saveLanguage(storage) {
+  try { storage?.setItem(LANGUAGE_KEY, language); } catch {}
+}
+function t(key, params = {}, locale = language) {
+  const text = messages[key]?.[locale === 'en' ? 1 : 0];
+  if (text === undefined) throw new Error(`Missing translation: ${key}`);
+  return text.replace(/\{(\w+)\}/g, (token, name) => params[name] ?? token);
+}
+const towerName = type => t(`tower.${type}.name`);
+
+const SOURCE = { x: 10, y: 5, radius: 3.5 };
+const PATH = [[0,4],[3,4],[3,8],[7,8],[7,3],[11,3],[11,5],[10,5]];
+const PADS = [
+  [9,6],[8,4],[9,2],[6,4],[6,6],[8,8],[5,9],[4,6],[2,6],
+  [2,3],[4,2],[6,2],[10,8],[3,9],[1,5],[9,9],[5,5],[11,7]
+].map(([x,y],id)=>({x,y,id}));
+const TYPES = {
+  gun: { name:'哨戒炮', en:'SENTINEL', cost:65, power:3, range:3.1, damage:18, cooldown:.62, color:'#eec77d', role:'精准 · 单体', description:'快速锁定前方敌人。稳定的单体火力，是防线的骨架。' },
+  mortar: { name:'迫击炮', en:'MORTAR', cost:100, power:5, range:3.7, damage:36, cooldown:1.7, splash:1.15, color:'#ec9a76', role:'爆破 · 群体', description:'抛射炮弹，在落点造成范围伤害。适合拦截密集虫群。' },
+  frost: { name:'寒潮塔', en:'FROST', cost:75, power:3, range:2.65, damage:5, cooldown:.75, slow:.48, color:'#8fcecd', role:'减速 · 控制', description:'减速范围内的目标，为附近的炮塔争取更多输出时间。' },
+  relay: { name:'中继站', en:'RELAY', cost:30, power:0, range:0, damage:0, cooldown:0, color:'#b7cd84', role:'连接 · 扩张', description:'把电网延伸到更远的基座。连接距离 4.8 格，不占用电力。' }
+};
+const ENEMIES = {
+  crawler: {name:'潜行者', hp:36,speed:.8,reward:8,leak:8,color:'#b06561'},
+  runner: {name:'疾行者', hp:25,speed:1.3,reward:9,leak:6,color:'#dbad72'},
+  tank: {name:'重甲蟹', hp:155,speed:.52,reward:20,leak:18,color:'#a693b3'},
+  boss: {name:'深渊巨像', hp:2300,speed:.34,reward:100,leak:100,color:'#e09173'}
+};
+const WAVES = [
+  {name:'潮水初动', units:[['crawler',8]], interval:1.45},
+  {name:'岸边的足迹', units:[['crawler',11],['runner',3]], interval:1.35},
+  {name:'疾风过境', units:[['runner',12],['crawler',6]], interval:1.15},
+  {name:'铁甲来客', units:[['crawler',12],['tank',3]], interval:1.2},
+  {name:'涨潮时分', units:[['crawler',22],['runner',8]], interval:.85},
+  {name:'破浪重装', units:[['tank',7],['runner',12]], interval:1.2},
+  {name:'漫长的夜', units:[['crawler',20],['tank',6]], interval:.9},
+  {name:'风暴前线', units:[['runner',24],['tank',6]], interval:.8},
+  {name:'最后的防线', units:[['tank',12],['crawler',20]], interval:.85},
+  {name:'深渊巨像', units:[['crawler',14],['tank',8],['boss',1],['runner',12]], interval:.95}
+];
+const segments = PATH.slice(1).map((p,i)=>({a:PATH[i],b:p,len:Math.hypot(p[0]-PATH[i][0],p[1]-PATH[i][1])}));
+const PATH_LENGTH = segments.reduce((s,p)=>s+p.len,0);
+function pathPosition(distance) {
+  for (const s of segments) {
+    if(distance<=s.len) {const t=Math.max(0,distance)/s.len;return {x:s.a[0]+(s.b[0]-s.a[0])*t,y:s.a[1]+(s.b[1]-s.a[1])*t};}
+    distance-=s.len;
+  }
+  return {x:PATH.at(-1)[0],y:PATH.at(-1)[1]};
+}
+const dist = (a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
+const towerStats = t => {
+  const c=TYPES[t.type], level=t.level-1;
+  return {...c, damage:c.damage*(1+.6*level), range:c.range+.25*level, cooldown:c.cooldown/(1+.13*level),power:c.power+(t.type==='relay'?0:level)};
+};
+const upgradeCost = t=>Math.round(TYPES[t.type].cost*(.7+.35*(t.level-1)));
+const sellValue = t=>Math.floor(t.invested*.7);
+
+class Game {
+  constructor({starter=true}={}) {
+    this.hp=100; this.credits=180; this.capacity=12; this.gridLevel=0;
+    this.wave=0; this.phase='build'; this.speed=1; this.paused=false;
+    this.towers=[]; this.enemies=[]; this.projectiles=[]; this.effects=[];this.events=[];
+    this.time=0;this.kills=0;this.nextId=1;this.queue=[];this.spawnTimer=0;
+    this.network=[];this.powerUsed=0;this.elapsed=0;this.lastReward=0;this.overdrive=0;this.overdriveCooldown=0;
+    if(starter) this.towers.push({pad:0,x:PADS[0].x,y:PADS[0].y,id:this.nextId++,type:'gun',level:1,invested:0,cooldown:0,angle:0});
+    this.recomputePower();
+  }
+  emit(type,data={}) {this.events.push({type,...data});}
+  canEdit() {return this.phase==='build'||this.phase==='wave';}
+  gridCost() {return 100+this.gridLevel*55;}
+  recomputePower() {
+    this.network=[];this.powerUsed=0;
+    for(const t of this.towers) {t.connected=false;t.powered=false;}
+    const visited=[{...SOURCE,id:0,type:'source'}];
+    let changed=true;
+    while(changed) {
+      changed=false;
+      for(const t of this.towers) {
+        if(t.connected)continue;
+        const parent=visited.find(p=>dist(p,t)<=Math.max(p.type==='relay'?4.8:p.type==='source'?SOURCE.radius:3,t.type==='relay'?4.8:3));
+        if(parent) {t.connected=true;this.network.push({from:parent,to:t});visited.push(t);changed=true;}
+      }
+    }
+    // Construction order sets priority. Disconnected towers never reserve capacity.
+    for(const t of this.towers) {
+      const cost=towerStats(t).power;
+      if(t.connected&&this.powerUsed+cost<=this.capacity) {t.powered=true;this.powerUsed+=cost;}
+    }
+  }
+  build(type,padId) {
+    if(!this.canEdit())return {ok:false,code:'error.ended',reason:'本局已经结束，请重新出发。'};
+    if(!Object.hasOwn(TYPES,type)||!PADS[padId])return {ok:false,code:'error.invalidBuild',reason:'请选择有效的防御设施和基座。'};
+    if(this.towers.some(t=>t.pad===padId))return {ok:false,code:'error.occupied',reason:'这个基座已经有设施了。'};
+    if(this.credits<TYPES[type].cost)return {ok:false,code:'error.parts',reason:'零件不足，击退敌人可以获得更多。'};
+    const {x,y}=PADS[padId];
+    const t={id:this.nextId++,pad:padId,x,y,type,level:1,invested:TYPES[type].cost,cooldown:.1,angle:-Math.PI/2};
+    this.credits-=t.invested;this.towers.push(t);this.recomputePower();this.emit('build',{tower:t});
+    return {ok:true,tower:t};
+  }
+  upgrade(id) {
+    const t=this.towers.find(t=>t.id===id);
+    if(!this.canEdit()||!t||t.level>=3||t.type==='relay')return {ok:false,code:'error.maxUpgrade',reason:'这座设施无法继续升级。'};
+    const cost=upgradeCost(t);
+    if(this.credits<cost)return {ok:false,code:'error.upgradeParts',reason:'升级需要更多零件。'};
+    this.credits-=cost;t.invested+=cost;t.level++;this.recomputePower();this.emit('upgrade',{tower:t});return {ok:true};
+  }
+  sell(id) {
+    if(!this.canEdit())return false;
+    const t=this.towers.find(t=>t.id===id);if(!t)return false;
+    this.credits+=sellValue(t);this.towers=this.towers.filter(t=>t.id!==id);this.recomputePower();this.emit('sell');return true;
+  }
+  upgradeGrid() {
+    const cost=this.gridCost();if(!this.canEdit()||this.credits<cost||this.gridLevel>=4)return false;
+    this.credits-=cost;this.gridLevel++;this.capacity+=6;this.recomputePower();this.emit('grid');return true;
+  }
+  activateOverdrive() {
+    if(this.phase!=='wave'||this.paused||this.overdriveCooldown>0)return false;
+    this.overdrive=6;this.overdriveCooldown=35;this.emit('overdrive');return true;
+  }
+  startWave() {
+    if(this.phase!=='build'||this.wave>=WAVES.length)return false;
+    this.wave++;this.phase='wave';this.paused=false;
+    const def=WAVES[this.wave-1];this.queue=[];
+    // Interleave enemy types so mixed waves apply pressure throughout the road.
+    const groups=def.units.map(([type,n])=>Array(n).fill(type));
+    while(groups.some(g=>g.length))for(const g of groups)if(g.length)this.queue.push(g.shift());
+    if(this.wave===10) {this.queue=this.queue.filter(t=>t!=='boss');this.queue.splice(16,0,'boss');}
+    this.spawnTimer=.6;this.emit('wave',{wave:this.wave,name:def.name});return true;
+  }
+  spawn(type) {
+    const def=ENEMIES[type],progress=Math.max(0,Math.min(1,(this.wave-1)/9)),pressure=1+5*progress**1.5;
+    const scale=(type==='boss'?1:1+Math.max(0,this.wave-1)*.17)*pressure;
+    const e={...def,type,id:this.nextId++,maxHp:def.hp*scale,hp:def.hp*scale,distance:0,slow:0,hit:0,...pathPosition(0)};
+    this.enemies.push(e);
+    if(type==='boss')this.emit('boss');
+  }
+  damageEnemy(e,damage,slow=0) {
+    if(e.hp<=0)return;
+    e.hp-=damage;e.hit=.12;if(slow)e.slow=1.65;
+    if(e.hp<=0) {this.credits+=e.reward;this.kills++;this.emit('kill',{x:e.x,y:e.y,color:e.color,enemyType:e.type});}
+  }
+  tick(rawDt) {
+    if(this.paused||!this.canEdit()||!Number.isFinite(rawDt)||rawDt<=0)return;
+    const dt=Math.min(rawDt,.05)*this.speed;this.time+=dt;
+    this.overdrive=Math.max(0,this.overdrive-dt);this.overdriveCooldown=Math.max(0,this.overdriveCooldown-dt);
+    this.effects=this.effects.filter(e=>(e.life-=dt)>0);
+    if(this.phase!=='wave')return;
+    this.elapsed+=dt;
+    this.spawnTimer-=dt;
+    while(this.queue.length&&this.spawnTimer<=0){this.spawn(this.queue.shift());this.spawnTimer+=WAVES[this.wave-1].interval;}
+    for(const e of this.enemies) {
+      if(e.hp<=0)continue;
+      e.slow=Math.max(0,e.slow-dt);e.hit=Math.max(0,e.hit-dt);
+      e.distance+=e.speed*(e.slow>0?.48:1)*dt;
+      Object.assign(e,pathPosition(e.distance));
+      if(e.distance>=PATH_LENGTH) {e.hp=0;e.escaped=true;this.hp=Math.max(0,this.hp-e.leak);this.emit('leak',{amount:e.leak});}
+    }
+    if(this.hp<=0) {this.phase='lost';this.emit('lost');return;}
+    for(const t of this.towers) {
+      if(!t.powered||t.type==='relay')continue;
+      const stats=towerStats(t);t.cooldown-=dt*(this.overdrive>0?1.8:1);
+      const targets=this.enemies.filter(e=>e.hp>0&&dist(t,e)<=stats.range).sort((a,b)=>b.distance-a.distance);
+      if(targets.length) {
+        const e=targets[0];t.angle=Math.atan2(e.y-t.y,e.x-t.x);
+        if(t.cooldown<=0) {
+          t.cooldown=stats.cooldown;
+          this.projectiles.push({x:t.x,y:t.y,fromX:t.x,fromY:t.y,toX:e.x,toY:e.y,target:e.id,kind:t.type,damage:stats.damage,splash:stats.splash,slow:stats.slow,age:0,duration:t.type==='mortar'?.65:.15});
+          this.emit('shoot',{kind:t.type,x:t.x,y:t.y});
+        }
+      }else t.cooldown=Math.max(t.cooldown,0);
+    }
+    for(const p of this.projectiles) {
+      p.age+=dt;
+      if(p.age<p.duration)continue;
+      if(p.kind==='mortar') {
+        for(const e of this.enemies)if(e.hp>0&&Math.hypot(e.x-p.toX,e.y-p.toY)<=p.splash)this.damageEnemy(e,p.damage);
+        this.effects.push({kind:'blast',x:p.toX,y:p.toY,life:.45,total:.45});this.emit('blast');
+      } else {
+        const e=this.enemies.find(e=>e.id===p.target&&e.hp>0);
+        if(e)this.damageEnemy(e,p.damage,p.slow);
+      }
+    }
+    this.projectiles=this.projectiles.filter(p=>p.age<p.duration);
+    this.enemies=this.enemies.filter(e=>e.hp>0);
+    if(!this.queue.length&&!this.enemies.length) {
+      this.projectiles=[];this.overdrive=0;
+      if(this.wave===WAVES.length) {this.phase='won';this.emit('won');}
+      else {this.phase='build';this.lastReward=35+this.wave*5;this.credits+=this.lastReward;this.hp=Math.min(100,this.hp+5);this.capacity+=1;this.recomputePower();this.emit('clear',{reward:this.lastReward});}
+    }
+  }
+}
+
+
+
+const TAU=Math.PI*2;
+const rnd=(x,y=0)=>{const a=Math.sin(x*127.1+y*311.7)*43758.5453;return a-Math.floor(a);};
+const land=(x,y)=>x>=0&&y>=0&&x<=13&&y<=11&&((x-6.5)/7.25)**2+((y-5.5)/6.25)**2<1;
+const pathCells=new Set();
+for(let i=1;i<PATH.length;i++) {
+  const [ax,ay]=PATH[i-1],[bx,by]=PATH[i];
+  for(let j=0;j<=Math.abs(bx-ax)+Math.abs(by-ay);j++)pathCells.add(`${ax+Math.sign(bx-ax)*j},${ay+Math.sign(by-ay)*j}`);
+}
+const onPath=(x,y)=>pathCells.has(`${x},${y}`);
+const COLORS={grass:['#788f69','#81966e','#7c9268','#869a73','#748c66','#889c72'],path:['#c7b18b','#c4ad84','#cfb991','#cbb68c']};
+
+class Renderer {
+  constructor(canvas,game) {
+    this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.game=game;
+    this.time=0;this.hover=null;this.selected=null;this.buildType=null;this.grid=true;this.particles=[];this.shake=0;
+    this.cache=document.createElement('canvas');this.clouds=[];
+    this.observer=new ResizeObserver(()=>this.resize());this.observer.observe(canvas);
+    this.resize();
+  }
+  resize() {
+    const r=this.canvas.getBoundingClientRect();this.w=r.width;this.h=r.height;this.dpr=Math.min(window.devicePixelRatio||1,2);
+    this.canvas.width=Math.round(this.w*this.dpr);this.canvas.height=Math.round(this.h*this.dpr);
+    this.s=Math.min(this.w/24.5,this.h/15.4);
+    this.ox=this.w*.50;this.oy=this.h*.50;
+    this.cache.width=this.canvas.width;this.cache.height=this.canvas.height;
+    this.cacheCtx=this.cache.getContext('2d');this.cacheCtx.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const original=this.ctx;this.ctx=this.cacheCtx;this.drawTerrain();this.ctx=original;
+    this.canvas.dispatchEvent(new CustomEvent('mapresize'));
+  }
+  p(x,y,z=0){return {x:this.ox+(x-6.5-y+5.5)*this.s,y:this.oy+((x-6.5)+(y-5.5))*this.s*.52-z*this.s};}
+  poly(points,fill,stroke,width=1) {
+    const c=this.ctx;c.beginPath();points.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.closePath();
+    if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=width;c.stroke();}
+  }
+  line(points,color,width=1,dash=[]) {
+    const c=this.ctx;c.beginPath();points.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.strokeStyle=color;c.lineWidth=width;c.setLineDash(dash);c.stroke();c.setLineDash([]);
+  }
+  circle(p,r,color,stroke) {const c=this.ctx;c.beginPath();c.arc(p.x,p.y,r,0,TAU);if(color){c.fillStyle=color;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=1;c.stroke();}}
+  ellipse(p,rx,ry,fill,stroke,width=1) {const c=this.ctx;c.beginPath();c.ellipse(p.x,p.y,rx,ry,0,0,TAU);if(fill){c.fillStyle=fill;c.fill();}if(stroke){c.strokeStyle=stroke;c.lineWidth=width;c.stroke();}}
+  box(x,y,z,w,d,h,top,left,right) {
+    const a=this.p(x-w/2,y-d/2,z+h),b=this.p(x+w/2,y-d/2,z+h),c=this.p(x+w/2,y+d/2,z+h),e=this.p(x-w/2,y+d/2,z+h);
+    this.poly([e,c,this.p(x+w/2,y+d/2,z),this.p(x-w/2,y+d/2,z)],left);
+    this.poly([b,c,this.p(x+w/2,y+d/2,z),this.p(x+w/2,y-d/2,z)],right);
+    this.poly([a,b,c,e],top);
+  }
+  cylinder(x,y,z,r,h,top,front,side,sides=8) {
+    const angles=Array.from({length:sides},(_,i)=>TAU*i/sides);
+    for(let i=0;i<sides;i++) {
+      const a=angles[i],b=angles[(i+1)%sides],mid=(a+b)/2;
+      if(i!==sides-1&&Math.sin(mid)+Math.cos(mid)<0)continue;
+      const x1=x+Math.cos(a)*r,y1=y+Math.sin(a)*r,x2=x+Math.cos(b)*r,y2=y+Math.sin(b)*r;
+      this.poly([this.p(x1,y1,z),this.p(x2,y2,z),this.p(x2,y2,z+h),this.p(x1,y1,z+h)],Math.sin(mid)>Math.cos(mid)?front:side);
+    }
+    this.poly(angles.map(a=>this.p(x+Math.cos(a)*r,y+Math.sin(a)*r,z+h)),top);
+  }
+  drawTerrain() {
+    const c=this.ctx;c.clearRect(0,0,this.w,this.h);
+    const center=this.p(6.5,5.5,-1.1);
+    this.ellipse({...center,y:center.y+this.s},this.s*9.7,this.s*4.65,'#0a313c55');
+    const tiles=[];
+    for(let x=0;x<14;x++)for(let y=0;y<12;y++)if(land(x,y))tiles.push({x,y});
+    tiles.sort((a,b)=>a.x+a.y-b.x-b.y);
+    for(const {x,y} of tiles) {
+      const z=.14,depth=1.15+rnd(x,y)*.42;
+      const corners=[this.p(x-.5,y-.5,z),this.p(x+.5,y-.5,z),this.p(x+.5,y+.5,z),this.p(x-.5,y+.5,z)];
+      if(!land(x+1,y)) {
+        this.poly([corners[1],corners[2],this.p(x+.5,y+.5,-depth),this.p(x+.5,y-.5,-depth)],'#4a5b58');
+        this.poly([corners[1],corners[2],this.p(x+.5,y+.5,-.12),this.p(x+.5,y-.5,-.12)],'#849075');
+        this.line([this.p(x+.5,y-.5,-depth),this.p(x+.5,y+.5,-depth)],'#82bec047',this.s*.14);
+      }
+      if(!land(x,y+1)) {
+        this.poly([corners[2],corners[3],this.p(x-.5,y+.5,-depth),this.p(x+.5,y+.5,-depth)],'#596b60');
+        this.poly([corners[2],corners[3],this.p(x-.5,y+.5,-.12),this.p(x+.5,y+.5,-.12)],'#95a07c');
+        this.line([this.p(x-.5,y+.5,-depth),this.p(x+.5,y+.5,-depth)],'#b4d5c454',this.s*.14);
+      }
+      const color=(onPath(x,y)?COLORS.path:COLORS.grass)[Math.floor(rnd(x,y)* (onPath(x,y)?4:6))];
+      this.poly(corners,color,color,.6);
+      if(onPath(x,y)) {
+        for(let j=0;j<3;j++){const a=x+(rnd(x+j*4,y)-.5)*.8,b=y+(rnd(y+j*4,x)-.5)*.8;this.ellipse(this.p(a,b,.15),this.s*.045,this.s*.021,'#ab987768');}
+      }else {
+        for(let j=0;j<3;j++) {
+          const a=x+(rnd(x+j*8,y)-.5)*.8,b=y+(rnd(y+j*8,x)-.5)*.8,p=this.p(a,b,.16);
+          this.line([p,{x:p.x+2,y:p.y-3}],rnd(x+j,y)>.5?'#adbd8470':'#496b5355',.8);
+        }
+      }
+    }
+    // Stone stairs lead out of the water to the invasion route.
+    for(let i=0;i<5;i++)this.box(-.7-i*.25,4,.02-i*.19,.32,.78,.17,'#9aa193','#6e7c73','#5a6d68');
+    // Flat footprints stay below every dynamic object.
+    for(const pad of PADS) {
+      this.cylinder(pad.x,pad.y,.16,.48,.1,'#929f83','#6d7c6c','#5c7064');
+      this.cylinder(pad.x,pad.y,.26,.37,.03,'#738475','#607264','#546958');
+    }
+  }
+  tree(x,y,size=1) {
+    const s=this.s,p=this.p(x,y,.2),h=s*size;
+    this.ellipse({x:p.x+6,y:p.y+2},h*.40,h*.12,'#253e3433');
+    this.line([p,{x:p.x,y:p.y-h*.62}],'#6f7054',Math.max(2,s*.08));
+    for(let j=0;j<3;j++) {
+      const yy=p.y-h*(.24+j*.21),w=h*(.36-j*.07);
+      this.poly([{x:p.x-w,y:yy},{x:p.x,y:yy-h*.46},{x:p.x+w,y:yy},{x:p.x,y:yy+h*.12}],['#4b745c','#547d60','#638769'][j]);
+      this.poly([{x:p.x,y:yy-h*.46},{x:p.x+w,y:yy},{x:p.x,y:yy+h*.12}],['#365c4f','#406957','#50755d'][j]);
+    }
+  }
+  rock(x,y,size=.5) {
+    const p=this.p(x,y,.2),s=this.s*size;
+    this.poly([{x:p.x-s,y:p.y},{x:p.x-s*.6,y:p.y-s*.6},{x:p.x+s*.28,y:p.y-s*.8},{x:p.x+s,y:p.y-s*.25},{x:p.x+s*.6,y:p.y+s*.3},{x:p.x-s*.45,y:p.y+s*.35}],'#9ba58e');
+    this.poly([{x:p.x+s*.28,y:p.y-s*.8},{x:p.x+s,y:p.y-s*.25},{x:p.x+s*.6,y:p.y+s*.3},{x:p.x,y:p.y}],'#647c70');
+  }
+  drawLighthouse() {
+    const {x,y}=SOURCE,s=this.s;
+    this.cylinder(x,y,.2,.78,.25,'#bbb59b','#8c907d','#6f8071');
+    this.cylinder(x,y,.45,.48,.28,'#d9d1b4','#b7b59c','#9ca38d');
+    this.cylinder(x,y,.73,.37,1.4,'#e2dbc1','#d1c7aa','#a9b09b');
+    this.cylinder(x,y,1.12,.385,.3,'#be8770','#ba7a63','#956958');
+    this.cylinder(x,y,2.13,.45,.14,'#e2d8b9','#b8b29a','#909d8a');
+    this.cylinder(x,y,2.27,.33,.58,'#f2d398','#e2b86c','#cca76c');
+    for(let i=0;i<6;i++){const a=TAU*i/6;this.line([this.p(x+Math.cos(a)*.33,y+Math.sin(a)*.33,2.27),this.p(x+Math.cos(a)*.33,y+Math.sin(a)*.33,2.85)],'#384e4a',s*.05);}
+    this.cylinder(x,y,2.85,.5,.12,'#637b70','#48665b','#36574e');
+    const center=this.p(x,y,3.4),corners=Array.from({length:6},(_,i)=>this.p(x+Math.cos(TAU*i/6)*.48,y+Math.sin(TAU*i/6)*.48,2.97));
+    for(let i=0;i<6;i++)this.poly([center,corners[i],corners[(i+1)%6]],['#6a8877','#546d65','#3d5c55','#526b62','#75917a','#819781'][i]);
+    this.line([center,this.p(x,y,3.67)],'#384f46',2);
+    const light=this.p(x,y,2.57),c=this.ctx;
+    const glow=c.createRadialGradient(light.x,light.y,1,light.x,light.y,s*1.55);
+    glow.addColorStop(0,'#ffe6a284');glow.addColorStop(.35,'#f8cd6520');glow.addColorStop(1,'#f7c46400');
+    this.circle(light,s*1.55,glow);this.circle(light,s*.085,'#fff1be');
+    const angle=this.time*.17;
+    c.save();c.globalCompositeOperation='screen';
+    const beam=c.createRadialGradient(light.x,light.y,s*.1,light.x,light.y,s*6);
+    beam.addColorStop(0,'#ffdda32d');beam.addColorStop(1,'#ffdda300');
+    this.poly([light,{x:light.x+Math.cos(angle-.1)*s*7,y:light.y+Math.sin(angle-.1)*s*3},{x:light.x+Math.cos(angle+.1)*s*7,y:light.y+Math.sin(angle+.1)*s*3}],beam);c.restore();
+    // Small door and entry path ground the landmark in the island.
+    this.box(x-.05,y+.35,.5,.16,.035,.31,'#55665a','#536254','#536254');
+    for(let i=0;i<3;i++)this.box(x-.05,y+.52+i*.16,.2,.36,.17,.08+(2-i)*.05,'#b5b49b','#939b84','#818f79');
+  }
+  drawTower(t,ghost=false) {
+    const c=this.ctx,s=this.s,z=.3,p=this.p(t.x,t.y,z),color=TYPES[t.type].color;
+    c.save();if(ghost)c.globalAlpha=.55;
+    this.ellipse({...p,y:p.y+s*.12},s*.52,s*.22,'#263c3838');
+    this.cylinder(t.x,t.y,z,.34,.18,'#bab9a1','#8e9a87','#748c7d');
+    this.cylinder(t.x,t.y,z+.18,.27,.18,'#455e58','#3f5851','#324d48');
+    if(t.type==='gun') {
+      this.box(t.x,t.y,z+.36,.38,.4,.30,'#d6cdae','#b1b299','#8d9e8b');
+      const start=this.p(t.x,t.y,z+.59),end=this.p(t.x+Math.cos(t.angle)*.53,t.y+Math.sin(t.angle)*.53,z+.59);
+      this.line([start,end],'#334c46',s*.14);this.circle(end,s*.077,'#7f9881');
+      this.box(t.x-.12,t.y-.1,z+.67,.08,.2,.09,'#edca86','#c5a973','#a68d60');
+    } else if(t.type==='mortar') {
+      this.cylinder(t.x,t.y,z+.34,.28,.17,'#b17d67','#8c6c5c','#705d51');
+      this.cylinder(t.x,t.y,z+.49,.2,.27,'#e0af88','#c28b6c','#9b715e');
+      this.ellipse(this.p(t.x,t.y,z+.76),s*.16,s*.083,'#354d48','#d2a685',2);
+    } else if(t.type==='frost') {
+      this.cylinder(t.x,t.y,z+.36,.19,.38,'#779d99','#638c89','#527a78');
+      const top=this.p(t.x,t.y,z+1.03),mid=this.p(t.x,t.y,z+.72),bottom=this.p(t.x,t.y,z+.50);
+      this.poly([top,{x:mid.x+s*.2,y:mid.y},bottom,mid],'#bce4d8');
+      this.poly([top,mid,bottom,{x:mid.x-s*.2,y:mid.y}],'#7db8b3');
+      if(t.powered||ghost)this.ellipse(mid,s*.32,s*.12,null,'#b4dedb88');
+    } else {
+      this.box(t.x,t.y,z+.36,.19,.19,.65,'#dde0bf','#bbc4a2','#93ac8c');
+      this.box(t.x,t.y,z+.85,.66,.13,.10,'#ccd8af','#a9bd94','#879f7d');
+      this.circle(this.p(t.x,t.y,z+1.08),s*.075,t.connected?'#e9f6b0':'#737e68');
+      for(const d of [-.24,.24])this.line([this.p(t.x+d,t.y,z+.95),this.p(t.x+d,t.y,z+1.10)],'#465f4a',2);
+    }
+    if(!ghost) {
+      const pin=this.p(t.x,t.y,.37);this.circle({x:pin.x,y:pin.y+s*.12},s*.047,t.powered?color:'#e98f76');
+      for(let i=0;i<t.level;i++)this.circle({x:pin.x+(i-(t.level-1)/2)*s*.1,y:pin.y+s*.25},s*.026,color);
+      if(!t.powered) {const p=this.p(t.x,t.y,1.43);this.circle(p,8,'#c98064');c.fillStyle='#fff4d9';c.font='bold 10px sans-serif';c.textAlign='center';c.fillText('!',p.x,p.y+3);}
+    }
+    c.restore();
+  }
+  drawEnemy(e) {
+    const s=this.s,p=this.p(e.x,e.y,.34),boss=e.type==='boss',scale=boss?2.2:e.type==='tank'?1.35:e.type==='runner'?.7:1;
+    this.ellipse({...p,y:p.y+s*.1},s*.3*scale,s*.13*scale,'#233b3e45');
+    const color=e.hit>0?'#ffe5bf':e.slow>0?'#8fb9b9':e.color;
+    for(let i=0;i<3;i++) {
+      const bounce=Math.sin(this.time*15+i*2+e.id)*s*.035;
+      for(const sign of [-1,1])this.line([{x:p.x+sign*s*.11*scale,y:p.y+s*.04*(i-1)*scale},{x:p.x+sign*s*.28*scale,y:p.y+s*.14*(i-1)*scale+bounce},{x:p.x+sign*s*.34*scale,y:p.y+s*.17*(i-1)*scale+bounce+s*.08}],'#555652',Math.max(1.5,s*.044*scale));
+    }
+    this.cylinder(e.x,e.y,.35,.22*scale,.18*scale,color,'#8c665f','#6e5b58',6);
+    const b=this.p(e.x,e.y,.35+.18*scale);
+    this.line([{x:b.x-s*.1*scale,y:b.y},{x:b.x+s*.1*scale,y:b.y}],boss?'#fae0a1':'#e7c197',s*.044);
+    if(boss)for(const sign of [-1,1])this.poly([{x:p.x+sign*s*.21,y:p.y-s*.3},{x:p.x+sign*s*.42,y:p.y-s*.76},{x:p.x+sign*s*.5,y:p.y-s*.24}],'#dfb489');
+    if(e.hp<e.maxHp||boss) {
+      const width=s*.6*scale,hp=this.p(e.x,e.y,.85*scale);this.line([{x:hp.x-width/2,y:hp.y},{x:hp.x+width/2,y:hp.y}],'#223e3b',3);
+      this.line([{x:hp.x-width/2,y:hp.y},{x:hp.x-width/2+width*Math.max(0,e.hp/e.maxHp),y:hp.y}],boss?'#edb57f':'#d2d8a5',3);
+    }
+  }
+  range(x,y,r,color) {
+    const points=Array.from({length:65},(_,i)=>this.p(x+Math.cos(i/64*TAU)*r,y+Math.sin(i/64*TAU)*r,.32));
+    this.poly(points,color+'0b',color+'80',1);this.line(points,color+'66',1,[4,5]);
+  }
+  hitPad(px,py) {
+    let best=null,bestDistance=Infinity;
+    for(const pad of PADS){const p=this.p(pad.x,pad.y,.3),d=Math.hypot((p.x-px),(p.y-py)*1.65);if(d<this.s*.7&&d<bestDistance){best=pad;bestDistance=d;}}
+    return best;
+  }
+  burst(x,y,color,count=12) {
+    for(let i=0;i<count;i++)this.particles.push({x,y,z:.5,vx:(rnd(i+this.time,x)-.5)*2,vy:(rnd(i+this.time,y+1)-.5)*2,vz:1+rnd(i,this.time)*2,life:.45+rnd(i,this.time)*.5,color});
+  }
+  draw(dt) {
+    const c=this.ctx,s=this.s,g=this.game;
+    this.time+=dt;if(!s)return;
+    c.setTransform(this.dpr,0,0,this.dpr,0,0);
+    const bg=c.createLinearGradient(0,0,this.w,this.h);bg.addColorStop(0,'#254850');bg.addColorStop(.45,'#315b5d');bg.addColorStop(1,'#254c51');
+    c.fillStyle=bg;c.fillRect(0,0,this.w,this.h);
+    // Slow, broken ocean contours keep the scene alive without competing with play.
+    for(let i=0;i<70;i++) {
+      const x=rnd(i,11)*this.w,y=rnd(i,20)*this.h,a=.04+Math.sin(this.time*.6+i)*.025;
+      this.line([{x:x+Math.sin(this.time*.2+i)*5,y},{x:x+16+rnd(i,9)*35,y:y-2}],`rgba(201,223,205,${a})`,1);
+    }
+    c.save();
+    if(this.shake>0){this.shake=Math.max(0,this.shake-dt*3);c.translate(Math.sin(this.time*90)*this.shake*4,Math.cos(this.time*110)*this.shake*2);}
+    c.drawImage(this.cache,0,0,this.w,this.h);
+    // Power network is drawn on the terrain, under the buildings.
+    if(this.grid||this.buildType)for(const edge of g.network) {
+      const a=this.p(edge.from.x,edge.from.y,.36),b=this.p(edge.to.x,edge.to.y,.36);
+      this.line([a,b],'#3c635680',4);this.line([a,b],edge.to.powered?'#d3df9ca6':'#dc987b88',1.3);
+      if(edge.to.powered){const t=(this.time*.23+edge.to.id*.14)%1;this.circle({x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t},1.8,'#e6ecba');}
+    }
+    for(const pad of PADS) {
+      const t=g.towers.find(t=>t.pad===pad.id),p=this.p(pad.x,pad.y,.32),active=this.hover===pad.id||this.selected===pad.id;
+      if(!t||active) {
+        this.ellipse(p,s*.38,s*.19,null,active?'#f1d697':this.buildType?'#d1d8afa0':'#b7c1a260',active?1.8:1);
+        if(!t){this.line([{x:p.x-3,y:p.y},{x:p.x+3,y:p.y}],active?'#f5dea5':'#becbb0',1);this.line([{x:p.x,y:p.y-3},{x:p.x,y:p.y+3}],active?'#f5dea5':'#becbb0',1);}
+      }
+    }
+    const target=PADS[this.hover??this.selected],chosen=target&&g.towers.find(t=>t.pad===target.id);
+    if(target&&(chosen||this.buildType)) {
+      const def=chosen?towerStats(chosen):TYPES[this.buildType],r=chosen?.type==='relay'||this.buildType==='relay'&&!chosen?4.8:def.range;
+      if(r)this.range(target.x,target.y,r,def.color);
+      if(this.buildType&&!chosen){const parent=[{...SOURCE,type:'source'},...g.towers.filter(t=>t.connected)].find(t=>dist(t,target)<=Math.max(t.type==='source'?SOURCE.radius:t.type==='relay'?4.8:3,this.buildType==='relay'?4.8:3));if(parent)this.line([this.p(parent.x,parent.y,.4),this.p(target.x,target.y,.4)],'#e7e9b4',1,[4,4]);}
+    }
+    const scenery=[];
+    for(let x=0;x<14;x++)for(let y=0;y<12;y++) {
+      if(!land(x,y)||onPath(x,y)||PADS.some(p=>dist(p,{x,y})<.85)||dist(SOURCE,{x,y})<1.3)continue;
+      if(rnd(x,y+60)>.57)scenery.push({depth:x+y,draw:()=>this.tree(x+(rnd(x,1)-.5)*.25,y,.62+rnd(x,y)*.52)});
+      else if(rnd(x,y+20)>.7)scenery.push({depth:x+y,draw:()=>this.rock(x,y,.25+rnd(x,y)*.30)});
+    }
+    scenery.push({depth:SOURCE.x+SOURCE.y,draw:()=>this.drawLighthouse()});
+    for(const t of g.towers)scenery.push({depth:t.x+t.y+.05,draw:()=>this.drawTower(t)});
+    for(const e of g.enemies)scenery.push({depth:e.x+e.y+.15,draw:()=>this.drawEnemy(e)});
+    if(this.buildType&&target&&!chosen)scenery.push({depth:target.x+target.y+.06,draw:()=>this.drawTower({...target,type:this.buildType,angle:-Math.PI/2},true)});
+    scenery.sort((a,b)=>a.depth-b.depth);for(const item of scenery)item.draw();
+    for(const p of g.projectiles) {
+      const t=p.age/p.duration,a=this.p(p.fromX,p.fromY,.92),enemy=g.enemies.find(e=>e.id===p.target),b=this.p(p.kind==='mortar'?p.toX:enemy?.x??p.toX,p.kind==='mortar'?p.toY:enemy?.y??p.toY,.55);
+      const point={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t-(p.kind==='mortar'?Math.sin(t*Math.PI)*s*2:0)};
+      if(p.kind==='frost')this.line([a,point],'#bbefe8bb',2);
+      else this.line([{x:point.x-(b.x-a.x)*.08,y:point.y-(b.y-a.y)*.08},point],'#ffdc9fab',2);
+      this.circle(point,p.kind==='mortar'?3:2,p.kind==='frost'?'#d4fff2':'#ffedbd');
+    }
+    for(const fx of g.effects)if(fx.kind==='blast') {
+      const p=this.p(fx.x,fx.y,.5),t=1-fx.life/fx.total;c.globalAlpha=1-t;
+      this.ellipse(p,s*(.2+t*1.5),s*(.1+t*.7),'#f2be7833','#f3d5a6',2);c.globalAlpha=1;
+    }
+    if(!g.paused)for(const p of this.particles){p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;p.vz-=6*dt;}
+    this.particles=this.particles.filter(p=>p.life>0);
+    for(const part of this.particles){c.globalAlpha=Math.min(1,part.life*2);this.circle(this.p(part.x,part.y,Math.max(.2,part.z)),2,part.color);}c.globalAlpha=1;
+    // Entrance chevrons and a restrained geographic annotation.
+    const entrance=this.p(-.3,4,.4);c.fillStyle='#f0c699';c.font=`500 ${Math.max(9,s*.28)}px monospace`;c.textAlign='right';c.fillText(t('map.entrance'),entrance.x-15,entrance.y-12);
+    for(let i=0;i<3;i++){const p=this.p(-.5+i*.3,4,.4);this.line([{x:p.x-4,y:p.y-4},{x:p.x,y:p.y},{x:p.x-5,y:p.y+1}],'#f1c99b90',1.4);}
+    c.restore();
+    // Distant seabirds, deliberately outside the playable center.
+    for(let i=0;i<4;i++) {const x=(this.time*8+i*67)%(this.w+120)-60,y=this.h*.12+i*11+Math.sin(this.time*.6+i)*8;const wing=3+Math.sin(this.time*4+i)*2;this.line([{x:x-6,y:y-wing},{x,y},{x:x+6,y:y-wing}],'#c6d5bf66',1);}
+  }
+}
+
+function drawTowerIcon(canvas,type) {
+  const r=Object.create(Renderer.prototype);r.canvas=canvas;r.ctx=canvas.getContext('2d');r.s=30;r.ox=40;r.oy=56;r.time=0;
+  r.p=(x,y,z=0)=>({x:40+(x-y)*30,y:54+(x+y)*15-z*30});
+  canvas.width=160;canvas.height=144;r.ctx.scale(2,2);
+  r.drawTower({x:0,y:0,type,angle:-Math.PI/4,powered:true,connected:true,level:1});
+}
+
+// Original synthesized sound effects. No samples, downloads, or audio permissions.
+class AudioEngine {
+  constructor(){this.enabled=false;this.ctx=null;this.lastShot=0;}
+  async toggle(){
+    if(!this.ctx){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)return false;this.ctx=new Audio();}
+    if(this.ctx.state==='suspended')await this.ctx.resume();
+    this.enabled=!this.enabled;if(this.enabled)this.play('build');return this.enabled;
+  }
+  tone(freq,duration=.12,type='sine',volume=.035,delay=0,endFreq=freq){
+    if(!this.enabled||!this.ctx||this.ctx.state!=='running')return;
+    const at=this.ctx.currentTime+delay,osc=this.ctx.createOscillator(),gain=this.ctx.createGain();
+    osc.type=type;osc.frequency.setValueAtTime(freq,at);osc.frequency.exponentialRampToValueAtTime(Math.max(30,endFreq),at+duration);
+    gain.gain.setValueAtTime(0,at);gain.gain.linearRampToValueAtTime(volume,at+.006);gain.gain.exponentialRampToValueAtTime(.0001,at+duration);
+    osc.connect(gain);gain.connect(this.ctx.destination);osc.start(at);osc.stop(at+duration+.02);
+    osc.onended=()=>{osc.disconnect();gain.disconnect();};
+  }
+  play(kind){
+    if(!this.enabled||!this.ctx)return;
+    if(kind==='shoot') {if(this.ctx.currentTime-this.lastShot<.065)return;this.lastShot=this.ctx.currentTime;this.tone(200,.055,'triangle',.018,0,85);}
+    else if(kind==='blast')this.tone(75,.2,'triangle',.034,0,32);
+    else if(kind==='build'||kind==='upgrade'||kind==='grid'){this.tone(520,.14,'sine',.03);this.tone(780,.22,'sine',.025,.09);}
+    else if(kind==='wave'||kind==='boss'){this.tone(220,.35,'triangle',.035);this.tone(165,.5,'triangle',.035,.2);}
+    else if(kind==='leak'){this.tone(110,.3,'sawtooth',.014,0,60);}
+    else if(kind==='clear'||kind==='won'){[330,440,550,660].forEach((f,i)=>this.tone(f,.4,'sine',.028,i*.12));}
+    else if(kind==='lost'){[330,260,165].forEach((f,i)=>this.tone(f,.5,'triangle',.03,i*.2));}
+    else if(kind==='overdrive'){this.tone(165,.7,'sine',.05,0,660);}
+  }
+}
+
+
+
+
+
+let languageStorage;
+try { languageStorage=localStorage; } catch {}
+setLanguage(preferredLanguage(languageStorage,navigator.languages?.length?navigator.languages:[navigator.language]));
+
+const $=id=>document.getElementById(id);
+const canvas=$('battlefield'),audio=new AudioEngine();
+let game=new Game(),renderer=new Renderer(canvas,game),buildType=null,selectedPad=null,hoverPad=null;
+let previous=performance.now(),lastHud=0,lastSelection='',toastTimer,bannerTimer,best={wave:0,won:false},pauseBeforeDialog=false;
+try{const stored=JSON.parse(localStorage.getItem('last-beacon-best')||'null');if(stored&&Number.isInteger(stored.wave)&&stored.wave>=0&&stored.wave<=10)best={wave:stored.wave,won:stored.won===true};}catch{}
+const cards=[...document.querySelectorAll('.build-card')];
+for(const icon of document.querySelectorAll('[data-icon]'))drawTowerIcon(icon,icon.dataset.icon);
+
+let activeToast=null,activeBanner=null;
+function paintToast(){
+  if(activeToast)$('toast').textContent=t(activeToast.key,typeof activeToast.params==='function'?activeToast.params():activeToast.params);
+}
+function toast(key,params={}){
+  activeToast={key,params};paintToast();$('toast').classList.add('visible');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{activeToast=null;$('toast').classList.remove('visible');$('toast').textContent='';},3300);
+}
+function paintBanner(){
+  if(activeBanner)$('wave-banner').innerHTML=`<small>${t(activeBanner.kicker,activeBanner.params)}</small><strong>${t(activeBanner.title,activeBanner.params)}</strong>`;
+}
+function banner(title,kicker,params={}){
+  activeBanner={title,kicker,params};paintBanner();$('wave-banner').classList.add('show');clearTimeout(bannerTimer);
+  bannerTimer=setTimeout(()=>{activeBanner=null;$('wave-banner').classList.remove('show');$('wave-banner').textContent='';},2900);
+}
+function updateSoundButton(){
+  const label=t(audio.enabled?'control.soundOff':'control.soundOn');
+  $('sound').querySelector('.mute-slash').hidden=audio.enabled;
+  $('sound').setAttribute('aria-label',label);$('sound').title=label+' [M]';
+}
+function applyLanguage(){
+  document.documentElement.lang=getLanguage()==='zh'?'zh-CN':'en';
+  for(const element of document.querySelectorAll('[data-i18n]'))element.innerHTML=t(element.dataset.i18n);
+  for(const [attribute,key] of [['aria-label','i18nAria'],['title','i18nTitle'],['content','i18nContent']]){
+    const selector={'i18nAria':'data-i18n-aria','i18nTitle':'data-i18n-title','i18nContent':'data-i18n-content'}[key];
+    for(const element of document.querySelectorAll(`[${selector}]`))element.setAttribute(attribute,t(element.dataset[key]));
+  }
+  $('language-toggle').dataset.language=getLanguage();
+  $('language-toggle').setAttribute('aria-label',t('language.switch'));
+  $('language-toggle').title=t('language.switch');
+  updateSoundButton();lastSelection='';updateHud();paintToast();paintBanner();
+  if(['won','lost'].includes(game.phase))renderResult();
+}
+$('language-toggle').addEventListener('click',()=>{
+  setLanguage(getLanguage()==='zh'?'en':'zh');saveLanguage(languageStorage);applyLanguage();
+});
+function persistBest(){
+  best.wave=Math.max(best.wave,game.wave);best.won=best.won||game.phase==='won';
+  try{localStorage.setItem('last-beacon-best',JSON.stringify(best));}catch{}
+}
+function reset(){
+  pauseBeforeDialog=false;
+  for(const dialog of document.querySelectorAll('dialog[open]'))dialog.close();
+  game=new Game();renderer.game=game;renderer.particles=[];renderer.shake=0;buildType=null;selectedPad=null;hoverPad=null;lastSelection='';
+  renderer.hover=null;renderer.selected=null;renderer.buildType=null;
+  clearTimeout(toastTimer);clearTimeout(bannerTimer);$('toast').classList.remove('visible');$('wave-banner').classList.remove('show');
+  activeToast=null;activeBanner=null;$('toast').textContent='';$('wave-banner').textContent='';
+  $('speed').textContent='1×';$('paused-label').hidden=true;updateHud();toast('toast.reset');
+}
+function selectType(type){
+  if(!game.canEdit()){toast('toast.ended');return;}
+  buildType=buildType===type?null:type;selectedPad=null;renderer.buildType=buildType;renderer.selected=null;lastSelection='';updateHud();
+}
+function activatePad(id){
+  const occupied=game.towers.find(t=>t.pad===id);
+  if(occupied){selectedPad=id;buildType=null;renderer.buildType=null;renderer.selected=id;lastSelection='';updateHud();return;}
+  if(!buildType){selectedPad=id;renderer.selected=id;toast('toast.choose');updateHud();return;}
+  const result=game.build(buildType,id);
+  if(!result.ok){toast(result.code);return;}
+  selectedPad=id;buildType=null;renderer.buildType=null;renderer.selected=id;lastSelection='';
+  if(!result.tower.connected)toast('toast.disconnected');
+  else if(!result.tower.powered)toast('toast.overload');
+  else toast('toast.connected',()=>({name:towerName(result.tower.type)}));
+  updateHud();
+}
+const padButtons=PADS.map(p=>{
+  const button=document.createElement('button');button.className='pad-control';button.dataset.pad=p.id;button.title=t('pad.title',{number:String(p.id+1).padStart(2,'0')});
+  button.addEventListener('click',()=>activatePad(p.id));
+  const focus=()=>{hoverPad=p.id;renderer.hover=p.id;};
+  button.addEventListener('pointerenter',focus);button.addEventListener('focus',focus);
+  button.addEventListener('pointerleave',()=>{hoverPad=null;renderer.hover=null;});
+  button.addEventListener('blur',()=>{hoverPad=null;renderer.hover=null;});
+  $('pad-controls').append(button);return button;
+});
+function positionPads(){PADS.forEach((pad,i)=>{const p=renderer.p(pad.x,pad.y,.32);padButtons[i].style.left=p.x+'px';padButtons[i].style.top=p.y+'px';});}
+canvas.addEventListener('mapresize',positionPads);positionPads();
+canvas.addEventListener('pointermove',event=>{const r=canvas.getBoundingClientRect(),pad=renderer.hitPad(event.clientX-r.left,event.clientY-r.top);hoverPad=pad?.id??null;renderer.hover=hoverPad;canvas.style.cursor=pad?'pointer':'default';});
+canvas.addEventListener('pointerleave',()=>{hoverPad=null;renderer.hover=null;});
+canvas.addEventListener('click',event=>{const r=canvas.getBoundingClientRect(),pad=renderer.hitPad(event.clientX-r.left,event.clientY-r.top);if(pad)activatePad(pad.id);else if(buildType){buildType=null;renderer.buildType=null;lastSelection='';updateHud();}});
+cards.forEach(card=>card.addEventListener('click',()=>selectType(card.dataset.type)));
+
+function pause(){if(!game.canEdit())return;game.paused=!game.paused;updateHud();}
+function nextWave(){
+  if(game.phase==='build'){game.startWave();buildType=null;renderer.buildType=null;persistBest();lastSelection='';updateHud();}
+  else if(game.phase==='wave')pause();
+  else $('result-dialog').showModal();
+}
+$('next-wave').addEventListener('click',nextWave);
+$('pause').addEventListener('click',pause);$('resume').addEventListener('click',pause);
+$('speed').addEventListener('click',()=>{game.speed=game.speed===1?2:1;$('speed').textContent=game.speed+'×';toast('toast.speed',{speed:game.speed});});
+$('grid-toggle').addEventListener('click',()=>{renderer.grid=!renderer.grid;$('grid-toggle').classList.toggle('active',renderer.grid);$('grid-toggle').setAttribute('aria-pressed',String(renderer.grid));});
+$('grid-upgrade').addEventListener('click',()=>{if(game.upgradeGrid()){toast('toast.grid');updateHud();}});
+$('overdrive').addEventListener('click',()=>{if(game.activateOverdrive()){banner('banner.overdrive','banner.overdriveKicker');updateHud();}});
+$('sound').addEventListener('click',async()=>{
+  try {const enabled=await audio.toggle();updateSoundButton();toast(enabled?'toast.soundOn':'toast.soundOff');}
+  catch{toast('toast.soundError');}
+});
+function openDialog(id){pauseBeforeDialog=game.paused;game.paused=true;$(id).showModal();updateHud();}
+function closeDialog(id){$(id).close();}
+for(const id of ['help-dialog','restart-dialog'])$(id).addEventListener('close',()=>{game.paused=pauseBeforeDialog;updateHud();});
+$('help').addEventListener('click',()=>openDialog('help-dialog'));
+document.querySelector('.close-dialog').addEventListener('click',()=>closeDialog('help-dialog'));
+document.querySelector('.close-help').addEventListener('click',()=>closeDialog('help-dialog'));
+$('restart').addEventListener('click',()=>openDialog('restart-dialog'));
+$('cancel-restart').addEventListener('click',()=>closeDialog('restart-dialog'));
+$('confirm-restart').addEventListener('click',reset);$('play-again').addEventListener('click',reset);
+$('view-island').addEventListener('click',()=>closeDialog('result-dialog'));
+document.addEventListener('keydown',e=>{
+  if(document.querySelector('dialog[open]')||e.target.matches('input,textarea,select')||e.metaKey||e.ctrlKey||e.altKey)return;
+  if(e.code==='Space')e.preventDefault();
+  if(e.repeat)return;
+  if(['1','2','3','4'].includes(e.key)){e.preventDefault();selectType(['gun','mortar','frost','relay'][Number(e.key)-1]);}
+  else if(e.key==='Escape'){buildType=null;selectedPad=null;renderer.buildType=null;renderer.selected=null;lastSelection='';updateHud();}
+  else if(e.code==='Space'){e.preventDefault();game.phase==='build'?nextWave():pause();}
+  else if(e.key.toLowerCase()==='g')$('grid-toggle').click();
+  else if(e.key.toLowerCase()==='m')$('sound').click();
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&game.phase==='wave'&&!game.paused){game.paused=true;updateHud();}});
+
+function updateSelection(){
+  const tower=game.towers.find(tower=>tower.pad===selectedPad);
+  const key=JSON.stringify([getLanguage(),buildType,selectedPad,tower&&[tower.id,tower.level,tower.connected,tower.powered],game.credits,game.phase]);
+  if(key===lastSelection)return;lastSelection=key;
+  const panel=$('selection');panel.dataset.mode=tower?'tower':buildType?'build':'brief';
+  if(tower){
+    const def=towerStats(tower),up=upgradeCost(tower),canUpgrade=tower.type!=='relay'&&tower.level<3;
+    panel.innerHTML=`<p class="eyebrow">${def.en}<span class="selected-id">LV.${tower.level} / 03</span></p>
+      <h3>${towerName(tower.type)}</h3><p class="description">${t(`tower.${tower.type}.description`)}</p>
+      <span class="tower-status ${tower.powered?'':'offline'}">● ${t(tower.powered?'tower.powered':tower.connected?'tower.overload':'tower.disconnected')}</span>
+      <div class="tower-stats"><div><span>${t(tower.type==='relay'?'stat.link':'stat.damage')}</span><strong>${tower.type==='relay'?'4.8':Math.round(def.damage)}</strong></div>
+      <div><span>${t('stat.power')}</span><strong>${def.power}</strong></div><div><span>${t(tower.type==='relay'?'stat.cost':'stat.range')}</span><strong>${tower.type==='relay'?'30':def.range.toFixed(1)}</strong></div></div>
+      <div class="selection-actions">${tower.type==='relay'?'':`<button id="upgrade-tower" ${!canUpgrade||game.credits<up||!game.canEdit()?'disabled':''}>${t(canUpgrade?'tower.upgrade':'tower.max')}${canUpgrade?`<small>${t('tower.upgradeCost',{cost:up})}</small>`:''}</button>`}
+      <button id="sell-tower" class="sell" ${!game.canEdit()?'disabled':''}>${t('tower.sell')}<small>${t('tower.refund',{amount:sellValue(tower)})}</small></button></div>
+      <div class="field-note"><span>↗</span><p>${t(tower.type==='relay'?'tower.relayNote':'tower.note')}</p></div>`;
+    $('upgrade-tower')?.addEventListener('click',()=>{
+      const result=game.upgrade(tower.id);
+      if(!result.ok)toast(result.code);
+      else toast(tower.powered?'toast.upgraded':'toast.upgradedOffline',()=>({name:towerName(tower.type),level:tower.level}));
+      updateHud();
+    });
+    $('sell-tower').addEventListener('click',()=>{game.sell(tower.id);selectedPad=null;renderer.selected=null;updateHud();toast('toast.sold');});
+  }else if(buildType){
+    const def=TYPES[buildType];
+    panel.innerHTML=`<p class="eyebrow">DEPLOY / ${def.en}</p><h3>${towerName(buildType)}</h3><p class="description">${t(`tower.${buildType}.description`)}</p>
+      <div class="tower-stats"><div><span>${t('stat.buildCost')}</span><strong>${def.cost}</strong></div><div><span>${t('stat.power')}</span><strong>${def.power}</strong></div><div><span>${t(buildType==='relay'?'stat.link':'stat.range')}</span><strong>${buildType==='relay'?'4.8':def.range.toFixed(1)}</strong></div></div>
+      <div class="field-note"><span>＋</span><p>${t('build.preview')}</p></div><button class="build-cancel" id="cancel-build">${t('build.cancel')}</button>`;
+    $('cancel-build').addEventListener('click',()=>selectType(buildType));
+  }else if(game.wave===0){
+    panel.innerHTML=`<p class="eyebrow">YOUR FIRST WATCH</p><h3>${t('brief.title')}</h3><p class="description">${t('brief.description')}</p>
+      <div class="steps">${[1,2,3].map(step=>`<div><span>0${step}</span><p>${t(`brief.step${step}`)}</p></div>`).join('')}</div>
+      <div class="field-note"><span>↗</span><p>${t('brief.note')}</p></div>`;
+  }else{
+    const fighting=game.phase==='wave';
+    panel.innerHTML=`<p class="eyebrow">${fighting?'HOLD THE LINE':'A MOMENT OF CALM'}</p>
+      <h3>${t(fighting?'battle.title':game.phase==='won'?'result.wonTitle':game.phase==='lost'?'result.lostTitle':'calm.title')}</h3>
+      <p class="description">${t(fighting?'battle.description':game.canEdit()?'calm.description':'end.description',{reward:game.lastReward})}</p>
+      <div class="tower-stats"><div><span>${t('stat.kills')}</span><strong>${game.kills}</strong></div><div><span>${t('stat.towers')}</span><strong>${game.towers.length}</strong></div><div><span>${t('stat.time')}</span><strong>${Math.floor(game.elapsed/60)}:${String(Math.floor(game.elapsed%60)).padStart(2,'0')}</strong></div></div>
+      <div class="field-note"><span>↗</span><p>${t(game.wave>=8?'tip.heavy':'tip.corners')}</p></div>`;
+  }
+}
+function updateHud(){
+  $('health').innerHTML=`${game.hp}<span> / 100</span>`;$('credits').textContent=game.credits;
+  $('power').innerHTML=`${game.powerUsed}<span> / ${game.capacity}</span>`;
+  $('health').style.color=game.hp<=30?'#e3a082':'';
+  const index=Math.min(game.phase==='build'?game.wave:game.wave-1,9),def=WAVES[Math.max(0,index)];
+  $('wave-number').textContent=String(index+1).padStart(2,'0');$('wave-name').textContent=t(`wave.${index+1}`);
+  const clearedWaves=game.wave-(['wave','lost'].includes(game.phase)?1:0);
+  $('wave-progress').innerHTML=WAVES.map((_,i)=>`<span class="${i<clearedWaves?'complete':i===index?'current':''}"></span>`).join('');
+  $('enemy-count').textContent=t(game.phase==='wave'?'wave.remaining':'wave.targets',{count:game.phase==='wave'?game.enemies.length+game.queue.length:def.units.reduce((s,u)=>s+u[1],0)});
+  $('enemy-preview').innerHTML=def.units.map(([type,count])=>`<span style="--enemy:${ENEMIES[type].color}"><i></i>${t(`enemy.${type}`)} ×${count}</span>`).join('');
+  const offline=game.towers.filter(tower=>!tower.powered).length;
+  $('grid-warning').hidden=!offline;$('grid-warning').textContent=t('grid.warning',{count:offline});
+  $('grid-price').textContent=game.gridLevel>=4?t('grid.max'):`◇ ${game.gridCost()}`;
+  $('grid-upgrade').disabled=game.gridLevel>=4||game.credits<game.gridCost()||!game.canEdit();
+  $('next-wave').innerHTML=`<span>${t(game.phase==='build'?game.wave===0?'action.firstWave':'action.nextWave':game.phase==='wave'?game.paused?'action.resume':'action.pause':'action.record')}</span><b>${game.phase==='wave'&&!game.paused?'Ⅱ':'→'}</b>`;
+  $('wave-hint').textContent=t(game.phase==='build'?'hint.build':game.phase==='wave'?'hint.wave':'hint.end');
+  $('overdrive').hidden=game.phase!=='wave';$('overdrive').disabled=game.overdriveCooldown>0||game.paused;
+  $('overdrive').innerHTML=`<span>ϟ ${t(game.overdrive>0?'overdrive.active':game.overdriveCooldown>0?'overdrive.cooling':'overdrive.name')}</span><small>${t(game.overdrive>0?'overdrive.left':game.overdriveCooldown>0?'overdrive.ready':'overdrive.hint',{seconds:Math.ceil(game.overdrive>0?game.overdrive:game.overdriveCooldown)})}</small>`;
+  $('phase-tag').classList.toggle('fighting',game.phase==='wave');
+  $('phase-tag').innerHTML=`<i></i> ${t(game.paused?'phase.paused':`phase.${game.phase}`)}`;
+  $('paused-label').hidden=!game.paused||!game.canEdit()||!!document.querySelector('dialog[open]');
+  $('pause').textContent=game.paused?'▷':'Ⅱ';$('pause').setAttribute('aria-label',t(game.paused?'control.resume':'control.pause'));$('pause').disabled=!game.canEdit();
+  for(const card of cards){card.classList.toggle('selected',card.dataset.type===buildType);card.setAttribute('aria-pressed',String(card.dataset.type===buildType));card.classList.toggle('unaffordable',game.credits<TYPES[card.dataset.type].cost);card.disabled=!game.canEdit();}
+  $('build-hint').textContent=buildType?t('build.selected',{name:towerName(buildType)}):t('build.hint');
+  PADS.forEach((pad,i)=>{
+    const tower=game.towers.find(tower=>tower.pad===pad.id),title=t('pad.title',{number:String(pad.id+1).padStart(2,'0')});
+    const detail=tower?t('pad.occupied',{name:towerName(tower.type),level:tower.level,power:t(tower.powered?'pad.powered':'pad.offline')}):t('pad.empty');
+    padButtons[i].title=title;padButtons[i].setAttribute('aria-label',`${title} · ${detail}`);
+  });
+  $('best-record').textContent=t(best.won?'status.bestWon':best.wave?'status.bestWave':'status.author',{wave:best.wave});
+  updateSelection();
+}
+function renderResult(){
+  const won=game.phase==='won';
+  $('result-kicker').textContent=won?'THE LIGHT REMAINS':'UNTIL THE NEXT DAWN';
+  $('result-title').textContent=t(won?'result.wonTitle':'result.lostTitle');
+  $('result-copy').textContent=t(won?'result.wonCopy':'result.lostCopy');
+  $('result-stats').innerHTML=`<div><strong>${game.wave}</strong><span>${t('stat.wave')}</span></div><div><strong>${game.kills}</strong><span>${t('stat.kills')}</span></div><div><strong>${game.hp}</strong><span>${t('stat.health')}</span></div>`;
+}
+function showResult(){persistBest();renderResult();$('result-dialog').showModal();}
+function handleEvents(){
+  for(const e of game.events){
+    audio.play(e.type);
+    if(e.type==='kill')renderer.burst(e.x,e.y,e.color,e.enemyType==='boss'?28:8);
+    if(e.type==='build'||e.type==='upgrade')renderer.burst(e.tower.x,e.tower.y,TYPES[e.tower.type].color,18);
+    if(e.type==='wave')banner(`wave.${e.wave}`,'banner.wave',{wave:String(e.wave).padStart(2,'0')});
+    if(e.type==='clear'){toast('toast.clear',{wave:game.wave,reward:e.reward});persistBest();}
+    if(e.type==='boss')banner('banner.boss','banner.bossKicker');
+    if(e.type==='leak')renderer.shake=1;
+    if(e.type==='won'||e.type==='lost')showResult();
+  }
+  game.events.length=0;
+}
+function frame(now){
+  const dt=Math.min((now-previous)/1000,.05);previous=now;game.tick(dt);handleEvents();renderer.draw(game.paused?0:dt);
+  if(now-lastHud>180){updateHud();lastHud=now;}
+  requestAnimationFrame(frame);
+}
+applyLanguage();requestAnimationFrame(frame);
+
+})();</script></body>
+</html>

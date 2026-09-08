@@ -1,0 +1,1061 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111916">
+<title>IRON WILDS / Aster Heavy Industries</title>
+<style>
+:root{--ink:#091713;--line:#8ad7b953;--mint:#b4f4d6;--muted:#83b4a2;--amber:#f5c779;--red:#ff7767;--paper:#eef3df;font-family:"Bank Gothic","Bahnschrift","Trebuchet MS",sans-serif;color:var(--paper);background:#19241e;font-synthesis:none}
+*{box-sizing:border-box;letter-spacing:0}body{margin:0;overflow:hidden}button{font:inherit;cursor:pointer}button:focus-visible{outline:2px solid var(--amber);outline-offset:5px}button:disabled{opacity:.45;cursor:wait}[hidden]{display:none!important}#viewport{position:fixed;inset:0;width:100%;height:100%;display:block}#hud{position:fixed;inset:0;pointer-events:none;user-select:none;font:11px "Lucida Console",monospace;color:var(--mint);text-transform:uppercase;text-shadow:0 1px 3px #081a11}
+.topline{position:absolute;top:24px;left:28px;right:28px;display:flex;align-items:start;justify-content:space-between;gap:20px}.identity{border-left:3px solid var(--mint);padding:0 0 0 12px}.identity strong{display:block;font:700 23px "Bahnschrift","Trebuchet MS",sans-serif;color:var(--paper)}.identity small{display:block;margin-top:6px;font-size:9px}.topright{text-align:right;line-height:1.9}.live-dot{display:inline-block;width:5px;height:5px;background:var(--mint);margin-right:7px}.compass{position:absolute;top:26px;left:50%;transform:translateX(-50%);width:264px;text-align:center}.compass .ticks{height:13px;background:repeating-linear-gradient(90deg,transparent 0,transparent 21px,#b4f4d670 21px,#b4f4d670 22px);border-bottom:1px solid var(--line)}.compass b{display:block;margin:8px;font-weight:normal;font-size:12px}.compass b:before{content:"";display:inline-block;border:3px solid transparent;border-top-color:var(--mint);margin-right:9px}
+.panel{background:linear-gradient(110deg,#071811d9,#10241ab8);border:1px solid var(--line);padding:13px 15px;backdrop-filter:blur(6px)}.panel-title{display:flex;justify-content:space-between;align-items:center;padding-bottom:9px;margin-bottom:10px;border-bottom:1px solid var(--line);font-size:9px;color:var(--muted)}.panel-title b{color:var(--mint);font-weight:normal}.left-stack{position:absolute;bottom:26px;left:28px;width:223px}.right-stack{position:absolute;bottom:26px;right:28px;width:249px}.reading{display:flex;align-items:baseline;justify-content:space-between;margin:9px 0 5px;gap:12px}.reading span{font-size:9px;color:var(--muted)}.reading b{font-weight:normal;font-size:13px}.meter{height:3px;background:#a2e0bd20}.meter i{display:block;height:100%;background:var(--mint);width:100%}.meter.hot i{background:var(--amber)}.telemetry{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:15px;padding-top:11px;border-top:1px solid var(--line)}.telemetry small{display:block;font-size:9px;color:var(--muted);margin-bottom:5px}.telemetry b{font-weight:normal;font-size:19px}.telemetry em{font-size:9px;font-style:normal;margin-left:3px}.manifest{border-top:1px solid var(--line);padding-top:9px;margin-top:13px;font-size:9px;line-height:1.9;color:var(--muted)}.manifest b{color:var(--mint);font-weight:normal;float:right}.weapon-row{display:grid;grid-template-columns:20px 1fr 36px;align-items:center;gap:7px;padding:10px 3px;border-bottom:1px solid #8ad7b921;color:var(--muted)}.weapon-row.active{color:var(--paper)}.weapon-row.active .number{background:var(--mint);color:var(--ink)}.number{border:1px solid var(--line);text-align:center;padding:3px 0;font-size:10px}.weapon-row b{font-size:15px;text-align:right;font-weight:normal}.weapon-row span{font-size:10px}.weapon-row small{display:block;font-size:8px;margin-top:4px;color:var(--muted)}.target-data{padding-top:11px;font-size:9px;line-height:1.9}.target-data strong{font-weight:normal;color:var(--amber)}#lockmeter{margin-top:7px}#lockmeter i{background:var(--amber);width:0}.radar-wrap{position:absolute;top:102px;right:28px;width:145px;height:168px;border-top:1px solid var(--line);padding-top:8px}.radar-wrap small{font-size:8px;color:var(--muted);display:flex;justify-content:space-between}#radar{width:145px;height:145px}.reticle{position:absolute;top:50%;left:50%;width:42px;height:42px;transform:translate(-50%,-50%);border:1px solid #d7ffe87a;clip-path:polygon(0 0,30% 0,30% 4%,4% 4%,4% 30%,0 30%,0 0,100% 0,100% 30%,96% 30%,96% 4%,70% 4%,70% 0,100% 0,100% 100%,70% 100%,70% 96%,96% 96%,96% 70%,100% 70%,100% 100%,0 100%,0 70%,4% 70%,4% 96%,30% 96%,30% 100%,0 100%)}.aim-dot{position:absolute;left:50%;top:50%;width:3px;height:3px;background:var(--mint);transform:translate(-50%,-50%)}#target-bracket{position:absolute;width:68px;height:86px;border:1px solid var(--amber);transform:translate(-50%,-50%);color:var(--amber)}#target-bracket small{position:absolute;top:-19px;white-space:nowrap;font-size:9px}#target-bracket.locked{border-width:2px;box-shadow:0 0 15px #f5c77920}.center-bottom{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);width:min(380px,34%);text-align:center}#prompt{font-size:11px;line-height:1.6;color:var(--paper);padding:8px 12px;background:#091713cc;border-top:1px solid var(--mint)}#notice{min-height:30px;font-size:10px;color:var(--amber);line-height:1.6;margin-bottom:6px}.sector{color:var(--muted);font-size:8px;margin-top:14px}#damage{position:fixed;inset:0;pointer-events:none;box-shadow:inset 0 0 100px #b82518;opacity:0}#touch{position:fixed;bottom:275px;left:24px;right:24px;display:none;justify-content:space-between;pointer-events:none}#touch button{pointer-events:auto;width:43px;height:43px;border:1px solid var(--line);background:#071811c9;color:var(--mint);font-size:19px;touch-action:none}#touch .dpad{display:grid;grid-template-columns:repeat(3,43px);gap:3px}#touch .actions{display:grid;grid-template-columns:repeat(2,43px);gap:3px;align-content:end}.dpad button:first-child{grid-column:2}.dpad button:nth-child(2){grid-column:1}#pause-button{position:fixed;top:23px;right:25px;width:35px;height:35px;border:1px solid var(--line);background:#081b13bb;color:var(--mint);display:none}body.touch #touch{display:flex}body.touch #pause-button{display:block}body.touch .topright{margin-right:46px}
+#overlay{position:fixed;inset:0;display:grid;place-items:center;background:linear-gradient(90deg,#07110deb,#0c191865 70%,#08151112);padding:32px;overflow:auto}.briefing{width:min(720px,100%);margin:auto}.eyebrow{font:10px "Lucida Console",monospace;color:var(--mint);border-top:1px solid #b4f4d65a;padding-top:17px;display:flex;justify-content:space-between;gap:15px}.briefing h1{font:800 76px/.94 "Bahnschrift","Trebuchet MS",sans-serif;margin:30px 0 10px;color:#f1f2e6;max-width:100%}.briefing h1 span{display:block}.mission-tag{font:11px "Lucida Console",monospace;color:var(--amber);margin:17px 0 24px}.briefing p{font-size:14px;line-height:1.75;max-width:470px;color:#b7c6ba}.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:25px 0}.mission-grid .label{font:9px "Lucida Console",monospace;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:10px}.mission-grid strong{font-size:14px;font-weight:normal}.mission-grid small{display:block;margin-top:7px;font-size:11px;color:#a3b7a7;line-height:1.6}.launch{display:flex;gap:14px;align-items:center;margin-top:25px;flex-wrap:wrap}.primary{border:1px solid #c2edcd;background:#c2edcd;color:#14261c;padding:16px 23px;font:700 12px "Lucida Console",monospace;min-height:48px}.secondary{border:1px solid var(--line);background:#0e201a99;color:var(--mint);padding:15px 17px;font:11px "Lucida Console",monospace;min-height:48px}.primary:hover{background:#e7f7d6}.secondary:hover{border-color:var(--mint)}#boot-status{font:10px "Lucida Console",monospace;color:var(--muted);margin-top:20px;line-height:1.6}#controls{margin-top:24px;border-top:1px solid var(--line);padding-top:17px}.control-columns{display:grid;grid-template-columns:1fr 1fr;gap:28px}#controls h2{font:11px "Lucida Console",monospace;color:var(--amber);margin:0 0 15px}#controls dl{margin:0;display:grid;grid-template-columns:72px 1fr;gap:8px;font-size:11px;line-height:1.4}#controls dt{color:var(--mint);font-family:"Lucida Console",monospace}#controls dd{margin:0;color:#b7c6ba}.help-note{font-size:10px!important;margin-bottom:0!important}.paused .briefing h1{font-size:54px}.foot .reticle{width:16px;height:16px}.foot .right-stack{opacity:.65}#hud.inactive{opacity:.2}.fatal{color:var(--red)!important}
+@media(max-width:850px){.compass{width:160px}.topline{left:17px;right:17px;top:17px}.identity strong{font-size:19px}.identity small{font-size:8px}.topright{font-size:9px}.compass{top:18px}.left-stack{left:17px;width:181px;bottom:17px}.right-stack{right:17px;width:198px;bottom:17px}.panel{padding:10px}.radar-wrap{right:17px;width:112px;height:134px;top:89px}#radar{width:112px;height:112px}.center-bottom{bottom:260px;width:52%}.sector{display:none}.telemetry b{font-size:16px}}
+@media(max-width:560px){#overlay{padding:25px 21px}.briefing h1{font-size:57px;margin-top:25px}.paused .briefing h1{font-size:40px}.mission-grid{gap:17px;margin:18px 0}.mission-grid small{font-size:10px}.briefing p{font-size:12px}.eyebrow{font-size:8px}.launch{gap:10px}.primary,.secondary{font-size:10px;padding:14px}.control-columns{grid-template-columns:1fr;gap:22px}.topline{top:15px;left:13px;right:13px}.identity strong{font-size:17px}.identity small{font-size:7px}.compass{top:75px;width:145px}.topright{font-size:8px}.radar-wrap{right:13px;top:119px;width:83px;height:103px}#radar{width:83px;height:83px}.radar-wrap small{font-size:7px}.left-stack{left:10px;width:calc(50% - 16px);bottom:10px}.right-stack{right:10px;width:calc(50% - 16px);bottom:10px}.panel{padding:9px}.panel-title{font-size:8px}.reading b{font-size:11px}.telemetry{gap:7px;margin-top:9px;padding-top:8px}.telemetry b{font-size:15px}.manifest{font-size:8px}.weapon-row{grid-template-columns:17px 1fr 25px;gap:5px;padding:9px 0}.weapon-row span{font-size:8px}.weapon-row small{font-size:7px}.weapon-row b{font-size:12px}.target-data{font-size:8px}.center-bottom{bottom:258px;width:calc(100% - 24px)}#notice{font-size:9px;min-height:18px}#prompt{font-size:10px}#touch{bottom:310px;left:14px;right:14px}#touch button{width:37px;height:37px}.dpad{grid-template-columns:repeat(3,37px)!important}#touch .actions{grid-template-columns:repeat(2,37px)}}
+@media(max-height:620px) and (min-width:700px){.briefing{width:800px}.briefing h1{font-size:50px;margin:20px 0 8px}.briefing h1 span{display:inline}.mission-grid{margin:15px 0}.briefing p{margin:10px 0}.launch{margin-top:15px}.radar-wrap{top:85px;width:88px;height:106px}#radar{width:88px;height:88px}.center-bottom{bottom:20px;width:32%}.manifest{margin-top:8px}.left-stack,.right-stack{bottom:12px}#touch{bottom:250px}}
+</style>
+</head>
+<body>
+<canvas id="viewport" aria-label="Iron Wilds three-dimensional game world"></canvas>
+<div id="hud" class="inactive">
+ <div class="topline"><div class="identity"><strong>IRON WILDS</strong><small>ASTER / H-09 FIELD WALKER</small></div><div class="topright"><div><span class="live-dot"></span><span id="mode">COCKPIT</span></div><div id="objective">06 CONTACTS / SILT BASIN</div></div></div>
+ <div class="compass"><div class="ticks"></div><b id="heading">000 / N</b></div>
+ <div class="radar-wrap"><small><span>LOCAL SCAN</span><span>400 M</span></small><canvas id="radar" width="240" height="240"></canvas></div>
+ <div class="reticle"></div><div class="aim-dot"></div><div id="target-bracket" hidden><small id="bracket-label"></small></div>
+ <div class="left-stack panel"><div class="panel-title"><span>01 / CHASSIS</span><b id="reactor">REACTOR ONLINE</b></div><div class="reading"><span>HULL INTEGRITY</span><b id="hull">100%</b></div><div class="meter"><i id="hull-bar"></i></div><div class="reading"><span>THERMAL LOAD</span><b id="heat">00%</b></div><div class="meter hot"><i id="heat-bar"></i></div><div class="telemetry"><div><small>JET THRUST</small><b id="thrust">0</b><em>%</em></div><div><small>ALTITUDE AGL</small><b id="altitude">0.0</b><em>M</em></div></div><div class="manifest"><div>REACTOR CORE <b id="core-status">SEATED</b></div><div>CARGO AMMO <b id="cargo-count">1 / 2</b></div><div>CARRY <b id="carry-status">EMPTY</b></div></div></div>
+ <div class="right-stack panel"><div class="panel-title"><span>02 / FIRE CONTROL</span><b id="speed">0 KM/H</b></div><div class="weapon-row active" id="weapon-1"><span class="number">1</span><span>AC / AUTOCANNON<small>30 MM / AUTOMATIC</small></span><b id="ammo-1">360</b></div><div class="weapon-row" id="weapon-2"><span class="number">2</span><span>MR / GUIDED MISSILE<small>SEEKER / HEAVY</small></span><b id="ammo-2">18</b></div><div class="weapon-row" id="weapon-3"><span class="number">3</span><span>MS / MORTAR SPREAD<small>3 ROUND / BALLISTIC</small></span><b id="ammo-3">24</b></div><div class="target-data"><div id="target-name">NO DESIGNATED CONTACT</div><strong id="lock-status">SEEKER STANDBY</strong><div class="meter" id="lockmeter"><i id="lock-bar"></i></div></div></div>
+ <div class="center-bottom"><div id="notice"></div><div id="prompt" hidden></div><div class="sector">SECTOR 07 &nbsp; / &nbsp; SILT BASIN &nbsp; / &nbsp; 06:40 LOCAL</div></div>
+</div>
+<div id="damage"></div>
+<div id="touch"><div class="dpad"><button data-hold="KeyW" title="Move forward" aria-label="Move forward">&#8593;</button><button data-hold="KeyA" title="Strafe left" aria-label="Strafe left">&#8592;</button><button data-hold="KeyS" title="Move backward" aria-label="Move backward">&#8595;</button><button data-hold="KeyD" title="Strafe right" aria-label="Strafe right">&#8594;</button></div><div class="actions"><button data-action="KeyE" title="Exit or enter mech">E</button><button data-action="KeyG" title="Pick up or drop">G</button><button data-action="KeyI" title="Insert item">I</button><button data-action="KeyR" title="Reload cargo">R</button><button data-action="KeyM" title="Select target">M</button><button data-action="CycleWeapon" title="Cycle weapon">1</button><button data-hold="Space" title="Jump jets">&#8679;</button><button data-hold="Fire" title="Fire weapon">&#8982;</button><button data-action="KeyF" title="Reactor power">F</button></div></div>
+<button id="pause-button" title="Pause" aria-label="Pause">&#10074;&#10074;</button>
+<section id="overlay" aria-label="Mission briefing"><div class="briefing"><div class="eyebrow"><span>ASTER HEAVY INDUSTRIES</span><span>FIELD OPERATIONS / 07</span></div><h1 id="overlay-title">IRON <span>WILDS</span></h1><div class="mission-tag" id="overlay-tag">OPERATION 03 / THE QUIET DIVIDE</div><p id="overlay-copy">The relay has gone silent. Six autonomous sentries hold the basin. Bring the line back under human control.</p><div class="mission-grid" id="mission-grid"><div><div class="label">YOUR MACHINE</div><strong>H-09 / Field Walker</strong><small>42 tonnes. Three weapon systems.<br>One pilot. A replaceable heart.</small></div><div><div class="label">FIELD ORDERS</div><strong>Neutralize all six sentries.</strong><small>Spare cores and ammunition at the service apron. Rear reactor and cargo access.</small></div></div><div class="launch"><button class="primary" id="initialize" disabled>INITIALIZE SYSTEM &nbsp; &#8594;</button><button class="secondary" id="help-toggle" aria-expanded="false" aria-controls="controls">FLIGHT MANUAL</button></div><div id="boot-status">LOADING RENDER SYSTEM / THREE.JS</div><div id="controls" hidden><div class="control-columns"><div><h2>COCKPIT</h2><dl><dt>WASD</dt><dd>Move mech</dd><dt>Mouse</dt><dd>Look / aim</dd><dt>Left mouse</dt><dd>Fire selected weapon. Hold for automatic rapid fire with weapon 1.</dd><dt>M</dt><dd>Select nearest visible enemy target</dd><dt>Right mouse</dt><dd>Cycle targets</dd><dt>1 / 2 / 3</dt><dd>Autocannon / lock-on missiles / mortar spread</dd><dt>Space</dt><dd>Jump jets; thrust ramps while held and decays after release</dd><dt>F</dt><dd>Toggle reactor power</dd><dt>E</dt><dd>Exit mech</dd></dl></div><div><h2>ON FOOT</h2><dl><dt>WASD</dt><dd>Walk</dd><dt>Mouse</dt><dd>Look around</dd><dt>E</dt><dd>Enter mech when close to front access</dd><dt>G</dt><dd>Pick up / drop nearby power core or ammo crate. Remove a core only with reactor off.</dd><dt>I</dt><dd>Insert carried power core into rear reactor or cargo slot; store ammo in cargo</dd><dt>R</dt><dd>Reload from a physical ammo crate at rear cargo rack</dd><dt>Left mouse</dt><dd>No on-foot weapon</dd></dl></div></div><p class="help-note">Esc pauses. Power is required for movement, weapons, and jets. Exit only while grounded. Touch: drag the world to aim; directional and action controls appear after initialization.</p></div></div></section>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+
+// Shared coordinates and authoritative simulation state.
+const UP = new THREE.Vector3(0, 1, 0);
+const MECH_FOOT_OFFSET = 0;
+const MECH_COCKPIT_OFFSET = new THREE.Vector3(0, 7.65, -0.65);
+const PLAYER_EYE_HEIGHT = 1.72;
+const MECH_RADIUS = 3.15;
+const PLAYER_RADIUS = 0.38;
+const GROUND_EPSILON = 0.035;
+const DRAW_RADIUS = 400;
+const CHUNK_SIZE = 100;
+const TERRAIN_SEGMENTS = 20;
+const CELL = CHUNK_SIZE / TERRAIN_SEGMENTS;
+const FIXED_STEP = 1 / 30;
+const clamp = THREE.MathUtils.clamp;
+const approach = (current, target, amount) => current + clamp(target - current, -amount, amount);
+const dom = Object.fromEntries([...document.querySelectorAll('[id]')].map(element => [element.id, element]));
+const state = {
+ mode: 'PAUSED', resumeMode: 'COCKPIT', started: false, mechPower: true,
+ mechPosition: new THREE.Vector3(0, 0, 36), mechVelocity: new THREE.Vector3(), mechYaw: 0, lookYaw: 0, turnRate: 0,
+ pilotPosition: new THREE.Vector3(), pilotYaw: 0, pitch: 0, jetThrust: 0, heat: 0, hull: 100,
+ selectedWeapon: 1, ammo: {1: 360, 2: 18, 3: 24}, carriedItem: null, installedPowerCore: false,
+ cargoAmmoCrates: 0, selectedTarget: null, targetLockProgress: 0, targetLocked: false,
+ time: 0, cooldown: 0, overheat: false, damageFlash: 0, kills: 0, wave: 0, nextWaveAt: 18, notice: '', noticeUntil: 0
+};
+const input = { keys: new Set(), firing: false, fireQueued: false };
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0xb8cecd);
+scene.fog = new THREE.Fog(0xb8cecd, 180, DRAW_RADIUS + 50);
+const camera = new THREE.PerspectiveCamera(76, innerWidth / innerHeight, 0.055, DRAW_RADIUS + 80);
+camera.rotation.order = 'YXZ';
+scene.add(camera);
+const renderer = new THREE.WebGLRenderer({canvas: dom.viewport, antialias: true, powerPreference: 'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio, 1.6));
+renderer.setSize(innerWidth, innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.12;
+scene.add(new THREE.HemisphereLight(0xdcefeb, 0x596447, 2.1));
+const sunlight = new THREE.DirectionalLight(0xffecc5, 3.8);
+sunlight.position.set(-100, 170, -75);
+sunlight.castShadow = true;
+sunlight.shadow.mapSize.set(2048, 2048);
+Object.assign(sunlight.shadow.camera, {left: -110, right: 110, top: 110, bottom: -110, near: 1, far: 450});
+sunlight.shadow.bias = -0.00025;
+sunlight.shadow.normalBias = 0.055;
+scene.add(sunlight, sunlight.target);
+const materials = {
+ armor: new THREE.MeshStandardMaterial({color: 0xc8cec2, roughness: 0.64, metalness: 0.48}),
+ dark: new THREE.MeshStandardMaterial({color: 0x222d2a, roughness: 0.6, metalness: 0.7}),
+ steel: new THREE.MeshStandardMaterial({color: 0x66766f, roughness: 0.33, metalness: 0.85}),
+ rubber: new THREE.MeshStandardMaterial({color: 0x141b18, roughness: 0.95}),
+ amber: new THREE.MeshStandardMaterial({color: 0xeeb948, roughness: 0.6, metalness: 0.35}),
+ red: new THREE.MeshStandardMaterial({color: 0x925047, roughness: 0.67, metalness: 0.45}),
+ light: new THREE.MeshStandardMaterial({color: 0x92ffd6, emissive: 0x42ffb0, emissiveIntensity: 2.5}),
+ jet: new THREE.MeshBasicMaterial({color: 0x79e5ff, transparent: true, opacity: 0.8, depthWrite: false}),
+ concrete: new THREE.MeshStandardMaterial({color: 0x92998b, roughness: 0.99})
+};
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+function box(parent, size, position, material = materials.dark) {
+ const mesh = new THREE.Mesh(boxGeometry, material);
+ mesh.scale.set(...size); mesh.position.set(...position); mesh.castShadow = true; mesh.receiveShadow = true;
+ parent.add(mesh); return mesh;
+}
+function cylinder(parent, radius, length, position, material = materials.steel, sides = 10) {
+ const mesh = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, length, sides), material);
+ mesh.position.set(...position); mesh.castShadow = true; mesh.receiveShadow = true; parent.add(mesh); return mesh;
+}
+function beam(parent, start, end, width, depth, material) {
+ const delta = new THREE.Vector3().fromArray(end).sub(new THREE.Vector3().fromArray(start));
+ const mesh = box(parent, [width, delta.length(), depth], start, material);
+ mesh.position.addScaledVector(delta, 0.5); mesh.quaternion.setFromUnitVectors(UP, delta.normalize()); return mesh;
+}
+function group(parent, position = [0, 0, 0]) {const result = new THREE.Group(); result.position.set(...position); parent.add(result); return result;}
+function label(parent, text, width, height, position, background = '#26362e', color = '#d7e5c6') {
+ const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 128;
+ const context = canvas.getContext('2d'); context.fillStyle = background; context.fillRect(0, 0, 512, 128);
+ context.fillStyle = color; context.font = 'bold 66px monospace'; context.textAlign = 'center'; context.textBaseline = 'middle'; context.fillText(text, 256, 68);
+ const texture = new THREE.CanvasTexture(canvas); texture.colorSpace = THREE.SRGBColorSpace;
+ const mesh = new THREE.Mesh(new THREE.PlaneGeometry(width, height), new THREE.MeshStandardMaterial({map: texture, roughness: 0.8}));
+ mesh.position.set(...position); parent.add(mesh); return mesh;
+}
+let randomSeed = 41931;
+function random() {randomSeed = (1664525 * randomSeed + 1013904223) >>> 0; return randomSeed / 4294967296;}
+function hash(x, z) {const value = Math.sin(x * 127.1 + z * 311.7) * 43758.5453; return value - Math.floor(value);}
+function noise(x, z) {
+ const column = Math.floor(x), row = Math.floor(z), fractionX = x - column, fractionZ = z - row;
+ const smoothX = fractionX * fractionX * (3 - 2 * fractionX), smoothZ = fractionZ * fractionZ * (3 - 2 * fractionZ);
+ return THREE.MathUtils.lerp(THREE.MathUtils.lerp(hash(column, row), hash(column + 1, row), smoothX), THREE.MathUtils.lerp(hash(column, row + 1), hash(column + 1, row + 1), smoothX), smoothZ);
+}
+function baseLocation(column, row) {return {x: column * 700 - 21, z: row * 700 + 52};}
+function landHeight(x, z) {
+ const plains = noise(x / 1100, z / 1100);
+ const plateau = THREE.MathUtils.smoothstep(noise(x / 290 + 17, z / 290 - 9), 0.51, 0.57) * 43;
+ return 6 + noise(x / 450, z / 450) * 25 + plateau * THREE.MathUtils.smoothstep(plains, 0.32, 0.65) + noise(x / 90, z / 90) * 4;
+}
+function roadDistance(x, z) {
+ const vertical = x + 21 - 15 * Math.sin((z - 52) * Math.PI / 350);
+ const horizontal = z - 52 - 15 * Math.sin((x + 21) * Math.PI / 350);
+ return Math.min(Math.abs(vertical - Math.round(vertical / 700) * 700), Math.abs(horizontal - Math.round(horizontal / 700) * 700));
+}
+function riverDistance(x, z) {const course = x - 285 - 67 * Math.sin(z / 190) - 25 * Math.sin(z / 71); return Math.abs(course - Math.round(course / 1000) * 1000);}
+function rawHeight(x, z) {
+ const road = roadDistance(x, z), river = riverDistance(x, z), natural = landHeight(x, z);
+ const ravineCourse = z - 355 - 44 * Math.sin(x / 180), ravine = Math.abs(ravineCourse - Math.round(ravineCourse / 1200) * 1200);
+ let height = natural - (1 - THREE.MathUtils.smoothstep(ravine, 5, 24)) * 24;
+ height = THREE.MathUtils.lerp(-4, height, THREE.MathUtils.smoothstep(river, 8, 35));
+ const roadGrade = 7 + noise(x / 450, z / 450) * 25;
+ height = THREE.MathUtils.lerp(roadGrade, height, THREE.MathUtils.smoothstep(road, 5, 22));
+ const base = baseLocation(Math.round((x + 21) / 700), Math.round((z - 52) / 700));
+ const distance = Math.hypot(x - base.x, z - base.z);
+ const pad = 7 + noise(base.x / 450, base.z / 450) * 25;
+ return THREE.MathUtils.lerp(pad, height, THREE.MathUtils.smoothstep(distance, 36, 55));
+}
+function getTerrainHeight(x, z) {
+ const column = Math.floor(x / CELL), row = Math.floor(z / CELL), fractionX = x / CELL - column, fractionZ = z / CELL - row;
+ const nearLeft = rawHeight(column * CELL, row * CELL), nearRight = rawHeight((column + 1) * CELL, row * CELL);
+ const farLeft = rawHeight(column * CELL, (row + 1) * CELL), farRight = rawHeight((column + 1) * CELL, (row + 1) * CELL);
+ return fractionX + fractionZ <= 1 ? nearLeft + (nearRight - nearLeft) * fractionX + (farLeft - nearLeft) * fractionZ : farRight + (farLeft - farRight) * (1 - fractionX) + (nearRight - farRight) * (1 - fractionZ);
+}
+const terrain = group(scene), rockInstances = group(scene), terrainChunks = new Map(), bases = new Map();
+const obstacles = [], baseContainers = [];
+const groundMaterial = new THREE.MeshStandardMaterial({vertexColors: true, roughness: 1, flatShading: true});
+const waterMaterial = new THREE.MeshStandardMaterial({color: 0x427f84, roughness: 0.24, metalness: 0.4, transparent: true, opacity: 0.84});
+const rockGeometry = new THREE.DodecahedronGeometry(1, 0), treeGeometry = new THREE.ConeGeometry(1, 1, 5);
+const rockMaterial = new THREE.MeshStandardMaterial({color: 0x858b7a, roughness: 1, flatShading: true});
+const treeMaterial = new THREE.MeshStandardMaterial({color: 0x3b5848, roughness: 1, flatShading: true});
+function createChunk(column, row) {
+ const x = column * CHUNK_SIZE, z = row * CHUNK_SIZE, geometry = new THREE.PlaneGeometry(CHUNK_SIZE, CHUNK_SIZE, TERRAIN_SEGMENTS, TERRAIN_SEGMENTS);
+ geometry.rotateX(-Math.PI / 2); const vertices = geometry.attributes.position, colors = new Float32Array(vertices.count * 3), color = new THREE.Color();
+ let hasWater = false;
+ for (let index = 0; index < vertices.count; index++) {
+  const worldX = x + vertices.getX(index) + CHUNK_SIZE / 2, worldZ = z + vertices.getZ(index) + CHUNK_SIZE / 2, height = rawHeight(worldX, worldZ);
+  vertices.setY(index, height); hasWater ||= height < -1;
+  const cliff = Math.abs(rawHeight(worldX + CELL, worldZ) - height) + Math.abs(rawHeight(worldX, worldZ + CELL) - height) > 6;
+  color.set(roadDistance(worldX, worldZ) < 7 ? 0xa39978 : cliff ? 0x82887a : height < 0 ? 0x657b66 : 0x7b9065);
+  color.multiplyScalar(0.88 + hash(worldX, worldZ) * 0.2); color.toArray(colors, index * 3);
+ }
+ geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3)); geometry.computeVertexNormals();
+ const mesh = new THREE.Mesh(geometry, groundMaterial); mesh.position.set(x + 50, 0, z + 50); mesh.receiveShadow = true; terrain.add(mesh);
+ let water = null;
+ if (hasWater) {water = new THREE.Mesh(new THREE.PlaneGeometry(CHUNK_SIZE, CHUNK_SIZE), waterMaterial); water.rotation.x = -Math.PI / 2; water.position.set(x + 50, -1, z + 50); terrain.add(water);}
+ const rocks = new THREE.InstancedMesh(rockGeometry, rockMaterial, 10), trees = new THREE.InstancedMesh(treeGeometry, treeMaterial, 35), transform = new THREE.Object3D(), collisions = [];
+ let rockCount = 0, treeCount = 0;
+ for (let index = 0; index < 45; index++) {
+  const worldX = x + hash(column * 47 + index, row) * 100, worldZ = z + hash(column, row * 47 + index) * 100;
+  const height = getTerrainHeight(worldX, worldZ), base = baseLocation(Math.round((worldX + 21) / 700), Math.round((worldZ - 52) / 700));
+  if (height < 1 || roadDistance(worldX, worldZ) < 15 || Math.hypot(worldX - base.x, worldZ - base.z) < 48) continue;
+  const size = 1.3 + hash(worldX, worldZ) * 3;
+  transform.rotation.set(0, hash(worldZ, worldX) * 6, 0);
+  if (index < 10) {
+   transform.position.set(worldX, height + size * 0.25, worldZ); transform.scale.set(size * 1.2, size * 0.65, size); transform.updateMatrix(); rocks.setMatrixAt(rockCount++, transform.matrix);
+   collisions.push({x: worldX, z: worldZ, radius: size, height: size * 1.1});
+  } else {
+   transform.position.set(worldX, height + size * 1.6, worldZ); transform.scale.set(size * 0.75, size * 3.2, size * 0.75); transform.updateMatrix(); trees.setMatrixAt(treeCount++, transform.matrix);
+  }
+ }
+ rocks.count = rockCount; trees.count = treeCount; rocks.castShadow = rocks.receiveShadow = trees.castShadow = true;
+ rockInstances.add(rocks, trees); return {mesh, water, rocks, trees, collisions};
+}
+function disposeStructure(root) {
+ root.traverse(object => {
+  if (!object.isMesh) return;
+  if (object.geometry !== boxGeometry) object.geometry.dispose();
+  if (object.material.map) {object.material.map.dispose(); object.material.dispose();}
+ }); root.removeFromParent();
+}
+function streamWorld() {
+ const origin = state.mode === 'ON_FOOT' ? state.pilotPosition : state.mechPosition, needed = new Set();
+ for (let column = Math.floor((origin.x - DRAW_RADIUS) / CHUNK_SIZE); column <= Math.floor((origin.x + DRAW_RADIUS) / CHUNK_SIZE); column++) {
+  for (let row = Math.floor((origin.z - DRAW_RADIUS) / CHUNK_SIZE); row <= Math.floor((origin.z + DRAW_RADIUS) / CHUNK_SIZE); row++) {
+   if (Math.hypot(column * CHUNK_SIZE + 50 - origin.x, row * CHUNK_SIZE + 50 - origin.z) > DRAW_RADIUS + 72) continue;
+   const key = `${column},${row}`; needed.add(key);
+   if (!terrainChunks.has(key)) terrainChunks.set(key, createChunk(column, row));
+  }
+ }
+ for (const [key, chunk] of terrainChunks) if (!needed.has(key)) {
+  chunk.mesh.removeFromParent(); chunk.mesh.geometry.dispose();
+  if (chunk.water) {chunk.water.removeFromParent(); chunk.water.geometry.dispose();}
+  chunk.rocks.removeFromParent(); chunk.trees.removeFromParent(); chunk.rocks.dispose(); chunk.trees.dispose(); terrainChunks.delete(key);
+ }
+ const activeBases = new Set();
+ for (let column = Math.round((origin.x + 21) / 700) - 1; column <= Math.round((origin.x + 21) / 700) + 1; column++) {
+  for (let row = Math.round((origin.z - 52) / 700) - 1; row <= Math.round((origin.z - 52) / 700) + 1; row++) {
+   const position = baseLocation(column, row), key = `${column},${row}`;
+   if (Math.hypot(position.x - origin.x, position.z - origin.z) > DRAW_RADIUS + 45) continue;
+   activeBases.add(key); if (!bases.has(key)) bases.set(key, buildOutpost(position.x, position.z));
+  }
+ }
+ for (const [key, base] of bases) if (!activeBases.has(key)) {
+  for (let index = baseContainers.length - 1; index >= 0; index--) if (baseContainers[index].base === base) baseContainers.splice(index, 1);
+  disposeStructure(base); bases.delete(key);
+ }
+ obstacles.length = 0;
+ for (const chunk of terrainChunks.values()) obstacles.push(...chunk.collisions);
+ for (const container of baseContainers) obstacles.push({x: container.position.x, z: container.position.z, radius: 2.7, height: 3.3});
+}
+function buildOutpost(x, z) {
+ const root = group(scene, [x, getTerrainHeight(x, z), z]);
+ box(root, [17, 0.28, 19], [0, 0.1, 0], materials.concrete);
+ for (const side of [-1, 1]) {
+  box(root, [0.65, 13, 0.65], [side * 7, 6.5, 3], materials.steel);
+  beam(root, [side * 7, 2, 3], [side * 3, 12, 3], 0.22, 0.22, materials.steel);
+  box(root, [0.18, 0.06, 15], [side * 6.5, 0.28, 0], materials.amber);
+ }
+ box(root, [15, 0.8, 1], [0, 13, 3], materials.amber);
+ label(root, 'ASTER / SERVICE 07', 9, 1.2, [0, 11.7, 3.55]);
+ for (let index = 0; index < 2; index++) {
+  box(root, [4, 3.3, 5], [-13, 1.65, -5 + index * 6], index === 1 ? materials.red : materials.armor);
+  for (let stripe = 0; stripe < 6; stripe++) box(root, [0.08, 2.9, 0.1], [-14.7 + stripe * 0.66, 1.65, -2.45 + index * 6], materials.steel);
+  label(root, index === 0 ? 'POWER CORES' : 'AMMUNITION', 3.5, 0.7, [-13, 2.5, -2.43 + index * 6]);
+  const position = new THREE.Vector3(x - 13, getTerrainHeight(x - 13, z - 5 + index * 6), z - 5 + index * 6);
+  baseContainers.push({base: root, kind: index === 0 ? 'POWER_CORE' : 'AMMO_CRATE', position});
+ }
+ return root;
+}
+
+// Articulated chassis: feet are solved against terrain, independently of torso motion.
+function makeMech(enemy = false) {
+ const root = group(scene), torso = group(root, [0, 4.7, 0]);
+ const armor = enemy ? materials.red : materials.armor;
+ box(torso, [2.8, 1.15, 1.8], [0, 0, 0], materials.dark);
+ for (const side of [-1, 1]) {
+  box(torso, [0.8, 2, 2.15], [side * 1.65, 1.15, 0.12], armor);
+  box(torso, [1.05, 0.24, 2.5], [side * 1.65, 2.25, 0.12], materials.dark);
+  box(torso, [0.84, 0.17, 1.2], [side * 1.65, 1.15, -1], materials.amber);
+ }
+ const head = group(root, [0, 7.35, -0.35]);
+ box(head, [2.6, 0.35, 2.6], [0, -0.95, 0], armor);
+ box(head, [2.55, 0.22, 2.3], [0, 1.2, 0.1], armor);
+ box(head, [2.55, 2, 0.25], [0, 0.08, 1.15], materials.dark);
+ for (const side of [-1, 1]) {
+  beam(head, [side * 1.3, -0.9, -1.25], [side * 1.12, 1.18, -0.88], 0.16, 0.22, materials.steel);
+  beam(head, [side * 1.3, -0.9, 1.1], [side * 1.12, 1.18, 1.1], 0.2, 0.22, materials.steel);
+  box(head, [0.16, 0.13, 2.2], [side * 1.24, 0.1, 0], materials.steel);
+ }
+ if (enemy) box(head, [1.9, 0.18, 0.1], [0, 0.45, -1.02], materials.amber);
+ box(root, [2.4, 0.5, 1.9], [0, 4, 0], materials.steel);
+ const arms = [];
+ for (const side of [-1, 1]) {
+  const upper = group(torso, [side * 2.5, 1.7, 0]);
+  cylinder(upper, 0.6, 0.9, [0, 0, 0], materials.steel).rotation.z = Math.PI / 2;
+  box(upper, [1.4, 1.4, 1.65], [side * 0.12, -0.3, 0], armor);
+  box(upper, [0.55, 1.5, 0.7], [0, -1.45, 0], materials.dark);
+  const lower = group(upper, [0, -1.9, 0]);
+  cylinder(lower, 0.4, 1.1, [0, 0, 0], materials.steel).rotation.z = Math.PI / 2;
+  box(lower, [1.2, 0.95, 2.2], [0, -0.3, -0.85], armor);
+  const weapon = group(lower, [0, -0.3, -1.8]);
+  if (side === -1) {
+   cylinder(weapon, 0.32, 2.5, [0, 0, -0.7], materials.dark).rotation.x = Math.PI / 2;
+   cylinder(weapon, 0.43, 0.18, [0, 0, -1.9], materials.steel).rotation.x = Math.PI / 2;
+   for (const offset of [-0.15, 0.15]) box(weapon, [0.09, 0.1, 2], [offset, 0.25, -0.6], materials.steel);
+  } else {
+   box(weapon, [1.4, 1.1, 1.6], [0, 0.25, 0.1], materials.dark);
+   for (let slot = 0; slot < 4; slot++) cylinder(weapon, 0.21, 0.18, [(slot % 2 - 0.5) * 0.57, Math.floor(slot / 2) * 0.5, -0.77], materials.rubber).rotation.x = Math.PI / 2;
+  }
+  arms.push({upper, lower, weapon, recoil: 0});
+ }
+ const legs = [];
+ for (const side of [-1, 1]) {
+  const hip = group(root, [side * 1.12, 4.1, 0]);
+  cylinder(hip, 0.55, 1.1, [0, 0, 0]).rotation.z = Math.PI / 2;
+  box(hip, [0.95, 1.72, 0.95], [0, -0.86, 0], armor);
+  box(hip, [0.2, 1.65, 0.2], [side * 0.63, -0.85, 0.15], materials.steel);
+  const knee = group(hip, [0, -1.9, 0]);
+  cylinder(knee, 0.43, 1.2, [0, 0, 0], materials.steel).rotation.z = Math.PI / 2;
+  box(knee, [1.18, 1.72, 1.2], [0, -0.86, 0], armor);
+  box(knee, [0.5, 1.2, 0.1], [0, -0.9, -0.65], materials.dark);
+  const ankle = group(knee, [0, -1.9, 0]);
+  box(ankle, [1.55, 0.55, 2.5], [0, -0.025, -0.48], materials.dark);
+  box(ankle, [1.62, 0.17, 2.55], [0, -0.21, -0.48], materials.rubber);
+  box(ankle, [1.45, 0.12, 0.65], [0, 0.25, -1.15], armor);
+  legs.push({hip, knee, ankle, side});
+ }
+ const rear = group(root, [0, 2.2, 1.8]);
+ box(rear, [2.9, 1.8, 0.55], [0, 0.5, 0], materials.dark);
+ const reactor = group(rear, [-0.85, 0.65, 0.55]);
+ cylinder(reactor, 0.57, 0.5, [0, 0, 0], materials.steel).rotation.x = Math.PI / 2;
+ cylinder(reactor, 0.44, 0.56, [0, 0, 0], materials.rubber).rotation.x = Math.PI / 2;
+ const cargo = group(rear, [0.9, 0, 0.55]);
+ box(cargo, [1.5, 0.1, 1.2], [0, -0.65, 0], materials.steel);
+ box(cargo, [1.5, 0.1, 1.2], [0, 0.25, 0], materials.steel);
+ for (const side of [-1, 1]) box(cargo, [0.1, 1.9, 1.2], [side * 0.76, 0.22, 0], materials.steel);
+ const cargoSlots = [group(cargo, [0, -0.2, 0]), group(cargo, [0, 0.7, 0])];
+ label(rear, 'REACTOR', 1.05, 0.25, [-0.85, 1.48, 0.31]); label(rear, 'CARGO / 02', 1.5, 0.25, [0.9, 1.48, 0.31]);
+ for (let rung = 0; rung < 5; rung++) box(root, [0.8, 0.07, 0.24], [0, 0.85 + rung * 0.83, -1.26], materials.steel);
+ const jets = [];
+ for (const side of [-1, 1]) {
+  cylinder(root, 0.42, 2.2, [side * 1.6, 4.9, 1.5], materials.dark);
+  cylinder(root, 0.51, 0.3, [side * 1.6, 3.75, 1.5], materials.steel);
+  const jet = new THREE.Mesh(new THREE.ConeGeometry(0.35, 2.5, 8), materials.jet); jet.rotation.z = Math.PI; jet.position.set(side * 1.6, 2.6, 1.5); root.add(jet); jets.push(jet);
+ }
+ label(root, enemy ? 'S / 07' : 'H / 09', 1.4, 0.44, [0, 5.05, -0.92]).rotation.y = Math.PI;
+ return {root, torso, head, arms, legs, rear, reactor, cargo, cargoSlots, jets, phase: 0, hp: 100, alive: true};
+}
+const mech = makeMech();
+state.mechPosition.y = getTerrainHeight(state.mechPosition.x, state.mechPosition.z) + MECH_FOOT_OFFSET;
+mech.root.position.copy(state.mechPosition);
+
+// Camera-local cage keeps the sight cone clear while maintaining a rigid pilot transform.
+const cockpit = group(camera);
+for (const side of [-1, 1]) {
+ beam(cockpit, [side * 1.35, -1.45, -1.1], [side * 1.04, 1.45, -1.05], 0.11, 0.16, materials.dark);
+ beam(cockpit, [side * 1.5, -1.45, -1.09], [side * 1.19, 1.45, -1.04], 0.025, 0.04, materials.steel);
+ const console = box(cockpit, [0.53, 0.23, 1.2], [side * 0.83, -0.85, -0.37], materials.dark); console.rotation.z = side * 0.1;
+ for (let lamp = 0; lamp < 4; lamp++) box(cockpit, [0.025, 0.025, 0.13], [side * 0.77 + lamp * 0.065, -0.715, -0.8], lamp === 3 ? materials.amber : materials.light);
+ const handle = beam(cockpit, [side * 0.68, -1.2, -0.35], [side * 0.6, -0.75, -0.45], 0.07, 0.09, materials.rubber);
+ handle.castShadow = false;
+}
+box(cockpit, [2.9, 0.18, 0.22], [0, 1.45, -1.06], materials.dark);
+box(cockpit, [2.9, 0.27, 0.3], [0, -1.48, -1.08], materials.dark);
+cockpit.traverse(object => {object.castShadow = false; object.receiveShadow = false;});
+function updateCockpitCamera() {
+ camera.position.copy(MECH_COCKPIT_OFFSET).applyAxisAngle(UP, state.mechYaw).add(state.mechPosition);
+ camera.rotation.set(state.pitch, state.lookYaw, 0, 'YXZ'); camera.updateMatrixWorld(true);
+}
+function updateCamera() {
+ const inCockpit = (state.mode === 'PAUSED' ? state.resumeMode : state.mode) === 'COCKPIT';
+ cockpit.visible = inCockpit; mech.head.visible = !inCockpit;
+ if (inCockpit) updateCockpitCamera();
+ else {camera.position.copy(state.pilotPosition); camera.position.y += PLAYER_EYE_HEIGHT; camera.rotation.set(state.pitch, state.pilotYaw, 0, 'YXZ'); camera.updateMatrixWorld(true);}
+}
+function animateMech(machine, speed, delta, yaw, airborne = false) {
+ machine.phase += speed * delta * 0.85;
+ for (const leg of machine.legs) {
+  const swing = Math.sin(machine.phase + (leg.side === -1 ? Math.PI : 0));
+  const step = swing * Math.min(speed / 8, 1) * 0.8;
+  const foot = new THREE.Vector3(leg.side * 1.12, 0, step).applyAxisAngle(UP, yaw).add(machine.root.position);
+  const groundDelta = airborne ? 0 : getTerrainHeight(foot.x, foot.z) - machine.root.position.y;
+  const lift = Math.max(0, Math.cos(machine.phase + (leg.side === -1 ? Math.PI : 0))) * Math.min(speed / 8, 1) * 0.26;
+  const vertical = clamp(3.8 - groundDelta - lift, 2.4, 3.8);
+  const distance = Math.min(Math.hypot(vertical, step), 3.798);
+  const bend = 2 * Math.acos(distance / 3.8);
+  leg.hip.rotation.x = -Math.atan2(step, vertical) - bend / 2;
+  leg.knee.rotation.x = bend; leg.ankle.rotation.x = -leg.hip.rotation.x - bend;
+ }
+ machine.torso.rotation.z = Math.sin(machine.phase) * Math.min(speed / 8, 1) * 0.025;
+ for (const arm of machine.arms) {arm.recoil = Math.max(0, arm.recoil - delta * 5); arm.lower.rotation.x = -arm.recoil * 0.25;}
+ for (const jet of machine.jets) {jet.visible = machine === mech && state.jetThrust > 0.02; jet.scale.y = state.jetThrust * (1 + Math.sin(state.time * 67) * 0.1);}
+}
+function worldPoint(local) {return local.clone().applyAxisAngle(UP, state.mechYaw).add(state.mechPosition);}
+function localPilot() {return state.pilotPosition.clone().sub(state.mechPosition).applyAxisAngle(UP, -state.mechYaw);}
+function nearFront() {const local = localPilot(); return Math.abs(local.x) < 2.7 && local.z < -2.1 && local.z > -5.5;}
+function nearRear() {const local = localPilot(); return Math.abs(local.x) < 3 && local.z > 2.5 && local.z < 6;}
+function notify(text) {state.notice = text; state.noticeUntil = state.time + 4;}
+function clearInput() {input.keys.clear(); input.firing = false; input.fireQueued = false;}
+function resolveObstacles(position, radius, ignoreMech = false) {
+ for (const obstacle of obstacles) {
+  if (position.y > getTerrainHeight(obstacle.x, obstacle.z) + obstacle.height) continue;
+  const dx = position.x - obstacle.x, dz = position.z - obstacle.z, distance = Math.hypot(dx, dz), boundary = radius + obstacle.radius;
+  if (distance < boundary) {position.x = obstacle.x + (distance > 0.0001 ? dx / distance : 1) * boundary; position.z = obstacle.z + (distance > 0.0001 ? dz / distance : 0) * boundary;}
+ }
+ if (!ignoreMech) {
+  const dx = position.x - state.mechPosition.x, dz = position.z - state.mechPosition.z, distance = Math.hypot(dx, dz);
+  if (distance < MECH_RADIUS + radius) {position.x = state.mechPosition.x + (distance > 0.0001 ? dx / distance : 1) * (MECH_RADIUS + radius); position.z = state.mechPosition.z + (distance > 0.0001 ? dz / distance : 0) * (MECH_RADIUS + radius);}
+ }
+}
+function updateLocomotion(delta) {
+ const moving = new THREE.Vector3(Number(input.keys.has('KeyD')) - Number(input.keys.has('KeyA')), 0, Number(input.keys.has('KeyS')) - Number(input.keys.has('KeyW')));
+ if (moving.lengthSq() > 0) moving.normalize();
+ const powered = state.mode === 'COCKPIT' && state.mechPower && state.installedPowerCore;
+ if (state.mode === 'COCKPIT') {
+  moving.applyAxisAngle(UP, state.mechYaw).multiplyScalar(powered ? 13 : 0);
+  state.mechVelocity.x = approach(state.mechVelocity.x, moving.x, delta * 15); state.mechVelocity.z = approach(state.mechVelocity.z, moving.z, delta * 15);
+ } else {state.mechVelocity.x = approach(state.mechVelocity.x, 0, delta * 18); state.mechVelocity.z = approach(state.mechVelocity.z, 0, delta * 18);}
+ state.jetThrust = approach(state.jetThrust, powered && input.keys.has('Space') && !state.overheat ? 1 : 0, delta * (powered && input.keys.has('Space') ? 0.62 : 0.85));
+ state.mechVelocity.y += ((powered ? state.jetThrust * 30 : 0) - 15) * delta;
+ state.mechVelocity.y = clamp(state.mechVelocity.y, -36, 24);
+ state.mechPosition.addScaledVector(state.mechVelocity, delta); resolveObstacles(state.mechPosition, MECH_RADIUS, true);
+ const ground = getTerrainHeight(state.mechPosition.x, state.mechPosition.z) + MECH_FOOT_OFFSET;
+ if (state.mechPosition.y <= ground + GROUND_EPSILON) {state.mechPosition.y = ground; state.mechVelocity.y = Math.max(0, state.mechVelocity.y);}
+ if (state.mode === 'ON_FOOT') {
+  moving.applyAxisAngle(UP, state.pilotYaw).multiplyScalar(state.carriedItem ? 3.2 : 5.1);
+  state.pilotPosition.addScaledVector(moving, delta); resolveObstacles(state.pilotPosition, PLAYER_RADIUS);
+ state.pilotPosition.y = getTerrainHeight(state.pilotPosition.x, state.pilotPosition.z);
+ }
+ for (const enemy of enemies) {
+  if (!enemy.alive) continue;
+  const position = state.mode === 'ON_FOOT' ? state.pilotPosition : state.mechPosition;
+  const boundary = state.mode === 'ON_FOOT' ? MECH_RADIUS + PLAYER_RADIUS : MECH_RADIUS * 2;
+  const dx = position.x - enemy.root.position.x, dz = position.z - enemy.root.position.z, distance = Math.hypot(dx, dz);
+  if (distance < boundary && Math.abs(position.y - enemy.root.position.y) < 8) {
+   position.x = enemy.root.position.x + (distance > 0.0001 ? dx / distance : 1) * boundary;
+   position.z = enemy.root.position.z + (distance > 0.0001 ? dz / distance : 0) * boundary;
+   if (state.mode === 'ON_FOOT') position.y = getTerrainHeight(position.x, position.z);
+   else position.y = Math.max(position.y, getTerrainHeight(position.x, position.z));
+  }
+ }
+ mech.root.position.copy(state.mechPosition); mech.root.rotation.y = state.mechYaw;
+ animateMech(mech, Math.hypot(state.mechVelocity.x, state.mechVelocity.z), delta, state.mechYaw, state.mechPosition.y > ground + 0.1);
+}
+function interactMode() {
+ if (state.mode === 'COCKPIT') {
+  if (state.mechPosition.y - getTerrainHeight(state.mechPosition.x, state.mechPosition.z) > 0.15 || Math.abs(state.mechVelocity.y) > 0.5) return notify('ACCESS INTERLOCK / LAND BEFORE EXIT');
+  state.pilotPosition.copy(worldPoint(new THREE.Vector3(4.3, 0, -1.2))); resolveObstacles(state.pilotPosition, PLAYER_RADIUS);
+  state.pilotPosition.y = getTerrainHeight(state.pilotPosition.x, state.pilotPosition.z); state.pilotYaw = state.mechYaw; state.pitch = 0;
+  state.mode = 'ON_FOOT'; state.mechVelocity.set(0, 0, 0); clearInput(); notify('PILOT DISMOUNTED');
+ } else if (state.mode === 'ON_FOOT') {
+  if (!nearFront()) return notify('COCKPIT ACCESS / FRONT OF CHASSIS');
+  if (state.carriedItem) return notify('STOW OR DROP CARRIED ITEM BEFORE BOARDING');
+  state.mode = 'COCKPIT'; state.pitch = 0; clearInput(); updateCockpitCamera(); notify('PILOT LINK ESTABLISHED');
+ }
+ updateCamera();
+}
+// Item ownership is exclusive: WORLD, CARRIED, REACTOR, CARGO, or CONSUMED.
+const items = [];
+let carriedObject = null;
+function createItem(kind, position) {
+ const mesh = group(scene);
+ const item = {kind, mesh, location: 'WORLD', slot: null, supplies: kind === 'AMMO_CRATE' ? {1: 180, 2: 8, 3: 12} : null, glow: null};
+ if (kind === 'POWER_CORE') {
+  item.glow = new THREE.MeshStandardMaterial({color: 0x9effdb, emissive: 0x36f7b2, emissiveIntensity: 2.2, roughness: 0.3, metalness: 0.4});
+  cylinder(mesh, 0.27, 0.68, [0, 0, 0], item.glow, 12);
+  for (const side of [-1, 1]) {
+   cylinder(mesh, 0.37, 0.15, [0, side * 0.4, 0], materials.steel);
+   cylinder(mesh, 0.29, 0.035, [0, side * 0.49, 0], materials.amber);
+  }
+  for (let rib = 0; rib < 4; rib++) {const angle = rib * Math.PI / 2; box(mesh, [0.08, 0.77, 0.08], [Math.sin(angle) * 0.3, 0, Math.cos(angle) * 0.3], materials.dark);}
+ } else {
+  box(mesh, [1.02, 0.62, 0.74], [0, 0, 0], materials.dark);
+  box(mesh, [1.08, 0.08, 0.8], [0, 0.34, 0], materials.armor);
+  for (const side of [-1, 1]) {
+   box(mesh, [0.11, 0.72, 0.81], [side * 0.32, 0, 0], materials.amber);
+   box(mesh, [0.14, 0.22, 0.36], [side * 0.56, 0.02, 0], materials.steel);
+  }
+  label(mesh, '30 / MR / MS', 0.6, 0.17, [0, 0.02, 0.376]);
+ }
+ items.push(item); placeItemOnGround(item, position); return item;
+}
+function itemHeight(item) {return item.kind === 'POWER_CORE' ? 0.51 : 0.4;}
+function synchronizeManifest() {
+ state.installedPowerCore = items.some(item => item.location === 'REACTOR');
+ state.cargoAmmoCrates = items.filter(item => item.location === 'CARGO' && item.kind === 'AMMO_CRATE').length;
+ state.carriedItem = carriedObject ? carriedObject.kind : null;
+ if (!state.installedPowerCore) state.mechPower = false;
+}
+function placeItemOnGround(item, position) {
+ scene.add(item.mesh); item.location = 'WORLD'; item.slot = null; item.mesh.rotation.set(0, 0, 0); item.mesh.position.copy(position);
+ item.mesh.position.y = getTerrainHeight(position.x, position.z) + itemHeight(item) + GROUND_EPSILON;
+}
+function consumeItem(item) {
+ if (!item) return;
+ item.mesh.removeFromParent();
+ item.location = 'CONSUMED';
+ item.slot = null;
+ const index = items.indexOf(item);
+ if (index !== -1) items.splice(index, 1);
+}
+function seatItem(item, location, slot = null) {
+ const parent = location === 'REACTOR' ? mech.reactor : mech.cargoSlots[slot];
+ parent.add(item.mesh); item.mesh.position.set(0, 0, location === 'REACTOR' ? 0.15 : 0);
+ item.mesh.rotation.set(location === 'REACTOR' ? Math.PI / 2 : 0, 0, 0); item.location = location; item.slot = slot;
+ if (carriedObject === item) carriedObject = null;
+ synchronizeManifest();
+}
+function nearbySupplyContainer(kind) {
+ let best = null, nearest = 3.8;
+ for (const container of baseContainers) {
+  if (container.kind !== kind) continue;
+  const distance = Math.hypot(container.position.x - state.pilotPosition.x, container.position.z - state.pilotPosition.z);
+  if (distance < nearest) {best = container; nearest = distance;}
+ }
+ return best;
+}
+function pickupCandidate() {
+ let best = null, nearest = 2.75;
+ for (const item of items) {
+  if (item.location !== 'WORLD') continue;
+  const distance = Math.hypot(item.mesh.position.x - state.pilotPosition.x, item.mesh.position.z - state.pilotPosition.z);
+  if (distance < nearest && Math.abs(item.mesh.position.y - state.pilotPosition.y) < 2) {best = item; nearest = distance;}
+ }
+ if (best) return best;
+ const powerContainer = nearbySupplyContainer('POWER_CORE');
+ const ammoContainer = nearbySupplyContainer('AMMO_CRATE');
+ if (powerContainer && Math.hypot(powerContainer.position.x - state.pilotPosition.x, powerContainer.position.z - state.pilotPosition.z) < 3.1) return {kind: 'POWER_CORE', supply: true};
+ if (ammoContainer && Math.hypot(ammoContainer.position.x - state.pilotPosition.x, ammoContainer.position.z - state.pilotPosition.z) < 3.1) return {kind: 'AMMO_CRATE', supply: true};
+ if (!nearRear()) return null;
+ if (localPilot().x < 0.1) return items.find(item => item.location === 'REACTOR') ?? null;
+ const cargoItems = items.filter(item => item.location === 'CARGO');
+ return cargoItems.find(item => item.slot === (state.pitch > 0.2 ? 1 : 0)) ?? cargoItems[0] ?? null;
+}
+function grabOrDrop() {
+ if (carriedObject) {
+  const container = nearbySupplyContainer(carriedObject.kind);
+  if (container && Math.hypot(container.position.x - state.pilotPosition.x, container.position.z - state.pilotPosition.z) < 3.1) {
+   const kind = carriedObject.kind;
+   consumeItem(carriedObject);
+   carriedObject = null;
+   synchronizeManifest();
+   return notify(`${kind === 'POWER_CORE' ? 'POWER CORE' : 'AMMUNITION CRATE'} DEPOSITED / SUPPLY STORED`);
+  }
+  const position = new THREE.Vector3(0, 0, -1.8).applyAxisAngle(UP, state.pilotYaw).add(state.pilotPosition);
+  resolveObstacles(position, 0.65);
+  placeItemOnGround(carriedObject, position); carriedObject = null; synchronizeManifest(); return notify('ITEM RELEASED');
+ }
+ const item = pickupCandidate();
+ if (!item) return notify('NO ITEM WITHIN REACH');
+ if (item.supply) {
+  const supplyItem = createItem(item.kind, state.pilotPosition.clone());
+  carriedObject = supplyItem; supplyItem.location = 'CARRIED'; supplyItem.slot = null; camera.add(supplyItem.mesh);
+  supplyItem.mesh.position.set(0.48, -0.57, -1.12); supplyItem.mesh.rotation.set(0, 0, supplyItem.kind === 'POWER_CORE' ? -0.18 : 0);
+  synchronizeManifest(); notify(item.kind === 'POWER_CORE' ? 'POWER CORE SECURED' : 'AMMUNITION CRATE SECURED');
+  return;
+ }
+ if (item.location === 'REACTOR' && state.mechPower) return notify('REACTOR INTERLOCK / SHUT DOWN WITH F IN COCKPIT');
+ carriedObject = item; item.location = 'CARRIED'; item.slot = null; camera.add(item.mesh);
+ item.mesh.position.set(0.48, -0.57, -1.12); item.mesh.rotation.set(0, 0, item.kind === 'POWER_CORE' ? -0.18 : 0);
+ synchronizeManifest(); notify(item.kind === 'POWER_CORE' ? 'POWER CORE SECURED' : 'AMMUNITION CRATE SECURED');
+}
+function insertItem() {
+ if (!carriedObject) return notify('NO CARRIED ITEM');
+ if (!nearRear()) return notify('REACTOR / CARGO ACCESS AT REAR OF CHASSIS');
+ if (carriedObject.kind === 'POWER_CORE' && !state.installedPowerCore && localPilot().x < 0.35) {
+  seatItem(carriedObject, 'REACTOR'); return notify('CORE SEATED / F TO START REACTOR IN COCKPIT');
+ }
+ const slot = [0, 1].find(index => !items.some(item => item.location === 'CARGO' && item.slot === index));
+ if (slot === undefined) return notify('CARGO FULL / REMOVE A STORED ITEM FIRST');
+ seatItem(carriedObject, 'CARGO', slot); notify('CARGO LATCH ENGAGED');
+}
+const ammoCapacity = {1: 360, 2: 18, 3: 24};
+function reloadCargo() {
+ if (!nearRear() || localPilot().x < -0.1) return notify('RELOAD AT REAR CARGO RACK');
+ const crates = items.filter(item => item.location === 'CARGO' && item.kind === 'AMMO_CRATE');
+ if (!crates.length) return notify('NO AMMUNITION CRATE IN CARGO');
+ let transferred = 0;
+ for (const crate of crates) {
+  for (const weapon of [1, 2, 3]) {
+   const amount = Math.min(ammoCapacity[weapon] - state.ammo[weapon], crate.supplies[weapon]);
+   state.ammo[weapon] += amount; crate.supplies[weapon] -= amount; transferred += amount;
+  }
+   if (Object.values(crate.supplies).every(amount => amount === 0)) consumeItem(crate);
+ }
+ synchronizeManifest(); notify(transferred ? 'MAGAZINES REPLENISHED / CARGO INVENTORY UPDATED' : 'MAGAZINES FULL / CARGO RETAINED');
+}
+const initialCore = createItem('POWER_CORE', state.mechPosition);
+seatItem(initialCore, 'REACTOR'); state.mechPower = true;
+seatItem(createItem('AMMO_CRATE', state.mechPosition), 'CARGO', 0);
+for (const [kind, x, z] of [['POWER_CORE', 6, 38], ['AMMO_CRATE', 6, 40], ['POWER_CORE', -5, 42], ['AMMO_CRATE', -4, 44], ['POWER_CORE', -19, 52], ['AMMO_CRATE', -18, 54], ['AMMO_CRATE', -23, 53]]) createItem(kind, new THREE.Vector3(x, 0, z));
+const hands = group(camera);
+for (const side of [-1, 1]) {
+ const glove = box(hands, [0.18, 0.2, 0.28], [0.48 + side * 0.42, -0.63, -0.93], materials.rubber);
+ glove.rotation.z = side * 0.2; box(hands, [0.18, 0.14, 0.14], [0.48 + side * 0.42, -0.6, -0.76], materials.armor);
+}
+function updateItems() {
+ hands.visible = state.mode === 'ON_FOOT' && carriedObject !== null;
+ for (const item of items) if (item.glow && item.location !== 'CONSUMED') item.glow.emissiveIntensity = (item.location === 'REACTOR' && !state.mechPower ? 0.4 : 1.8) + Math.sin(state.time * 2.6) * 0.22;
+}
+
+// Combat uses swept segments, terrain impacts, bounded guidance and ballistic gravity.
+const enemies = [];
+const enemyPositions = [[-48, -92], [69, -128], [-113, -175], [138, -206], [-33, -288], [78, -332]];
+function spawnWave() {
+ if (state.won) return;
+ const count = Math.min(2 + state.wave, 5);
+ for (let index = 0; index < count; index++) {
+  const angle = random() * Math.PI * 2;
+  const radius = 170 + state.wave * 18 + random() * 160;
+  const x = clamp(state.mechPosition.x + Math.cos(angle) * radius, -620, 620);
+  const z = clamp(state.mechPosition.z + Math.sin(angle) * radius, -620, 620);
+  const enemy = makeMech(true);
+  enemy.root.position.set(x, getTerrainHeight(x, z), z); enemy.name = `SENTRY ${String(enemies.length + 1).padStart(2, '0')}`;
+  enemy.hp = 130 + state.wave * 12; enemy.maxHp = enemy.hp; enemy.fireTimer = 2 + random() * 2; enemy.seed = enemies.length * 2.3 + random();
+  enemy.yaw = Math.atan2(state.mechPosition.x - x, state.mechPosition.z - z); enemy.root.rotation.y = enemy.yaw; animateMech(enemy, 0, 0, enemy.yaw);
+  enemies.push(enemy);
+ }
+ state.wave += 1; state.nextWaveAt = state.time + 16 + state.wave * 4; notify(`WAVE ${state.wave} / ${count} SENTRIES DETECTED`);
+}
+for (let index = 0; index < enemyPositions.length; index++) {
+ const [x, z] = enemyPositions[index], enemy = makeMech(true);
+ enemy.root.position.set(x, getTerrainHeight(x, z), z); enemy.name = `SENTRY ${String(index + 1).padStart(2, '0')}`;
+ enemy.hp = 130; enemy.maxHp = 130; enemy.fireTimer = 3 + index * 0.6; enemy.seed = index * 1.7; enemy.yaw = Math.PI;
+ enemy.root.rotation.y = enemy.yaw; animateMech(enemy, 0, 0, enemy.yaw); enemies.push(enemy);
+}
+const projectiles = [], effects = [];
+const effectGeometry = new THREE.IcosahedronGeometry(1, 0);
+const projectileGeometry = new THREE.SphereGeometry(1, 6, 4);
+const tracerMaterials = {
+ cannon: new THREE.MeshBasicMaterial({color: 0xe7ffc6}), missile: new THREE.MeshBasicMaterial({color: 0xffcd76}),
+ mortar: new THREE.MeshBasicMaterial({color: 0xffecad}), enemy: new THREE.MeshBasicMaterial({color: 0xff7451})
+};
+const FORWARD = new THREE.Vector3(0, 0, -1);
+const raycaster = new THREE.Raycaster();
+function enemyCenter(enemy) {return enemy.root.position.clone().add(new THREE.Vector3(0, 4.4, 0));}
+function lineOfSight(start, end) {
+ const delta = end.clone().sub(start), length = delta.length(), count = Math.ceil(length / 4);
+ for (let sample = 1; sample < count; sample++) {
+  const position = start.clone().addScaledVector(delta, sample / count);
+  if (position.y < getTerrainHeight(position.x, position.z) + 0.15) return false;
+ }
+ const planarLength = delta.x * delta.x + delta.z * delta.z;
+ if (planarLength < 0.001) return true;
+ for (const obstacle of obstacles) {
+  const fraction = ((obstacle.x - start.x) * delta.x + (obstacle.z - start.z) * delta.z) / planarLength;
+  if (fraction <= 0 || fraction >= 1) continue;
+  const x = start.x + delta.x * fraction, z = start.z + delta.z * fraction;
+  if (Math.hypot(x - obstacle.x, z - obstacle.z) < obstacle.radius && start.y + delta.y * fraction < getTerrainHeight(obstacle.x, obstacle.z) + obstacle.height) return false;
+ }
+ return true;
+}
+function visibleEnemy(enemy) {
+ if (!enemy.alive) return false;
+ const center = enemyCenter(enemy), projected = center.clone().project(camera);
+ return projected.z > -1 && projected.z < 1 && Math.abs(projected.x) < 1 && Math.abs(projected.y) < 1 && lineOfSight(camera.position, center);
+}
+function selectTarget(cycle = false) {
+ if (state.mode !== 'COCKPIT') return;
+ updateCockpitCamera();
+ const candidates = enemies.filter(enemy => enemy.alive && (cycle || visibleEnemy(enemy))).sort((left, right) => left.root.position.distanceToSquared(state.mechPosition) - right.root.position.distanceToSquared(state.mechPosition));
+ if (!candidates.length) {state.selectedTarget = null; state.targetLockProgress = 0; state.targetLocked = false; return notify('NO VISIBLE CONTACT');}
+ state.selectedTarget = cycle ? candidates[(candidates.indexOf(state.selectedTarget) + 1) % candidates.length] : candidates[0];
+ state.targetLockProgress = 0; state.targetLocked = false;
+}
+function updateTargeting(delta) {
+ const target = state.selectedTarget;
+ if (!target || !target.alive) {state.selectedTarget = null; state.targetLockProgress = 0; state.targetLocked = false; return;}
+ const center = enemyCenter(target), aim = center.clone().sub(camera.position), range = aim.length();
+ const direction = camera.getWorldDirection(new THREE.Vector3());
+ const acquiring = state.mode === 'COCKPIT' && state.mechPower && state.selectedWeapon === 2 && range < 600 && direction.dot(aim.normalize()) > 0.967 && lineOfSight(camera.position, center);
+ state.targetLockProgress = clamp(state.targetLockProgress + delta * (acquiring ? 0.6 : -1.2), 0, 1);
+ const previouslyLocked = state.targetLocked; state.targetLocked = state.targetLockProgress >= 1;
+ if (state.targetLocked && !previouslyLocked) audio.tone(920, 0.13, 0.035);
+}
+function addEffect(position, color, size, lifetime, velocity = new THREE.Vector3(), smoke = false) {
+ if (effects.length >= 150) {const oldest = effects.shift(); oldest.mesh.removeFromParent(); oldest.mesh.material.dispose();}
+ const material = new THREE.MeshBasicMaterial({color, transparent: true, opacity: smoke ? 0.36 : 0.92, depthWrite: false});
+ const mesh = new THREE.Mesh(effectGeometry, material); mesh.position.copy(position); mesh.scale.setScalar(size); scene.add(mesh);
+ effects.push({mesh, size, lifetime, remaining: lifetime, velocity, smoke});
+}
+function explosion(position, radius, damage, owner, directTarget = null) {
+ addEffect(position, 0xffdc91, Math.max(0.4, radius * 0.2), 0.25);
+ addEffect(position, 0x50584d, Math.max(0.7, radius * 0.18), 2.1, new THREE.Vector3(0, 2.8, 0), true);
+ for (let fragment = 0; fragment < 7; fragment++) addEffect(position, fragment % 2 ? 0xffa24c : 0xadb49a, 0.08 + random() * 0.12, 0.4 + random() * 0.5, new THREE.Vector3((random() - 0.5) * 15, random() * 12, (random() - 0.5) * 15));
+ if (owner === 'player') {
+  for (const enemy of enemies) {
+   if (!enemy.alive) continue;
+   const distance = enemyCenter(enemy).distanceTo(position);
+   if (enemy === directTarget || distance < radius + 2.4) damageEnemy(enemy, damage * (enemy === directTarget ? 1 : clamp(1 - (distance - 2.4) / radius, 0.15, 1)));
+  }
+ } else {
+  const center = state.mechPosition.clone().add(new THREE.Vector3(0, 4.2, 0));
+  if (directTarget === mech || center.distanceTo(position) < radius + 2.4) damagePlayer(damage);
+ }
+ const distance = camera.position.distanceTo(position);
+ audio.tone(65, 0.27, clamp(0.7 / (1 + distance * 0.04), 0.008, 0.2), 'triangle');
+}
+function damageEnemy(enemy, amount) {
+ enemy.hp = Math.max(0, enemy.hp - amount);
+ if (enemy.hp > 0 || !enemy.alive) return;
+ enemy.alive = false; state.kills++;
+ enemy.torso.rotation.z = 0.48; enemy.head.rotation.z = -0.5; enemy.root.scale.y = 0.64;
+ for (const arm of enemy.arms) arm.upper.rotation.z = (arm.upper.position.x < 0 ? -1 : 1) * 0.7;
+ for (const jet of enemy.jets) jet.visible = false;
+ const center = enemyCenter(enemy); addEffect(center, 0xffb255, 3.8, 0.55); addEffect(center, 0x3a4239, 3, 5, new THREE.Vector3(0, 2.2, 0), true);
+ createItem('AMMO_CRATE', enemy.root.position.clone().add(new THREE.Vector3(5, 0, 0)));
+ if (state.kills === enemies.length) {state.won = true; notify('BASIN SECURED / ALL SIX SENTRIES NEUTRALIZED');}
+ else notify(`${enemy.name} NEUTRALIZED / ${enemies.length - state.kills} REMAINING`);
+}
+function damagePlayer(amount) {
+ if (state.mode === 'DEAD') return;
+ state.hull = Math.max(0, state.hull - amount); state.damageFlash = Math.min(0.7, state.damageFlash + 0.3);
+ if (state.hull > 0) return;
+ state.mode = 'DEAD'; state.mechPower = false; clearInput();
+ dom.overlay.hidden = false; dom.overlay.classList.add('paused'); dom['overlay-title'].textContent = 'SIGNAL LOST';
+ dom['overlay-tag'].textContent = 'H-09 / CATASTROPHIC CHASSIS FAILURE';
+ dom['overlay-copy'].textContent = `${state.kills} of 6 sentries neutralized. The field recorder has preserved your final transmission.`;
+ dom['mission-grid'].hidden = true; dom.initialize.textContent = 'REDEPLOY SYSTEM'; dom['boot-status'].textContent = 'RESTART MISSION / NEW CHASSIS';
+ if (document.pointerLockElement) document.exitPointerLock();
+}
+function spawnProjectile(kind, position, velocity, owner, target = null, guided = false) {
+ const mesh = new THREE.Mesh(projectileGeometry, tracerMaterials[kind]);
+ const radius = kind === 'cannon' ? 0.07 : kind === 'enemy' ? 0.17 : 0.2;
+ mesh.scale.set(radius, radius, kind === 'cannon' ? 1.4 : 0.5); mesh.position.copy(position); scene.add(mesh);
+ const projectile = {kind, mesh, velocity: velocity.clone(), owner, target, guided, life: kind === 'cannon' ? 3 : 11, trailClock: 0,
+  gravity: kind === 'mortar' ? 18 : kind === 'missile' ? 9.81 : kind === 'enemy' ? 3 : 0.7,
+  damage: kind === 'cannon' ? 10 : kind === 'missile' ? 54 : kind === 'mortar' ? 34 : 4,
+  radius: kind === 'cannon' ? 0.2 : kind === 'missile' ? 9 : kind === 'mortar' ? 12 : 2.4};
+ projectiles.push(projectile); return projectile;
+}
+function aimPoint() {
+ const direction = camera.getWorldDirection(new THREE.Vector3()); raycaster.set(camera.position, direction); raycaster.far = 600;
+ scene.updateMatrixWorld(true);
+ const hits = raycaster.intersectObjects([terrain, rockInstances, ...enemies.filter(enemy => enemy.alive).map(enemy => enemy.root)], true);
+ return hits.length ? hits[0].point : camera.position.clone().addScaledVector(direction, 500);
+}
+function fireWeapon() {
+ if (state.mode !== 'COCKPIT' || !state.mechPower || !state.installedPowerCore || state.cooldown > 0) return false;
+ const weapon = state.selectedWeapon, cost = weapon === 3 ? 3 : 1;
+ if (state.overheat) {notify('THERMAL INTERLOCK / COOLING'); return false;}
+ if (state.ammo[weapon] < cost) {notify('MAGAZINE EMPTY / RELOAD AT REAR CARGO'); return false;}
+ if (weapon === 2 && (!state.selectedTarget || !state.selectedTarget.alive)) {notify('DESIGNATE TARGET / M OR RIGHT MOUSE'); return false;}
+ const origin = worldPoint(new THREE.Vector3(weapon === 1 ? -2.5 : 2.5, 4.2, -4.1));
+ const destination = aimPoint();
+ const direction = destination.clone().sub(origin).normalize();
+ state.ammo[weapon] -= cost; state.heat = Math.min(100, state.heat + (weapon === 1 ? 2.25 : weapon === 2 ? 11 : 17));
+ state.cooldown = weapon === 1 ? 0.105 : weapon === 2 ? 0.85 : 1.35;
+ mech.arms[weapon === 1 ? 0 : 1].recoil = 1;
+ if (weapon === 1) spawnProjectile('cannon', origin, direction.multiplyScalar(285), 'player');
+ if (weapon === 2) {
+  spawnProjectile('missile', origin, direction.multiplyScalar(62).add(new THREE.Vector3(0, 4, 0)), 'player', state.selectedTarget, state.targetLocked);
+  if (!state.targetLocked) notify('MISSILE AWAY / UNGUIDED, LOCK NOT ACQUIRED');
+ }
+ if (weapon === 3) {
+  const landing = destination.clone(); landing.y = getTerrainHeight(landing.x, landing.z) + 0.12;
+  const planar = landing.clone().sub(origin); planar.y = 0;
+  const distance = clamp(planar.length(), 18, 260);
+  let horizontal = planar.clone().normalize();
+  if (horizontal.lengthSq() < 0.0001) horizontal = new THREE.Vector3(0, 0, -1).applyAxisAngle(UP, state.mechYaw);
+  const gravity = 18.5, speed = 75, deltaY = landing.y - origin.y;
+  const a = (gravity * distance * distance) / (2 * speed * speed);
+  const discriminant = distance * distance - 4 * a * (deltaY + a);
+  let angle = Math.PI / 4;
+  if (discriminant >= 0) {
+   const root = Math.sqrt(discriminant);
+   const tangent = (distance - root) / (2 * a);
+   angle = Math.atan2(Math.max(0.12, tangent), 1);
+  }
+  for (const spread of [-1, 0, 1]) {
+   const heading = horizontal.clone().applyAxisAngle(UP, spread * 0.028);
+   const velocity = heading.clone().multiplyScalar(Math.cos(angle) * speed);
+   velocity.y = Math.sin(angle) * speed + spread * 0.45;
+   spawnProjectile('mortar', origin.clone(), velocity, 'player');
+  }
+ }
+ addEffect(origin, 0xfff2ba, weapon === 1 ? 0.36 : 0.8, 0.055);
+ audio.shot(weapon); return true;
+}
+function segmentSphere(start, end, center, radius) {
+ const travel = end.clone().sub(start), relative = start.clone().sub(center), squared = travel.lengthSq();
+ if (squared < 1e-12) return relative.lengthSq() <= radius * radius ? 0 : null;
+ const projection = relative.dot(travel), discriminant = projection * projection - squared * (relative.lengthSq() - radius * radius);
+ if (discriminant < 0) return null;
+ if (relative.lengthSq() <= radius * radius) return 0;
+ const fraction = (-projection - Math.sqrt(discriminant)) / squared;
+ return fraction >= 0 && fraction <= 1 ? fraction : null;
+}
+function updateProjectiles(delta) {
+ for (let index = projectiles.length - 1; index >= 0; index--) {
+  const projectile = projectiles[index], start = projectile.mesh.position.clone();
+  projectile.life -= delta;
+  if (projectile.guided && projectile.target.alive) {
+   const desired = enemyCenter(projectile.target).sub(start).normalize().multiplyScalar(84);
+   const correction = desired.sub(projectile.velocity); correction.y += projectile.gravity * delta;
+   if (correction.length() > 76 * delta) correction.setLength(76 * delta);
+   projectile.velocity.add(correction);
+  }
+  projectile.velocity.y -= projectile.gravity * delta;
+  const end = start.clone().addScaledVector(projectile.velocity, delta);
+  let impactFraction = Infinity, hitTarget = null;
+  if (projectile.owner === 'player') {
+   for (const enemy of enemies) {
+    if (!enemy.alive) continue;
+    const fraction = segmentSphere(start, end, enemyCenter(enemy), 2.65);
+    if (fraction !== null && fraction < impactFraction) {impactFraction = fraction; hitTarget = enemy;}
+   }
+  } else {
+   const fraction = segmentSphere(start, end, state.mechPosition.clone().add(new THREE.Vector3(0, 4.2, 0)), 2.8);
+   if (fraction !== null) {impactFraction = fraction; hitTarget = mech;}
+  }
+  const samples = Math.max(1, Math.ceil(start.distanceTo(end) / 1.2));
+  for (let sample = 0; sample <= samples; sample++) {
+   const fraction = sample / samples;
+   if (fraction >= impactFraction) break;
+   const position = start.clone().lerp(end, fraction);
+   if (position.y <= getTerrainHeight(position.x, position.z) + GROUND_EPSILON) {impactFraction = fraction; hitTarget = null; break;}
+  }
+  for (const obstacle of obstacles) {
+   const center = new THREE.Vector3(obstacle.x, getTerrainHeight(obstacle.x, obstacle.z) + obstacle.height * 0.45, obstacle.z);
+   const fraction = segmentSphere(start, end, center, Math.min(obstacle.radius, obstacle.height * 0.6));
+   if (fraction !== null && fraction < impactFraction) {impactFraction = fraction; hitTarget = null;}
+  }
+  if (impactFraction !== Infinity) {
+   const position = start.clone().lerp(end, impactFraction);
+   position.y = Math.max(position.y, getTerrainHeight(position.x, position.z) + 0.08);
+   if (projectile.kind === 'cannon') {
+    if (hitTarget) damageEnemy(hitTarget, projectile.damage);
+    addEffect(position, 0xffd885, 0.23, 0.15);
+   } else explosion(position, projectile.radius, projectile.damage, projectile.owner, hitTarget);
+   projectile.life = 0;
+  }
+  if (projectile.life <= 0 || Math.abs(end.x) > 780 || Math.abs(end.z) > 780) {
+   projectile.mesh.removeFromParent(); projectiles.splice(index, 1); continue;
+  }
+  projectile.mesh.position.copy(end); projectile.mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 0, 1), projectile.velocity.clone().normalize());
+  projectile.trailClock += delta;
+  if ((projectile.kind === 'missile' || projectile.kind === 'mortar') && projectile.trailClock > 0.085) {
+   projectile.trailClock = 0; addEffect(start, projectile.kind === 'missile' ? 0xc5c6ac : 0xddd7b8, 0.15, 0.6, new THREE.Vector3(0, 0.3, 0), true);
+  }
+ }
+}
+function updateEnemies(delta) {
+ for (const enemy of enemies) {
+  if (!enemy.alive) continue;
+  const toPlayer = state.mechPosition.clone().sub(enemy.root.position).setY(0), range = toPlayer.length();
+  const detectionRange = state.mechPower || state.mode === 'COCKPIT' ? 340 : 105;
+  let speed = 0;
+  if (range < detectionRange && state.time > 7) {
+   const facing = Math.atan2(-toPlayer.x, -toPlayer.z), error = Math.atan2(Math.sin(facing - enemy.yaw), Math.cos(facing - enemy.yaw));
+   enemy.yaw += clamp(error, -delta * 0.8, delta * 0.8);
+   const direction = toPlayer.normalize(), movement = direction.clone().multiplyScalar(range > 105 ? 3.8 : range < 60 ? -2 : 0);
+   movement.add(new THREE.Vector3(-direction.z, 0, direction.x).multiplyScalar(Math.sin(state.time * 0.13 + enemy.seed) * 2));
+   enemy.root.position.addScaledVector(movement, delta); resolveObstacles(enemy.root.position, MECH_RADIUS);
+   for (const other of enemies) {
+    if (other === enemy || !other.alive) continue;
+    const separation = enemy.root.position.clone().sub(other.root.position).setY(0), distance = separation.length();
+    if (distance > 0.001 && distance < MECH_RADIUS * 2.2) enemy.root.position.addScaledVector(separation.normalize(), (MECH_RADIUS * 2.2 - distance) * Math.min(1, delta * 5));
+   }
+   speed = movement.length(); enemy.fireTimer -= delta;
+   const origin = enemy.root.position.clone().add(new THREE.Vector3(-2.5, 4.2, -4.1).applyAxisAngle(UP, enemy.yaw));
+   const destination = state.mechPosition.clone().add(new THREE.Vector3(0, 4.3, 0));
+   if (range < 210 && enemy.fireTimer <= 0 && Math.abs(error) < 0.3 && lineOfSight(origin, destination)) {
+    const speed = 76, flight = origin.distanceTo(destination) / speed;
+    destination.addScaledVector(state.mechVelocity, flight * 0.5); destination.x += (random() - 0.5) * 3;
+    destination.y += 0.5 * 3 * flight * flight;
+    spawnProjectile('enemy', origin, destination.sub(origin).normalize().multiplyScalar(speed), 'enemy');
+    enemy.arms[0].recoil = 1; enemy.fireTimer = 2.2 + random() * 1.4;
+    addEffect(origin, 0xffb36c, 0.55, 0.09);
+   }
+  }
+  enemy.root.position.y = getTerrainHeight(enemy.root.position.x, enemy.root.position.z) + MECH_FOOT_OFFSET;
+  enemy.root.rotation.y = enemy.yaw; animateMech(enemy, speed, delta, enemy.yaw);
+ }
+}
+function updateEffects(delta) {
+ for (let index = effects.length - 1; index >= 0; index--) {
+  const effect = effects[index]; effect.remaining -= delta;
+  if (effect.remaining <= 0) {effect.mesh.removeFromParent(); effect.mesh.material.dispose(); effects.splice(index, 1); continue;}
+  effect.mesh.position.addScaledVector(effect.velocity, delta);
+  if (!effect.smoke) effect.velocity.y -= delta * 9;
+  effect.mesh.scale.setScalar(effect.size * (1 + (1 - effect.remaining / effect.lifetime) * (effect.smoke ? 3 : 1.6)));
+  effect.mesh.material.opacity = (effect.smoke ? 0.36 : 0.92) * effect.remaining / effect.lifetime;
+ }
+}
+
+// Procedural audio has no downloaded samples and starts only on a user gesture.
+const audio = {
+ context: null, engineGain: null, engine: null, master: null,
+ start() {
+  if (!this.context) {
+   this.context = new AudioContext(); this.master = this.context.createGain(); this.master.gain.value = 0.5; this.master.connect(this.context.destination);
+   this.engine = this.context.createOscillator(); this.engine.type = 'sawtooth'; this.engine.frequency.value = 38;
+   const filter = this.context.createBiquadFilter(); filter.type = 'lowpass'; filter.frequency.value = 160;
+   this.engineGain = this.context.createGain(); this.engineGain.gain.value = 0;
+   this.engine.connect(filter); filter.connect(this.engineGain); this.engineGain.connect(this.master); this.engine.start();
+  }
+  return this.context.resume();
+ },
+ tone(frequency, duration, volume, type = 'sine') {
+  if (!this.context || this.context.state !== 'running') return;
+  const oscillator = this.context.createOscillator(), gain = this.context.createGain(), now = this.context.currentTime;
+  oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, now); oscillator.frequency.exponentialRampToValueAtTime(Math.max(25, frequency * 0.35), now + duration);
+  gain.gain.setValueAtTime(volume, now); gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+  oscillator.connect(gain); gain.connect(this.master); oscillator.start(); oscillator.stop(now + duration);
+  oscillator.onended = () => {oscillator.disconnect(); gain.disconnect();};
+ },
+ shot(weapon) {this.tone(weapon === 1 ? 130 : 75, weapon === 1 ? 0.12 : 0.36, weapon === 1 ? 0.19 : 0.25, 'sawtooth');},
+ update() {
+  if (!this.context) return;
+  const active = state.mode === 'COCKPIT' || state.mode === 'ON_FOOT';
+  this.engineGain.gain.setTargetAtTime(active && state.mechPower ? state.mode === 'COCKPIT' ? 0.038 + state.jetThrust * 0.06 : 0.012 / (1 + state.pilotPosition.distanceTo(state.mechPosition) * 0.1) : 0, this.context.currentTime, 0.15);
+  this.engine.frequency.setTargetAtTime(34 + Math.hypot(state.mechVelocity.x, state.mechVelocity.z) * 1.3 + state.jetThrust * 30, this.context.currentTime, 0.1);
+ }
+};
+function action(code) {
+ if (state.mode === 'PAUSED' || state.mode === 'DEAD') return;
+ if (code === 'KeyE') interactMode();
+ if (state.mode === 'COCKPIT') {
+  if (code === 'KeyF') {if (!state.installedPowerCore) return notify('REACTOR EMPTY / INSTALL POWER CORE'); state.mechPower = !state.mechPower; clearInput(); notify(state.mechPower ? 'REACTOR ONLINE' : 'REACTOR OFFLINE');}
+  if (['Digit1', 'Digit2', 'Digit3'].includes(code)) {state.selectedWeapon = Number(code.slice(-1)); input.fireQueued = false;}
+  if (code === 'CycleWeapon') state.selectedWeapon = state.selectedWeapon % 3 + 1;
+    if (code === 'KeyM') selectTarget();
+ } else if (state.mode === 'ON_FOOT') {
+    if (code === 'KeyG') grabOrDrop();
+    if (code === 'KeyI') insertItem();
+    if (code === 'KeyR') reloadCargo();
+ }
+}
+function pause() {
+ if (state.mode === 'DEAD' || state.mode === 'PAUSED') return;
+ state.resumeMode = state.mode; state.mode = 'PAUSED'; clearInput();
+ dom.overlay.hidden = false; dom.overlay.classList.add('paused'); dom['overlay-title'].textContent = 'LINK SUSPENDED';
+ dom['overlay-tag'].textContent = 'SIMULATION HOLD / PILOT CONTROL REQUIRED'; dom['overlay-copy'].textContent = 'All systems held at their last state.';
+ dom['mission-grid'].hidden = true; dom.initialize.innerHTML = 'RESUME SYSTEM &nbsp; &#8594;'; dom['boot-status'].textContent = 'CLICK RESUME TO RE-ESTABLISH PILOT CONTROL';
+ if (document.pointerLockElement) document.exitPointerLock();
+}
+const touchMode = matchMedia('(pointer: coarse)').matches;
+document.body.classList.toggle('touch', touchMode);
+function resume() {state.mode = state.resumeMode; state.started = true; clearInput(); dom.overlay.hidden = true; dom.hud.classList.remove('inactive');}
+dom.initialize.addEventListener('click', async () => {
+ if (state.mode === 'DEAD') {location.reload(); return;}
+ audio.start();
+ if (touchMode) {resume(); return;}
+ try {await dom.viewport.requestPointerLock();} catch (error) {dom['boot-status'].textContent = `POINTER LOCK DENIED / ${error.message}`; dom['boot-status'].classList.add('fatal');}
+});
+document.addEventListener('pointerlockchange', () => {if (document.pointerLockElement === dom.viewport) resume(); else pause();});
+document.addEventListener('pointerlockerror', () => {dom['boot-status'].textContent = 'POINTER LOCK UNAVAILABLE / OPEN IN A DESKTOP BROWSER AND RETRY';});
+dom['help-toggle'].addEventListener('click', () => {dom.controls.hidden = !dom.controls.hidden; dom['help-toggle'].setAttribute('aria-expanded', String(!dom.controls.hidden));});
+dom['pause-button'].addEventListener('click', pause);
+addEventListener('blur', pause); document.addEventListener('visibilitychange', () => {if (document.hidden) pause();});
+addEventListener('keydown', event => {
+ if (event.code === 'Escape') {pause(); return;}
+ if (state.mode === 'PAUSED' || state.mode === 'DEAD') return;
+ if (['Space', 'KeyW', 'KeyA', 'KeyS', 'KeyD'].includes(event.code)) event.preventDefault();
+ input.keys.add(event.code); if (!event.repeat) action(event.code);
+});
+addEventListener('keyup', event => input.keys.delete(event.code));
+addEventListener('contextmenu', event => event.preventDefault());
+dom.viewport.addEventListener('mousedown', event => {if (state.mode !== 'COCKPIT') return; if (event.button === 0) {input.firing = true; input.fireQueued = true;} if (event.button === 2) selectTarget(true);});
+addEventListener('mouseup', event => {if (event.button === 0) input.firing = false;});
+function look(dx, dy) {
+ if (state.mode !== 'COCKPIT' && state.mode !== 'ON_FOOT') return;
+ if (state.mode === 'COCKPIT') {
+  state.lookYaw -= dx * 0.0018;
+  state.pilotYaw = state.lookYaw;
+ } else state.pilotYaw -= dx * 0.0018;
+ state.pitch = clamp(state.pitch - dy * 0.0018, -Math.PI * 0.43, Math.PI * 0.43);
+}
+function smoothChassisYaw(delta) {
+ if (state.mode !== 'COCKPIT') return;
+ const deltaYaw = Math.atan2(Math.sin(state.lookYaw - state.mechYaw), Math.cos(state.lookYaw - state.mechYaw));
+ state.mechYaw += deltaYaw * Math.min(1, delta * 5.5);
+}
+addEventListener('mousemove', event => {if (document.pointerLockElement === dom.viewport) look(event.movementX, event.movementY);});
+let touchPointer = null, touchX = 0, touchY = 0;
+dom.viewport.addEventListener('pointerdown', event => {if (event.pointerType !== 'touch') return; touchPointer = event.pointerId; touchX = event.clientX; touchY = event.clientY; dom.viewport.setPointerCapture(event.pointerId);});
+dom.viewport.addEventListener('pointermove', event => {if (event.pointerId !== touchPointer) return; look((event.clientX - touchX) * 2, (event.clientY - touchY) * 2); touchX = event.clientX; touchY = event.clientY;});
+dom.viewport.addEventListener('pointerup', () => {touchPointer = null;});
+for (const button of document.querySelectorAll('[data-hold], [data-action]')) {
+ button.addEventListener('pointerdown', event => {event.preventDefault(); button.setPointerCapture(event.pointerId); if (button.dataset.action) action(button.dataset.action); if (button.dataset.hold === 'Fire') {input.firing = true; input.fireQueued = true;} else if (button.dataset.hold) input.keys.add(button.dataset.hold);});
+ const release = () => {if (button.dataset.hold === 'Fire') input.firing = false; else input.keys.delete(button.dataset.hold);};
+ button.addEventListener('pointerup', release); button.addEventListener('pointercancel', release);
+}
+function updateHud() {
+ dom.hud.classList.toggle('inactive', state.mode === 'PAUSED' || state.mode === 'DEAD'); dom.hud.classList.toggle('foot', state.mode === 'ON_FOOT');
+ dom.mode.textContent = state.mode.replace('_', ' '); dom.reactor.textContent = state.mechPower ? 'REACTOR ONLINE' : 'REACTOR OFFLINE'; dom.reactor.style.color = state.mechPower ? 'var(--mint)' : 'var(--amber)';
+ dom.hull.textContent = `${Math.ceil(state.hull)}%`; dom['hull-bar'].style.width = `${state.hull}%`;
+ dom.heat.textContent = `${Math.round(state.heat).toString().padStart(2, '0')}%`; dom['heat-bar'].style.width = `${state.heat}%`;
+ dom.thrust.textContent = Math.round(state.jetThrust * 100); dom.altitude.textContent = Math.max(0, state.mechPosition.y - getTerrainHeight(state.mechPosition.x, state.mechPosition.z)).toFixed(1);
+ dom.speed.textContent = `${Math.round(Math.hypot(state.mechVelocity.x, state.mechVelocity.z) * 3.6)} KM/H`;
+ const yaw = state.mode === 'ON_FOOT' ? state.pilotYaw : state.mechYaw, heading = ((-yaw * 180 / Math.PI) % 360 + 360) % 360;
+ dom.heading.textContent = `${String(Math.round(heading) % 360).padStart(3, '0')} / ${['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'][Math.round(heading / 45) % 8]}`;
+ for (const weapon of [1, 2, 3]) {dom[`ammo-${weapon}`].textContent = state.ammo[weapon]; dom[`weapon-${weapon}`].classList.toggle('active', state.selectedWeapon === weapon);}
+ dom.notice.textContent = state.time < state.noticeUntil ? state.notice : '';
+ dom['core-status'].textContent = state.installedPowerCore ? 'SEATED' : 'EMPTY'; dom['cargo-count'].textContent = `${state.cargoAmmoCrates} / 2`; dom['carry-status'].textContent = state.carriedItem ? state.carriedItem.replace('_', ' ') : 'EMPTY';
+ dom.damage.style.opacity = state.damageFlash;
+ dom.objective.textContent = state.won ? 'BASIN SECURED / RELAY RESTORED' : `${String(enemies.length - state.kills).padStart(2, '0')} CONTACTS / SILT BASIN`;
+ dom['lock-bar'].style.width = `${state.targetLockProgress * 100}%`;
+ const target = state.selectedTarget;
+ dom['target-bracket'].hidden = true;
+ if (target && target.alive) {
+  const center = enemyCenter(target), range = Math.round(center.distanceTo(camera.position));
+  dom['target-name'].textContent = `${target.name} / ${range} M / ${Math.ceil(target.hp / target.maxHp * 100)}%`;
+  dom['lock-status'].textContent = state.targetLocked ? 'LOCK COMPLETE / GUIDANCE READY' : state.selectedWeapon === 2 ? `ACQUIRING / ${Math.round(state.targetLockProgress * 100)}%` : 'CONTACT DESIGNATED';
+  const projected = center.project(camera);
+  if (state.mode === 'COCKPIT' && projected.z > -1 && projected.z < 1 && Math.abs(projected.x) < 0.95 && Math.abs(projected.y) < 0.92) {
+   dom['target-bracket'].hidden = false; dom['target-bracket'].style.left = `${(projected.x * 0.5 + 0.5) * innerWidth}px`; dom['target-bracket'].style.top = `${(-projected.y * 0.5 + 0.5) * innerHeight}px`;
+   dom['target-bracket'].classList.toggle('locked', state.targetLocked); dom['bracket-label'].textContent = `${target.name} / ${range}M`;
+  }
+ } else {dom['target-name'].textContent = 'NO DESIGNATED CONTACT'; dom['lock-status'].textContent = 'SEEKER STANDBY';}
+ let prompt = '';
+ if (state.mode === 'ON_FOOT') {
+  if (carriedObject) prompt = nearRear() ? 'I INSERT / STORE    G DROP' : 'G DROP';
+  else if (nearFront()) prompt = 'E BOARD COCKPIT';
+  else if (nearRear()) {
+   const item = pickupCandidate();
+   prompt = localPilot().x < 0.1 ? item ? state.mechPower ? 'REACTOR LIVE / REMOVAL INTERLOCKED' : 'G REMOVE REACTOR CORE' : 'REACTOR SLOT EMPTY' : `R RELOAD${item ? '    G REMOVE CARGO' : '    CARGO RACK'}`;
+  } else {
+   const item = pickupCandidate();
+   if (item) prompt = `G PICK UP ${item.kind.replace('_', ' ')}`;
+  }
+ }
+ dom.prompt.textContent = prompt; dom.prompt.hidden = !prompt;
+ if (state.overheat) dom.notice.textContent = 'THERMAL INTERLOCK / WEAPONS COOLING';
+ drawRadar();
+}
+function drawRadar() {
+ const context = dom.radar.getContext('2d'), size = 240, center = 120, range = state.mode === 'ON_FOOT' ? 50 : 400, scale = 108 / range;
+ const origin = state.mode === 'ON_FOOT' ? state.pilotPosition : state.mechPosition, yaw = state.mode === 'ON_FOOT' ? state.pilotYaw : state.mechYaw;
+ context.clearRect(0, 0, size, size); context.fillStyle = '#091d16a8'; context.beginPath(); context.arc(center, center, 112, 0, Math.PI * 2); context.fill();
+ context.strokeStyle = '#9ee4b82f'; context.lineWidth = 1;
+ for (const radius of [36, 72, 108]) {context.beginPath(); context.arc(center, center, radius, 0, Math.PI * 2); context.stroke();}
+ context.beginPath(); context.moveTo(12, center); context.lineTo(228, center); context.moveTo(center, 12); context.lineTo(center, 228); context.stroke();
+ context.save(); context.translate(center, center); context.rotate(state.time * 0.55); context.strokeStyle = '#a9efd356'; context.beginPath(); context.moveTo(0, 0); context.lineTo(0, -108); context.stroke(); context.restore();
+ function marker(position, color, width, diamond = false) {
+  const dx = position.x - origin.x, dz = position.z - origin.z;
+  if (Math.hypot(dx, dz) > range) return;
+  const x = center + (dx * Math.cos(yaw) - dz * Math.sin(yaw)) * scale, y = center + (dx * Math.sin(yaw) + dz * Math.cos(yaw)) * scale;
+  context.save(); context.translate(x, y); if (diamond) context.rotate(Math.PI / 4); context.fillStyle = color; context.fillRect(-width / 2, -width / 2, width, width); context.restore();
+ }
+ for (const enemy of enemies) if (enemy.alive) marker(enemy.root.position, enemy === state.selectedTarget ? '#ffda86' : '#ff8c73', enemy === state.selectedTarget ? 8 : 5, true);
+ for (const item of items) if (item.location === 'WORLD') marker(item.mesh.position, '#c8efc9', 3);
+ if (state.mode === 'ON_FOOT') marker(state.mechPosition, '#f4d582', 9);
+ context.fillStyle = '#c2f5d4'; context.beginPath(); context.moveTo(center, center - 7); context.lineTo(center - 4, center + 5); context.lineTo(center + 4, center + 5); context.closePath(); context.fill();
+ dom.radar.parentElement.querySelector('small span:last-child').textContent = `${range} M`;
+}
+function step(delta) {
+ state.time += delta; state.cooldown = Math.max(0, state.cooldown - delta);
+ updateLocomotion(delta); smoothChassisYaw(delta); updateCamera(); updateTargeting(delta);
+ if (state.mode === 'COCKPIT' && ((state.selectedWeapon === 1 && input.firing) || input.fireQueued)) {
+  fireWeapon(); input.fireQueued = false;
+ }
+ updateEnemies(delta); updateProjectiles(delta); updateEffects(delta);
+ state.heat = clamp(state.heat + (state.mechPower ? state.jetThrust * 7 - 5.5 : -9) * delta, 0, 100);
+ if (state.heat >= 94) state.overheat = true;
+ if (state.heat < 55) state.overheat = false;
+ state.damageFlash = Math.max(0, state.damageFlash - delta * 0.8);
+ if (!state.won && state.time >= state.nextWaveAt && enemies.filter(enemy => enemy.alive).length <= 2) spawnWave();
+}
+let lastTime = performance.now(), accumulator = 0;
+function frame(now) {
+ const elapsed = Math.min((now - lastTime) / 1000, 0.1); lastTime = now;
+ if (state.mode === 'COCKPIT' || state.mode === 'ON_FOOT') {accumulator += elapsed; while (accumulator >= FIXED_STEP) {step(FIXED_STEP); accumulator -= FIXED_STEP;}} else accumulator = 0;
+ streamWorld();
+ updateCamera(); updateItems(); updateHud(); audio.update();
+ sunlight.position.copy(state.mechPosition).add(new THREE.Vector3(-100, 170, -75)); sunlight.target.position.copy(state.mechPosition);
+ renderer.render(scene, camera); requestAnimationFrame(frame);
+}
+streamWorld();
+addEventListener('resize', () => {camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight);});
+updateCamera(); animateMech(mech, 0, 0, 0);
+dom.initialize.disabled = false; dom['boot-status'].textContent = 'WASD MOVE / MOUSE AIM / E DISEMBARK / ESC PAUSE';
+requestAnimationFrame(frame);
+window.ironWilds = {state, input, scene, camera, renderer, mech, cockpit, items, enemies, projectiles, getTerrainHeight, updateCockpitCamera, updateCamera, updateLocomotion, step, action, pause, worldPoint, nearRear, nearFront, fireWeapon, selectTarget, constants: {MECH_FOOT_OFFSET, MECH_COCKPIT_OFFSET, PLAYER_EYE_HEIGHT, MECH_RADIUS, PLAYER_RADIUS, GROUND_EPSILON}};
+</script>
+</body>
+</html>
