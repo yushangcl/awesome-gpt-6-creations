@@ -7,11 +7,12 @@
 | 游戏 | 原作者与来源 | GPT-6 创作依据 | 许可证 | 本地处理 |
 | --- | --- | --- | --- | --- |
 | 瓶中沧海 | 仓库维护者直接提交的原始 HTML | 维护者在收录请求中声明由手机端 GPT-6 创建 | 未单独声明 | 原始单文件与说明文档 |
+| 汴京入梦 · 千门长卷 | [yushangcl](https://github.com/yushangcl) 直接提交的原始 HTML | 维护者在当前收录任务中使用 GPT-6 在 Codex 中创建并多轮迭代 | 未单独声明 | 原始单文件与说明文档；Three.js 和全部运行资源均已内嵌 |
 | Iron Wilds | [TimelessP](https://github.com/TimelessP) · [提交 `38cf0f2`](https://github.com/TimelessP/mech/tree/38cf0f2419b120b50c30763e37873f8cb43bb33a) | 上游仓库简介声明由 GPT-6 Astra vibe coding 完成 | [MIT](../games/iron-wilds/LICENSE) | 将上游 `mech.html` 重命名为 `index.html`，未修改游戏逻辑 |
 | Last Beacon · 最后的灯塔 | [stackloomdev](https://github.com/stackloomdev) · [提交 `102ca4c`](https://github.com/stackloomdev/last-beacon/tree/102ca4cfca542f9cca7a6020b12e20db78ac0003) | [创作记录](https://github.com/stackloomdev/last-beacon/blob/102ca4cfca542f9cca7a6020b12e20db78ac0003/docs/CREATION.md)明确记录 GPT-6 Astra 参与 | [MIT](../games/last-beacon/LICENSE) | 使用上游无依赖构建脚本生成单文件版，重命名为 `index.html` 并清理两处行尾空格 |
 | THUNDERFALL · 雷霆战机 | [jackroc](https://github.com/jackroc) · [固定来源 `bcdb799`](https://github.com/MartinDelophy/awesome-gpt-6-astra/tree/bcdb79927e80a50164d1145574523bf64ead0485/works/thunderfall) | [结构化创作记录](https://github.com/MartinDelophy/awesome-gpt-6-astra/blob/bcdb79927e80a50164d1145574523bf64ead0485/works/thunderfall/metadata.json)记录 GPT-6 Astra ultra 的参与范围 | [CC0-1.0](../games/thunderfall/LICENSE) | 复制上游构建脚本列出的 9 个静态运行文件，未修改游戏逻辑 |
 
-收录日期：2026-09-08。
+最近收录日期：2026-09-11。
 
 ## 社区来源
 

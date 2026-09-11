@@ -9,6 +9,7 @@
 | 游戏 | 简介 | 入口 | 来源 | 许可 |
 | --- | --- | --- | --- | --- |
 | 瓶中沧海 · A Sea, Sealed | 封存在玻璃瓶中的 3D 海洋微缩景观，可环视、调节时间并呼唤风暴。 | [开始体验](games/bottled-ocean/) | 仓库维护者提交 | 未单独声明 |
+| 汴京入梦 · 千门长卷 | 以《清明上河图》为灵感的动态 3D 微缩汴京，可游览超长画卷并切换春昼、黄昏与灯火夜游。 | [开始体验](games/bianjing-living-scroll/) | 仓库维护者提交 | 未单独声明 |
 | Iron Wilds | 驾驶重型机甲恢复中继站，在开放的 3D 盆地中迎战六台哨兵。 | [开始体验](games/iron-wilds/) | [TimelessP/mech](https://github.com/TimelessP/mech) | MIT |
 | Last Beacon · 最后的灯塔 | 连接海岛电网、建造防御设施，在十波进攻中守住最后一束光。 | [开始体验](games/last-beacon/) | [stackloomdev/last-beacon](https://github.com/stackloomdev/last-beacon) | MIT |
 | THUNDERFALL · 雷霆战机 | 支持触控的纵向弹幕射击游戏，包含三种战机、五关战役和四色武器。 | [开始体验](games/thunderfall/) | [awesome-gpt-6-astra](https://github.com/MartinDelophy/awesome-gpt-6-astra/tree/main/works/thunderfall) | CC0-1.0 |
@@ -18,6 +19,7 @@
 如果仓库启用了 GitHub Pages，可以通过下面的路径访问游戏：
 
 - `https://yushangcl.github.io/awesome-gpt-6-games/games/bottled-ocean/`
+- `https://yushangcl.github.io/awesome-gpt-6-games/games/bianjing-living-scroll/`
 - `https://yushangcl.github.io/awesome-gpt-6-games/games/iron-wilds/`
 - `https://yushangcl.github.io/awesome-gpt-6-games/games/last-beacon/`
 - `https://yushangcl.github.io/awesome-gpt-6-games/games/thunderfall/`
@@ -34,6 +36,7 @@
 │   └── sources.md
 └── games/
     ├── bottled-ocean/
+    ├── bianjing-living-scroll/
     ├── iron-wilds/
     ├── last-beacon/
     └── thunderfall/
