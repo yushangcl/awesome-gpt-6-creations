@@ -26,7 +26,7 @@
 GitHub Pages 地址：
 
 ```text
-https://yushangcl.github.io/awesome-gpt-6-games/games/bianjing-living-scroll/
+https://yushangcl.github.io/awesome-gpt-6-creations/experiences/bianjing-living-scroll/
 ```
 
 ## 技术说明
@@ -46,4 +46,4 @@ https://yushangcl.github.io/awesome-gpt-6-games/games/bianjing-living-scroll/
 
 - 作者与提交者：[yushangcl](https://github.com/yushangcl)。
 - 本作品为仓库维护者直接提交的原始单文件作品。
-- 当前未单独声明许可证。
+- 本作品采用 [MIT License](LICENSE)。

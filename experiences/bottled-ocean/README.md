@@ -6,7 +6,7 @@
 
 - 主要通过手机端 GPT-6 创建与迭代。
 - 采用单文件网页形式，便于在手机浏览器中直接打开和分享。
-- 作为本仓库首个游戏示例，保留完整源码与独立玩法文档。
+- 作为本仓库首个互动体验示例，保留完整源码与独立操作文档。
 
 ## 玩法
 
@@ -24,12 +24,12 @@
 如果仓库启用了 GitHub Pages，可访问：
 
 ```text
-https://yushangcl.github.io/awesome-gpt-6-games/games/bottled-ocean/
+https://yushangcl.github.io/awesome-gpt-6-creations/experiences/bottled-ocean/
 ```
 
 ## 技术说明
 
-- 单文件 HTML 游戏。
+- 单文件 HTML 互动体验。
 - 使用 CSS 构建界面和响应式布局。
 - 使用 JavaScript 与 Three.js 渲染 WebGL 3D 场景。
 - Three.js 通过公开 CDN 加载，网络不可访问时会显示错误提示。
@@ -39,3 +39,9 @@ https://yushangcl.github.io/awesome-gpt-6-games/games/bottled-ocean/
 - 推荐使用支持 WebGL 的现代手机或桌面浏览器。
 - 手机端可直接拖动观察，并使用底部按钮控制时间和风暴。
 - 桌面端有额外键盘快捷键：`Space` 呼唤风暴，`R` 重置视角。
+
+## 来源与许可
+
+- 作者与提交者：[yushangcl](https://github.com/yushangcl)。
+- 本作品为仓库维护者直接提交的原始单文件作品。
+- 本作品采用 [MIT License](LICENSE)。
